@@ -1,4 +1,4 @@
 <?php 
 echo "test1";
-//stash
+//stash merge
  ?>
