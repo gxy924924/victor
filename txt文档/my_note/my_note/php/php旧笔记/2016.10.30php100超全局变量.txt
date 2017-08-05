@@ -1,0 +1,65 @@
+﻿==>超全局变量
+全局变量$a=23;//全局变量,该变量在整个作用域（此php文件中），都是通用的
+function test(){
+	//如果希望使用到全局$a
+	global $a;
+	$a=45;}
+
+超全局变量（是数组）：除了有全局变量的特点外，可以无需申明，直接使用
+
+提供全局数组的原因是为了让程序员更方便的写出PHP程序
+$_SERVER['hsp']="韩顺平";//会在结果中多一个【hsp】=韩顺平
+echo "<pre>";
+echo print_r($_SERVER);
+echo "<pre>";
+超全局变量（共9种）：
+1.$_GET		2.$_POST	3.$_REQUEST
+4.$_SERVER	5.$_ENV		6.$_FILE
+7.$_COOKIE	8.$_SESSION	9.$_GLOBALS
+
+==>$_GET：基本用法：
+1.客户机（浏览器）通过超链接传送信息给服务器<a href="a.php?name=111&pop=xiao&...">
+2.客户机（浏览器）通过表单传送信息给服务器
+见ls100global.php和ls100global_test.php
+*超链接默认为get，不支持post(不存在乱码问题)
+*不要启用register_globals (开启后在地址栏中输入的变量可直接赋值到文件中，易被sql注入)
+
+常见ie5.5 6.0汉字奇数乱码问题：
+解决方法：
+1.给奇数中文中加一个全角空格，然后到服务器接受是去掉两头空行 trim()
+2.编码urlencode()解码urldecode()//这是对中文编码，php版本较高时可不解码(推荐使用)
+**header("location :ok.php?aaa=xiaoming");//php中header也是以get形式发送
+
+==》$_POST
+描述：通过httpPOST方法提交的数据，会被封装到$_POST超全局数组中
+举例：接受表单信息
+见ls101post.php
+post&get 区别：1安全 2传输数据大小（浏览器限制） 3保存到收藏夹
+
+==》$_REQUEST
+包含了$_GET $_POST 和 $_COOKIE 的信息
+print_r($_REQUEST)；
+//如果不确定get post=>  echo $_SERVER['REQUEST_METHOD'];
+注意：不要经常使用它，安全性较低
+
+==>$_SERVER 显示网页信息
+[QUERY_STRING]=>aaa=123//地址栏上的$_GET值
+案例说明：1获取请求该页面的客户机的ip地址==》$_SERVER['REMOTE_ADDR']
+	2.显示服务器端apache的版本号==》$_SERVER['SERVER_SOFTWARE']
+
+
+==>$_ENV :该全局数组可以获取环境变量，在php5.3中默认禁用，你可以自己启用
+将php.ini中的variables_order="EGPCS"//e=env g=get p=post c=cookie s=session
+特别说明： 在开发和生产环境，不要启用env
+
+==》$_GLOBALS
+包含了全部变量的全局数组。变量的名字就是数组的键【手册】
+同时一个自定义的全局变量，也会自动的被$_GLOBALS 管理
+
+后面再讲：
+6.$_FILE
+7.$_COOKIE
+8.$_SESSION
+
+
+

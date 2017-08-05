@@ -1,0 +1,48 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	
+	<div id="div1" style="width:500px;height:300px;background:#f0f;display:none">
+		<img src="b.png" alt="" id="myanim2" style="position:absolute;top:0px;left:0px;display:none">
+	</div>
+	<img src="a.png" alt="" id="myanim" style="position:absolute;top:50px;left:100px;">
+	<button id="btn">show_picture</button>
+	<button id="btn2">animate_picture</button>
+	<button id="btn3">stop</button>
+	<button id="btn4">stop_sh</button>
+</body>
+<script>
+$("#btn").click(function(){
+	$("#div1").slideDown(1000,function(){
+		$("img").slideDown(2000,function(){
+			$(document.documentElement).css("background","#ccc");
+			//alert("图片载入完毕");
+			$("#myanim2").animate({left:"700px"},1000,function(){
+				$(this).animate({top:"500px"},1000,function(){
+					$(this).animate({left:"100px"},1000,function(){
+						$(this).animate({top:"100px"},1000);
+					});
+				});
+			});
+		});
+	});
+});
+$("#btn2").click(function(){
+	$("#myanim").animate({left:"700px"},1000);
+});
+$("#btn3").click(function(){
+	$("#myanim").stop();
+});
+$("#btn4").click(function(){
+	$("#myanim2").stop();
+});
+</script>
+</html>

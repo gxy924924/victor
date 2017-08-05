@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+	<style>
+		.btn{
+			margin-left: 50px;
+			margin-right: 50px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 10px;
+		}
+		.input-group{
+			margin-top: 20px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}
+		table{
+			text-align: center;
+		}
+		th{
+			text-align: center;
+		}
+		.dropdown{
+			float:right;
+			position: relative;
+			top:-5px;
+		}
+	</style>
+</head>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+
+	<div class="container text-center">
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+			<h4>
+				更改权限(level-{$now_level['id']}|{$now_level['title']})
+				<div class="dropdown">
+				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				    等级(level-{$now_level['id']}|{$now_level['title']})
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+				  <?php foreach($level as $v): ?>
+				  	<li><a href='?id={$v["id"]}'>L{$v["id"]}-{$v['title']}</a></li>
+				  <?php endforeach; ?>
+				   
+
+				    <li role="separator" class="divider"></li>
+				  </ul>
+				</div>
+			</h4>
+			</div>
+			
+				<table class="table table-striped table-bordered">
+					<tr>
+						<th>id</th><th>组名</th>
+						<th>
+							选择权限类
+						</th>
+					</tr>
+					<form action="{:url('index/auth/update_auth_rule')}?id={$now_level['id']}" method="post">
+				<?php foreach($group as $v):?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['group_name']}</td>
+						<td>
+							<select name="sort_{$v['id']}">
+						<?php foreach($sort as $val):?>
+							<?php if(!empty($level_info['sort_'.$v['id']])&&$level_info['sort_'.$v['id']]==$val['id']):?>
+								
+									<option value="{$val['id']}" selected="selected">{$val['sort_name']}</option>
+								<?php elseif($val['group_id']==$v['id']):?>
+									<option value="{$val['id']}">{$val['sort_name']}</option>
+								<?php else:?>
+								
+							<?php endif; ?>
+						<?php endforeach;?>
+							</select>
+						</td>
+					</tr>
+				<?php endforeach;?>
+				
+					
+				</table>
+				<div class="panel-heading">
+					额外权限
+				</div>
+				<div class="panel-body">
+				<div class="row">
+					<input type="hidden" name="tel_info" val="0">
+					<input type="checkbox" name="tel_info" val="1">显示通信信息
+				</div>
+				<div class="row text-right">
+					<button type="submit" class="btn btn-warning">确定</button>
+				</div>
+					
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
+

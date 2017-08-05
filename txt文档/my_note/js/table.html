@@ -1,0 +1,81 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+#mytable{
+border:1px solid red;
+}
+td{
+border:1px solid red;
+}
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+//遍历表格
+function test(){
+	//alert(mytable.rows.length);
+	for(var i=0;i<mytable.rows.length;i++){
+		var eachrow=mytable.rows[i];
+		for(var j=0;j<eachrow.cells.length;j++){alert(eachrow.cells[j].innerText);}
+	}
+}
+
+//删除行
+function test2(){
+	mytable.deleteRow(1);
+}
+
+//插入行
+function test3(){
+	var tablerow=mytable.insertRow(3);
+	tablerow.insertCell(0).innerText="1";
+	tablerow.insertCell(1).innerText="吴用";
+	tablerow.insertCell(2).innerText="智多星";
+}
+
+//插入自己写的。。
+function test4(){
+	for(var i=0;i<mytable.rows.length;i++){
+		if(mytable.rows[i].cells[0].innerText==num.value){
+			alert("编号不能重复");
+			return;
+			}
+	}
+	var tablerow=mytable.insertRow(num.value);
+	tablerow.insertCell(0).innerText=num.value;
+	tablerow.insertCell(1).innerText=myname.value;
+	tablerow.insertCell(2).innerText=nickname.value;
+}
+//-->
+</script>
+</head>
+<body > 
+<h1>英雄排行榜</h1>
+功能需求：编号不能重复，要按顺序排列，有增删改功能（作业）
+<table id="mytable">
+<tr>
+<td>排名</td>
+<td>姓名</td>
+<td>外号</td>
+</tr>
+<tr>
+<td>1</td>
+<td>宋江</td>
+<td>及时雨</td>
+</tr>
+<tr>
+<td>2</td>
+<td>卢俊义</td>
+<td>玉麒麟</td>
+</tr>
+</table>
+<input type="button" value="test" onclick="test()">
+<input type="button" value="delete" onclick="test2()">
+<input type="button" value="add" onclick="test3()">
+<h1>添加新的英雄</h1>
+排名<input type="text" value="" id="num"></br>
+姓名<input type="text" value="" id="myname"></br>
+外号<input type="text" value="" id="nickname"></br>
+<input type="button" value="add" onclick="test4()">
+</body>
+<html>

@@ -1,0 +1,116 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	#div1{
+		height:200px;
+		background:red;
+		border:12px solid red;
+		padding:11px;
+		margin:10px;
+		width:500px;
+
+		
+	}
+	#div2{
+		background:green;
+		height:200px
+	}
+	#div33{
+		position:absolute;
+		top:100px;
+		left:50px;
+		border:1px solid blue
+	}
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div>
+		<img src="a.png" alt="">
+	</div>
+	<button id="btn">change</button>
+	<button id="btn1">给图片加事件</button>
+	<button id="btn2">取消事件</button>
+	<button id="btn3">给图片加事件（只绑定一次）</button>
+	<button id="btn4">test</button></br>
+
+	<form action="#" method="get">
+		<input type="text" name="text"value="aaa"/>
+	</form>
+	<button id="btn_tr">trigger</button></br>
+
+	<div id="div_p">
+		<p>aaaa</p>
+	</div>
+	<button id="btn_p_append">append</button></br>
+	<button id="btn_p_live">live</button></br>
+	<button id="btn_p_die">die</button></br>
+
+	<img src="a.png" id="img_tog">
+</body>
+<script>
+	$("#btn").click(function(){
+		$("img").attr({"src":"b.png"})
+	});
+
+	function imgclk(){
+		alert($(this).attr("src"));
+	}
+	$("#btn1").click(function(){
+		$("img").bind("click",imgclk);
+	});
+	$("#btn2").click(function(){
+		$("img").unbind("click",imgclk);
+	});
+	$("#btn3").click(function(){
+		$("img").one("click",imgclk);
+	});
+	$("#btn4").click(function(){
+		alert($("img").attr());
+	});
+
+	$("#btn_tr").click(function(){
+		$("form").trigger("submit");
+	});
+
+	//live
+	function pp(){
+		alert("1");
+	}
+
+	$("#btn_p_append").click(function(){
+		$("#div_p").append("<p>bbbb</p>");
+	});
+	
+
+	$("#btn_p_live").click(function(){
+		$("#div_p").live("click",pp);
+	});
+
+	$("#btn_p_die").click(function(){
+		$("#div_p").die("click",pp);
+	});
+
+//toggle切换
+	$("#img_tog").toggle(
+		function(){
+			$(this).attr("src","a.png");
+		},
+		function(){
+			$(this).attr("src","b.png");
+		}
+	);
+//hover切换
+	$("#img_tog").hover(
+		function(){
+			$(this).attr("src","a.png");
+		},
+		function(){
+			$(this).attr("src","b.png");
+		}
+	);
+</script>
+</html>

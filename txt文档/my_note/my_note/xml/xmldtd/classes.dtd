@@ -1,0 +1,17 @@
+<!ELEMENT 班级 (学生+,班长?) >
+<!--定义一个引用实体，建议放在前面-->
+<!ENTITY intro "这是一个介绍">
+<!--定义一个参数实体，建议放在前面-->
+<!ENTITY % sName "名字">
+<!ATTLIST 学生
+	住址 CDATA #IMPLIED
+	学号 ID #REQUIRED
+	大佬 IDREFS #REQUIRED
+	婚姻状态 (单身|结婚|离婚) #REQUIRED
+	国籍 CDATA #FIXED "中国"
+>
+<!ELEMENT 学生 (%sName;,年龄,介绍)>
+<!ELEMENT %sName; (#PCDATA)>
+<!ELEMENT 年龄 (#PCDATA)>
+<!ELEMENT 介绍 (#PCDATA)>
+<!ELEMENT 班长 (#PCDATA)>

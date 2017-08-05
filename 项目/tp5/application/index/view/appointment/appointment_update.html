@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+
+	<link href="/public/css/Index.index.index.css" rel="stylesheet"></link>
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+
+
+</head>
+<body>
+	{include file="public/sorand/header.html"}
+	<div class="container text-center">
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+	</div><!-- col-md-3 -->
+
+	<div class="col-md-9">
+	<div class="panel panel-info">
+	<div class="panel-heading">
+				客户信息
+		</div>	
+		
+		<div class="panel panel-body">
+			<form action="{:url('index/appointment/appoint_update_do')}" method="post" id="add_new_form">
+		      	<div class="modal-body">
+		      		<div class="input-group">
+					  <span class="input-group-addon">id　　　　</span>
+					  <input type="text" class="form-control" name="user_id" value="{$appo_info[0]['id']}" readonly>
+					</div>
+		    		<div class="input-group">
+					  <span class="input-group-addon">客户名称：</span>
+					  <input type="text" class="form-control" placeholder="请填写名称" name="name" id="guest_name" value="{$appo_info[0]['name']}">
+					</div>
+				<?php if($info_access["tel_info"]=="1"): ?>
+					<div class="input-group">
+					  <span class="input-group-addon">客户电话：</span>
+					  <input type="text" class="form-control" placeholder="请填写电话，多个电话请用空格隔开" name="tel" id="guest_tel" value="{$appo_info[0]['tel']}">
+					</div>
+					<div class="input-group">
+						  <span class="input-group-addon">客户微信：</span>
+						  <input type="text" class="form-control" placeholder="" name="weixin" id="guest_weixin" value="{$appo_info[0]['weixin']}">
+					</div>
+				<?php endif; ?>
+					<div class="input-group">
+					  <span class="input-group-addon">预约时间：<input type="checkbox" id="noappotime">未确定 </span>
+
+					  <style>
+						.picker__nav--next,.picker__nav--prev{
+						height: 40px;
+						}
+					  </style>
+					  <?php 
+					  	$date_time=explode(" ",$appo_info[0]['appointment_time']);
+					  	$time=explode(":",$date_time[1]);
+					  	$time[0]=intval($time[0]);
+
+					  ?>
+					  <input class="form-control js__datepicker" type="text" placeholder="请输入日期：" name="time_date" id="time_date"><span class="input-group-addon" value="aaa"></span>
+
+					 	<select class="form-control" name="time_time" id="time_time">
+
+					  	<option value="">-请选择-</option>
+					  	<?php for($i=8;$i<17;$i++):?>
+
+							<?php if($time[0]==$i&&$time[1]=='00'):?>
+								<option value="{$i}:30" selected="selected">{$i}:00</option>
+							<?php else:?>
+								<option value="{$i}:00">{$i}:00</option>
+							<?php endif;?>
+							<?php if($time[0]==$i&&$time[1]=='30'):?>
+								<option value="{$i}:30" selected="selected">{$i}:30</option>
+							<?php else:?>
+								<option value="{$i}:30">{$i}:30</option>
+							<?php endif;?>
+					  	<?php endfor;?>
+					  	<?php for($i=0;$i<5;$i++):?>
+							<?php if($time[0]==$i+1&&$time[1]=='00'):?>
+								<option value="{$i}:30" selected="selected">{$i}:00</option>
+							<?php else:?>
+								<option value="{$i}:00">{$i}:00</option>
+							<?php endif;?>
+							<?php if($time[0]==$i&&$time[1]=='30'):?>
+								<option value="{$i}:30" selected="selected">{$i}:30</option>
+							<?php else:?>
+								<option value="{$i}:30">{$i}:30</option>
+							<?php endif;?>
+						<?php endfor;?>
+					  </select>
+					</div>
+
+					<div class="input-group">
+					  <span class="input-group-addon">性别：</span>
+
+					  <span class="input-group-addon padding-small">
+					 <?php if($appo_info[0]['sex']=="女"):?>
+						<input type="radio"  name="sex" checked="checked"  value="女">
+					<?php else:?>
+						<input type="radio"  name="sex"  value="女">
+					<?php endif;?>
+					  </span>
+					  <span class="input-group-addon">女</span>
+					  <span class="input-group-addon padding-small">
+					  	<?php if($appo_info[0]['sex']=="男"):?>
+						<input type="radio"  name="sex" value="男">
+						<?php else:?>
+							<input type="radio"  name="sex" value="男">
+						<?php endif;?>
+					  </span>
+					  <span class="input-group-addon">男</span>
+
+					  <span class="input-group-addon">年龄：</span>
+					  <select class="form-control" name="age" id="guest_age">
+					  	<option value="">-请选择-</option>
+					  	<?php for($i=14;$i<80;$i++):?>
+
+					  		<?php if($appo_info[0]['age']==$i):?>
+								<option value="{$i}" selected="selected">{$i}</option>
+							<?php else:?>
+								<option value="{$i}">{$i}</option>
+							<?php endif;?>
+
+					  	<?php endfor;?>
+					  </select>
+					</div>
+
+					<div class="input-group">
+					  <span class="input-group-addon">预约方式：</span>
+					  <select class="form-control" name="appointment_type">
+					  	<option value="0">-请选择-</option>
+					  	<?php foreach ($appointment_type as $v) :?>
+					  		
+
+								<?php if($appo_info[0]['appointment_type']==$v['appointment_type']):?>
+									<option value="{$v['appointment_type']}" selected="selected">{$v['appointment_type']}</option>
+								<?php else:?>
+									<option value="{$v['appointment_type']}">{$v['appointment_type']}</option>
+								<?php endif;?>
+					  		
+					  	<?php endforeach; ?>
+					  </select>
+					</div>
+
+					<div class="input-group">
+					  <span class="input-group-addon">预约类型：</span>
+					  <select class="form-control" name="appointment_style" id="appointment_style">
+					  	<option value="未选择">-请选择-</option>
+					  	<?php foreach($appointment_style as $v) :?>
+
+					  		<?php if($appo_info[0]['appointment_style']==$v['style']):?>
+					  			<option value="{$v['style']}" selected="selected">{$v['style']}</option>
+							<?php else:?>
+								<option value="{$v['style']}">{$v['style']}</option>
+							<?php endif;?>
+					  		
+					  	<?php endforeach; ?>
+					  </select>
+					</div>
+
+					<div class="input-group">
+						  <span class="input-group-addon">预约项目： </span>
+						  <select class="form-control" name="item1" id="item1">
+						  	<option value="0">-请选择-</option>
+						  	<?php $arr_item=['半永久','脱毛'];foreach ($arr_item as $val):?>
+						  		<?php if($app_item[0]==$val): ?>
+								  	<option value="{$val}" selected='selected'>{$val}预约</option>
+								<?php else: ?>
+								  	<option value="{$val}">{$val}预约</option>
+								<?php endif; ?>
+						  	<?php endforeach; ?>
+						  </select>
+						  <span class="input-group-addon empty-one"></span>
+						  <select class="form-control" name="item2"  id="item2">
+						  	<option value="0">-请选择-</option>
+						  	<?php if (!empty($app_item2)):?>
+						  		<?php foreach ($app_item2 as $v):?>
+						  			<?php if($app_item[1]==$v['production']): ?>
+									  	<option value="{$v['production']}" selected='selected'>{$v['production']}</option>
+									<?php else: ?>
+									  	<option value="{$v['production']}">{$v['production']}</option>
+									<?php endif; ?>
+
+						  		<?php endforeach; ?>
+						  	<?php endif; ?>
+						  </select>
+					</div>
+
+					<div class="input-group">
+					<span class="input-group-addon">支付方式：</span>
+						<select class="form-control" name="pay_type" id="pay_type">
+							<option value="">-请选择-</option>
+							<option value="微信" <?php if($appo_info[0]['pay_type']=="微信"){ echo "selected='ture'"; }  ?> >微信</option>
+							<option value="支付宝" <?php if($appo_info[0]['pay_type']=="支付宝"){ echo "selected='ture'"; }?> >支付宝</option>
+						</select>
+					</div>
+
+
+					<div class="input-group">
+					  <span class="input-group-addon">预约订金：</span>
+					  <input type="text" class="form-control" placeholder="填入整数" name="bargain_money"  id="bargain_money" value="{$appo_info[0]['bargain_money']}">
+					</div>
+					<div class="input-group">
+					  <span class="input-group-addon">项目价格：</span>
+					  <input type="text" class="form-control" placeholder="填入整数" name="price" id="price" value="{$appo_info[0]['price']}">
+					</div>
+
+					<div class="input-group">
+						  <span class="input-group-addon">预约门店：</span>
+						  <select name="shop_info" class="form-control" id="shop_info">
+						  	<option value="">-请选择-</option>
+						  	<?php foreach ($shop as  $val):?>
+						  		<?php if($appo_info[0]['shop']==$val['shopname']): ?>
+						  			<option value="{$val['id']}+{$val['shopname']}" selected="selected">{$val['shopname']}</option>
+						  		<?php else: ?>
+						  			<option value="{$val['id']}+{$val['shopname']}">{$val['shopname']}</option>
+						  		<?php endif; ?>
+
+						  	<?php endforeach; ?>
+						  </select>
+					</div>
+					
+					<div class="input-group">
+					  <span class="input-group-addon">备注：</span>
+					  <textarea name="adder_info" cols="30" rows="10">{$appo_info[0]['adder_info']}
+
+					  </textarea>
+					</div>
+		      	</div><!-- modal-body -->
+		      <div class="modal-footer">
+		      	<button type="button" class="btn btn-primary" id="add_new_submit">确认</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		      </div>
+		    </form>
+		</div>
+	</div>
+</div>
+</div>
+
+
+<!-- 时间隐藏 -->
+<input type="hidden" value='{$date_time[0]}' id="date_time">
+<!-- 省市县编码隐藏 -->
+
+<!-- 项目隐藏地址（勿删） -->
+<input type="hidden" value='{$item_get_url}' id="item_get_url">
+
+<script>
+
+	$("#noappotime").click(function(){
+		nontime=$('#noappotime').prop("checked");
+		if(nontime==true){
+			$('#time_date').attr("disabled", true); 
+			$('.empty-one').attr("disabled", true);  
+			$('#time_time').attr("disabled", true);
+			$('#time_date').val("")
+			$('#time_time').val("")
+		}else{
+			$('#time_date').attr("disabled", false); 
+			$('.empty-one').attr("disabled", false);  
+			$('#time_time').attr("disabled", false); 
+		}
+	});
+	//传值给date
+	if($("#date_time").val()=="0000-00-00"){
+		// alert($("#date_time").val());
+		$("#date_time").val("");
+	}
+	// alert($("#date_time").val());
+	$(".js__datepicker").val($("#date_time").val());
+
+
+		$("#add_new_submit").click(function(){
+		var arr1=new Array();//表单id信息
+		arr1=['guest_name','guest_tel','time_date','time_time','guest_weixin','appointment_style','item1','item2','pay_type','bargain_money','price','shop_info'];
+
+		var arr2=new Array();//表单ID内容
+		arr2=['输入姓名','输入电话',"填入预约日期",'填入预约时间','填入微信','选择预约类型','选择预约项目','预约项目(详细)','选择支付方式','输入预约订金','输入项目价格','选择预约门店'];
+
+		flag=0;
+		flag2=0;
+		for (var i =  0; i < arr1.length; i++) {
+			id_info="#"+arr1[i];
+			// alert(id_info);
+			if(i==2||i==3||i==1||i==4){
+				if(i==1&&!$(id_info).val()){
+						flag2++;
+				}
+				if(i==4&&!$(id_info).val()){
+						flag2++;
+				}
+				if($('#noappotime').prop("checked")==true){
+				}else if(!$(id_info).val()){
+					if(i==2||i==3){
+						alert('请'+arr2[i]);
+						flag++;
+						return false;
+					}
+					
+				}
+			}else if(!$(id_info).val()){
+				alert('请'+arr2[i]);
+				flag++;
+				return false;
+			}
+		}
+		// alert(flag2);
+		if(flag2>=2){
+			alert('请至少输入微信或电话中的一个');
+			flag++;
+			return false;
+		}
+
+		if (!flag) {
+			$("#add_new_form").submit();
+		}
+	});
+
+	$("#item1").change(function(){
+		$("#item2").empty();
+		$("#item2").append("<option value=''>-请选择-</option>");
+		
+		var item1=$("#item1").val();
+		// alert(item1);
+		var url=$("#item_get_url").val();
+		// alert(url);
+		$.get(url,{"classify":item1},function(data){
+			// alert(data);
+		
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['production']+">"+obj[i]['production']+"</option>";
+				$("#item2").append(append_val);
+			};
+		},"json");
+	});
+
+</script>
+
+
+</script>
+	<!-- date专用 -->
+	<script src="/public/date/lib/picker.js"></script>
+    <script src="/public/date/lib/picker.date.js"></script>
+    <script src="/public/date/lib/picker.time.js"></script>
+    <script src="/public/date/demo/scripts/main.js"></script>
+	<!-- date专用 -->
+</body>
+</html>

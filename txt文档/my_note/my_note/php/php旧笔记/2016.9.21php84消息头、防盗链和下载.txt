@@ -1,0 +1,150 @@
+===>http协议
+1.http协议是建立在tcp/ip协议基础上
+2.我们的web开发数据的传输，都是依赖于http协议
+3.http协议全称是 超文本传输协议（不只能传输文本）
+
+http分1.0/1.1（短连接/长连接)(连接后立刻断掉/连接后一段时间不回复断掉)(基本不用/使用中）
+
+图床（专门发送图片的服务器）（很多网站的图片是放在专门的大带宽的服务器上的）
+
+==》http协议的--http请求（request）
+
+请求行
+消息头：消息体（实体内容）
+
+Request URL:http://localhost/test.php【请求资源是http://localhost/test.php】
+Request Method:GET【表示发送的是get请求】
+Status Code:200 OK【200 ok 表示客户端请求成功】
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+【*/*表示客户端可以接受任何数据】
+Accept-Charset:GBK,utf-8;q=0.7,*;q=0.3
+Accept-Encoding:gzip,deflate,sdch【表示接受什么样的压缩格式】
+Accept-Language:zh-CN,zh;q=0.8【页面语言】
+Connection:keep-alive【表示不要立即断掉】
+Cookie:hs2_cookietime=2592000; hs2_auth=IwR4vTbPKsiaB%2FIaLhcRwTSgKE%2F4vjizckR0sPceWuXLkRE421ida4nbew
+Host:localhost【主机是谁（不写默认端口80）】
+User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.1 (KHTML, like Gecko) 
+Chrome/21.0.1180.89 Safari/537.1【告诉服务我的浏览器的内核，操作系统】
+
+响应头：===============================================
+Response Headersview source
+Connection:Keep-Alive
+Content-Type:text/html; charset=UTF-8【文档类型】
+Date:Wed, 21 Sep 2016 02:23:10 GMT【告诉浏览器，请求的页面时间】
+Keep-Alive:timeout=5, max=100
+Server:Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/5.6.25
+Transfer-Encoding:chunked
+X-Powered-By:PHP/5.6.25
+补充：：：：：：：：：：：：：：：：：：：：：：：：：：：：
+Content-Length:43【表示会送的数据有43字节】
+Last-Modified:Tue,11 Jul 2000 18:23:51 GMT【表示浏览器请求资源，最新时间】
+Refresh:1;url=http://www.baidu.com【延迟1秒跳转（重定向）到百度】
+Set-Cookie:SS=Q0=5Lb_nQ; path=/search  【讲cookie（缓存）】
+Expires:-1
+Cache-Control:no_cache
+Pragma:no-cache【以上三条都是禁用缓存，但有时单用某一条不起效，当三条一起用时必然生效】
+
+==》$_SERVER函数说明=============================================
+在服务器端，我们可以通过$_SERVER获取我们需要的信息
+//print_r($_SERVER);//$_SERVER是一个数组
+foreach($_SERVER as $key=>$val){
+	echo "$key=$val </br>";
+}
+//可以指定取出访问该页面的ip
+echo "your ip :".$_SERVER['REMOTE_ADDR'];
+
+//不让指定的ip进入页面
+if($_SERVER['REMOTE_ADDR']=="127.0.0.1"){
+//跳转到一个警告页面
+header("Location:ls81.php");
+}
+重要的有：
+HTTP_HOST=localhost  //主机名
+REMOTE_ADDR=127.0.0.1//访问者的ip
+DOCUMENT_ROOT=D:/web/www/ // apache主目录
+REQUEST_URI=/ls84.php //可获取 请求的资源名
+
+==》http请求主要方式
+get/post（区别）
+1.安全性（请求数据显示在地址栏/请求数据放在http协议的消息体里（更安全））
+2从可以提交数据的大小看
+2.1http协议本身并没有限制数据大小
+2.2浏览器在对get和post请求做限制，get请求2k+35，post无限制
+3.get请求可以更好地添加到收藏夹
+
+==》防盗链
+//获取REFERER
+if(isset($_SERVER['HTTP_REFERER'])){
+//取出来
+//判断$_SERVER['HTTP_REFERER']是不是以Referer:http://localhost开始
+	//strpos($a,"aa")判断aa在$a中首次出现是在第几个字符
+	if(strpos($_SERVER['HTTP_REFERER'],"http://localhost")==0){}else{
+		//跳到警告页面
+		header("Location:http://localhost/warning.php");}}else{
+		//跳到警告页面
+		header("Location:http://localhost/warning.php");}
+【】【】【】header：可以改变请求消息头【】【】【】
+
+==》对状态码的说明
+100-199表示成功接受请求，要求客户端继续提交下一次请求才能完成整个处理过程。
+200-299表示成功接受请求，并已完成整个处理过程（常用200）。
+300-399为完成请求，客户需求进一步细化请求，例如，请求的资源已经移动一个新地址（常用	302/304）
+400-499客户端请求有错误，常用404
+500-599服务器出现错误，常用500
+
+举例说明http相应的实际应用
+302状态码的使用：
+比如我们现在希望访问a.php页面，让其自动重定向到b.php
+基本用法
+<?php
+header("Location:新的页面")；
+header("Location:http://www.souhu.com")；
+?>
+细节：302状态码也可以让其跳转到外网去
+404一般说就是该页面不存在
+304图片请求
+
+==>通过http响应，一段时间跳转
+header("Refresh:3;url=:http://localhost/http/d.php")
+
+==》通过header来禁用缓存
+header("Expires:-1");
+header("Cache-Control:no_cache");
+header("Pragma:no-cache");
+
+===》下载文件
+$file_name="sunset.jpg"
+//1打开文件
+if(!file_exists($file_name)){
+	echo "文件不存在";
+	return;
+}
+$fp=fopen($file_name,"r");
+
+//获取下载文件的大小
+$file_size=filesize($file_name)
+
+//返回的是文件的形式（stream流）
+header("Content-type:application/octet-stream");
+//按照字节大小返回
+header("Accept-ranges:bytes")
+//返回文件大小
+header("Accept-Length:$file_size")
+//这里客户端的弹出对话框，对应的文件名
+header("Content-Disposition:attachement;filename=".$file_name)
+
+//向客户端回送数据
+$buffer=1024;
+//为了下载的安全，最好做一个文件读取计数器
+$file_count=0;
+//这句话用于判断文件是否结束   //eof(end of file)
+while(!feof($fp)&&($file_size-$file_count>0)){
+	$file_data=fread($fp,$buffer);
+	//统计读了多少个字节
+	$file_count+=$buffer;
+	//把部分数据回送给浏览器
+	echo $file_data;
+}
+//关闭文件
+fclose($fp);

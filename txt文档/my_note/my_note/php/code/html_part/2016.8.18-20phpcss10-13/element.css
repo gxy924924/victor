@@ -1,0 +1,9 @@
+.s1{
+	background-color:pink;
+	display:block;/*以块元素显示*/
+}
+
+.s2{
+	background-color:gray;
+	display:inline;/*以行内元素显示*/
+}

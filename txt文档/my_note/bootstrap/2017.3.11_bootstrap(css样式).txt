@@ -1,0 +1,174 @@
+==>2017/3/11
+==>bootstrap框架
+--------------------------
+1.css样式
+2.css组件
+3.js插件
+4.表格
+5.表单
+6.按钮
+7.图片
+8.响应式图片
+9.工具
+
+页面大块布局：
+.container
+
+css样式：
+栅格系统:
+    一行分成12列，将这12列分成适当的几块就是栅格系统
+    <div class="row">
+	<div class="col-md-4"></div>
+	<div class="col-md-4"></div>
+	<div class="col-md-4"></div>
+    </div>
+
+row:表示一行
+md:表示中等屏幕（小于一定像素会自动拆分行）
+-》除了md还有xs等其他屏幕的设定
+	偏移：
+	col-
+
+文本对齐：
+text-center;
+text-left;
+text-right;
+
+图片自动生成：
+<img src="holder.js/100%x300" >
+
+块居中：
+center-block;
+pull-left;
+pull-right;
+
+排版样式
+h1.page-header
+h1>small
+p.lead(字体略微变大，粗体)
+blockquote>small(引用，来源)（加标签 pull-right可以将方向朝右）
+code(说明标签)
+
+文字的颜色：
+text-muted	柔和色
+text-primary	蓝色	
+text-success	绿色
+text-info
+text-warning	
+text-danger 	红色
+
+列表：
+list-inline;
+list-unstyled;
+
+表格：
+<table class="table（） table-bordered(加边框) table-striped（隔行换色） table-hover(当前行自动加亮)">
+table-condensed (紧缩-间距减半)
+
+表格颜色
+active；
+success;
+warning;
+danger;
+
+响应式表格：
+div.table-responsive;
+	-》当宽度小于一定程度会自动出现滚动条
+
+表单样式：
+.form;
+.form-control	(满行)
+.input-lg(sm)
+.btn;
+.btn-lg(sm)
+.btn-primary(danger/warning)
+div.has-error()
+:disabled		(禁用输入状态)
+
+占位符：input-text专用
+placeholder;
+
+
+
+表单颜色:
+has-success;
+has-warning;
+has-error;
+
+水平多选框：
+radio-inline
+
+内联表单：
+form-inline
+
+水平排列表单：
+control-label	(此处是文本对齐)
+form.form-horizontal + 栅格系统
+
+
+例:
+<div class="form-group has-success(has-error..)" >
+	<div class="checkbox">
+		<label>
+			<input type="checkbox">check me out	
+		</label>
+	</div>
+</div>
+
+显示和隐藏：
+.show
+.hidden
+.sr-only(另一种隐藏)
+
+下拉菜单：
+可以由栅格系统控制大小，
+multiple size等属性有效
+
+
+------------------------------------------------
+css样式
+==》按钮：
+1.button
+2.input type=button(submit/reset)
+3.a标签
+
+七种样式：
+.btn-default
+.btn-primary
+.btn-success
+.btn-info
+.btn-warning
+.btn-danger
+.btn-link
+
+按钮尺寸：
+.btn-lg
+.btn-sm
+.btn-xs
+
+按钮变成块元素：
+.btn-block
+按钮激活状态
+.active
+按钮禁用状态：
+disabled
+
+==>image图片
+.img-rounded
+.img-circle
+.img-thumbnail
+
+响应式图片
+.img-responsive
+
+说明：
+dl>dt
+
+关闭按钮：
+span.close
+
+向下箭头：<span class="caret"></span>
+关闭小叉: &times;		(x)
+
+
+

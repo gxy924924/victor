@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+	{include file="public/sorand/title.html"}
+ </head>
+    <body>
+        {include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+         <form action=""  method="post" id="add_new_form">
+       {volist name="list"  id="v"}
+      	<div class="modal-body">
+    		<div class="input-group">
+			  <span class="input-group-addon">用户：</span>
+			  <input type="text" class="form-control"  value="{$v['uid']}" name="uid">
+			</div>
+	       <div class="input-group">
+		       <span class="input-group-addon">金额：</span>
+		       <input type="text" class="form-control"  value="{$v['money']}"  name="money">
+		</div>
+		<div class="input-group">
+		       <span class="input-group-addon">产品：</span>
+		       <input type="text" class="form-control" value="{$v['pid']}"  name="pid">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">订单：</span>
+		       <input type="text" class="form-control"   value="{$v['ordernumber']}" name="ordernumber">
+		</div>
+               
+                
+      	</div>
+       <div class="modal-footer">
+      	<button type="submit" class="btn btn-primary" id="add_new_submit">确认</button>
+      </div>
+
+       {/volist}
+    </form>
+     	</div>
+      	</div>               
+    </body>
+</html>

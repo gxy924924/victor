@@ -1,0 +1,196 @@
+
+==>二、选择题
+-》1.输出为Mozilla/4.0(compatible;MSIE5.01;Window NT 5.0)时，可能的输出语句是:b
+	a.$_SERVER['HTTP_USER_AGENT_TYPE']
+	b.$_SERVER['HTTP_USER_AGENT'] 		<-
+	c.$_SERVER['USERAGENT']
+	d.$_SERVER['AGENT']
+		->只有b存在，别的都是不存在的
+
+->下面的功能php无法实现的是：cd
+	a.服务器端脚本运行
+	b.命令行脚本运行
+	c.客户端图形界面（GUI）程序		(java)	<-
+	d.浏览器端执行DOM操作	（js）			<-
+		->php不搞全才，只取一部分精尖
+
+-》3.线面说法不正确的是：c
+	a。php有四种标量类型：布尔型（boolean），整型（integer），浮点型（float），字符串（string）
+	b.浮点型（float）与双精度型（double）是同一种类型
+	c。复合类型包括：数组（array），对象（object），资源（resource）
+													《-
+	d。伪类型：混合型（mixed），数字型（number），回调（callback）
+	八种数据类型分类：
+		标量类型：布尔型（boolean），整型（integer），浮点型（float），字符串（string）
+		复合型：数组（array），对象（object）
+		其它：资源（resource）
+
+-》4.执行下面的代码后，
+	<?php
+		echo function_exists('print');
+	?>
+
+	Echo print array eval list ->这些都是语言结构（不算函数）
+	得到的输出是：a
+	a.空
+	b.true
+	c.false
+	d.FALSE
+
+	echo false //会打印空
+	echo true //会打印1
+	如count shuffle json_decode 等是函数
+
+-》5.下面不是php语法的组成部分:c
+	a.array
+	b.eval
+	c.each
+	d.list
+
+->6.执行下面的代码的结果是什么？ a
+	<?php
+		$bool=TRUE;
+		echo gettype($bool);
+		echo is_string($bool);
+	?>
+	a.boolean
+	b.boolean0
+	c.booleanFALSE
+	d.booleanfalse
+
+->7.写出下面的代码执行的结果：12 10 18(进制不同，但echo只打印10进制)
+	<?php
+		$a=12;
+		$b=012;
+		$c=0x12;
+		echo $a
+	?>
+
+-》8.下面代码的执行结果是什么？6	(php中遇到+号会强制变成数学运算，字串会自动只找第一位,如果第一位是数字会自己被加，否则认为是0)
+	<?php
+		echo 1+2+"3+4+5";
+	?>
+	强制转类型 (int)"a+a"
+
+-》9.下面代码加入下面哪个函数后返回TRUE:b
+	return ?=='A';
+	a.ord(65)	->ord是正转（将。。转成ASCII）
+	b.chr(65)
+	c.65+""
+	d."+65
+
+->10.下面代码输出正确的是:8122
+	<?php
+		$a=array(1=>5,5=>8,22,2=>'8',81);
+		echo $a[7];
+		echo $a[6];
+		echo $a[3];
+	?>
+
+->11.输出：hellohello
+	<?php
+		$a[bar]='hello';
+		echo $a[bar];
+		echo $a['bar'];
+	?>
+
+->12.结果：
+	<?php
+		echo 1>>0;	//001	1
+		echo 2>>1;	//01	1
+		echo 3<<2;	//1100	12
+	?>
+
+->13.结果：(因为语法有误，死循环)
+	<?php
+		for($i;i<10;$i++){
+			print $i;
+		}
+
+	?>
+
+-》14.echo,print 描述正确echo可以输出多个参数,print不能
+	a.echo,print都可以输出多个参数	
+	...
+
+-》15.能正确得到“yellow”:acd
+	<?php
+		$fruits=array('strawberry'=>'red','banana'=>'yellow');
+	?>
+	a.echo "A banana is {$fruits['banana']}";
+	b.echo "A banana is  $fruits['banana'] ";
+	c.echo "A banana is {$fruits[banana]}";
+	d.echo "A banana is  $fruits[banana] ";
+
+	加{}是为了防止别的字符干扰，数组在双引号中间时如果里面有单引号会受到影响，不带单引号就没问题；
+
+-》16.结果： 1 2
+	<?php
+		function change(){
+			static $i=0;
+			$i++;
+			return $i;
+		}
+
+		print change();
+		print change();
+	?>
+
+-》17结果：testaaa
+	<?php
+		$foo='test';
+		$bar=<<<bar
+			$foo aaa
+		bar;
+		echo $bar;
+	?>
+	->heredoc技术：相当于echo ""（会解析中间的内容）
+		在<<<开始名（开始）
+			中间写要输出的东西
+		在开始名;（结束）
+
+-》18:$b=?	4
+ 	$a=3;$b=4;
+ 	if($a||$b=5){
+ 		echo 'todo';
+ 	}
+
+==>简答题： 
+1。什么是面向对象？主要特征是什么？
+	1.面向对象是一种设计思维，提高程序的复用性，降低冗余
+	2.主要特征：封装、继承、多态
+
+2.session 和 cookie 的区别是什么，从协议，产生原因与作业说明？
+	1。cookie放在客户端，session放在服务器端，session要依赖cookie存session_id,session较cookie安全得多
+
+3.http状态 302/403/500含义？
+	302重定向（appache的rewrite）
+	403服务器拒绝访问（权限问题）
+	500服务器内部错误
+
+	304：静态文件缓存未过期，建议取缓存
+	404：访问的页面不存在
+	200：正常响应
+
+4.linux 压缩与解压：
+压：tar czf a.tar.gz a.php
+解： tar xzf a.tar.gz
+
+5.(int char varchar datetime text)意思
+int:数字类型
+char：字符串类型
+varchar：可变的字符串
+datetime：时间类型
+text：文本类型
+
+6.MyISAM 和innoDB 基本区别？
+	1.在增删改查方面myisam要优于innodb，但大数据量时两者相差不大
+	2.innodb支持事物、存储过程、行级解锁等
+
+7.如果用户把cookie禁止了，如何让用户能获得session
+让sessionid通过get传递xxx?SESSIONID=xxxx
+
+可以在php.ini
+session.use_trans_sid=1(会自动给没有从cookie中获得sessionid通过get赋给它)
+
+5-39:18

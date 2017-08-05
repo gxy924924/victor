@@ -1,0 +1,45 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+<style type="text/css">
+</style>
+	<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div>
+		<h1>1</h1>
+		<h1>2</h1>
+		<h1>3</h1>
+		<h1>4</h1>
+		<h1>5</h1>
+
+	</div>
+</body>
+<script>
+//$("h1").click(function(){alert($(this).text());});
+
+$("h1:even").css("background","#ccc");//even从0开始的偶数
+//alert($("h1").size());//size用法
+
+//js格式转换成jquery
+var objs=document.getElementsByTagName("h1");
+$(objs).css("color","red");
+
+//jquery转换成js
+//alert($("h1").get(2).outerHTML);
+
+//得到标签名的排序
+$("h1").each(function(i){
+	var idx=$(this).index("h1");
+	$(this).text($(this).text()+idx);
+	//隐藏数据
+	$(this).data("idx",{"name":"user"+i,"age":"30"})
+});
+
+$("h1").click(function(){
+	//输出隐藏数据
+	alert($(this).data("idx").name+"==>"+$(this).data("idx").age);
+});
+</script>
+</html>

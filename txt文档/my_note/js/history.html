@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function goForword(){
+history.forward();
+}
+function backnum(){
+	alert(history.length)
+
+}
+
+function host(){
+alert(location.host);
+}
+function hostname(){
+alert(location.hostname);
+}
+function port(){
+alert(location.port);
+}
+function Navigator(){
+alert("navigator.appCodeName浏览器的代码名==>"+navigator.appCodeName+"\n"+"navigator.appName览器的名称==>"+navigator.appName+"\n"+"navigator.appVersion浏览器的平台和版本信息==>"+navigator.appVersion+"\n"+"navigator.platform 浏览器的操作系统和（或）硬件平台==>"+navigator.platform  );
+}
+//-->
+</script>
+</head>
+<body > 
+<a href="historyb.html">goto b</a></br>
+<input type="button" value="goforward（重进下一页）" onclick="goForword()">
+<input type="button" value="backnum（back数）" onclick="backnum()" /></br>
+<input type="button" value="host(主机名+端口号)" onclick="host()" />
+<input type="button" value="hostname(主机名)" onclick="hostname()" />
+<input type="button" value="port(端口号)" onclick="port()" /></br>
+Navigator <input type="button" value="Navigator(浏览器的信息)" onclick="Navigator()" />
+
+
+</body>
+<html>

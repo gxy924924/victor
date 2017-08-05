@@ -1,0 +1,304 @@
+2017/2/11
+==》今天内容
+1.控制器关联模型（one-one ,one-many ,many-many）
+2.视图
+3.模板引擎
+4.快捷缓存（数据缓存）
+5.静态缓存
+6.session支持
+7.cookie支持
+8.数据分页
+9.验证码
+10.图片水印
+11.IP获取和定位
+
+==》控制器关联模型
+用户表 myuser表
+班级表 class表
+电话表 tel表
+//左连接
+select * from user left join tel on user.id=tel.user_id;
+//只查询存在tel.id的表的左连接
+select * from user left join tel on user.id=tel.user_id where tel.id is not null;
+
+==>关联模型
+->模型
+namespace Index\Model;
+use Think\Model\RelationModel;
+class MyuserModel extends RelationModel {
+	protected $_link =array(
+		'tel'=>array(	//这里的数组名称并不是模型的类名，只是自定义的名字
+			'mapping_type'=>self::HAS_ONE,		//关联类型
+			'class_name'=>'tel',			//关联的模型的类名
+			'foreign_key'=>'user_id',		//关联外键名称
+			//'mapping_fields'=>'code',		//关联要查询的字段
+			'mapping_name'=>'telephone',	//关联的映射名称(修改映射名)
+			'as_fields'=>'user_id,code',	//直接把关联的字段值映射成数据对象中的某个字段
+		),
+	);
+}
+		$user=D('myuser');
+		$row=$user->relation(true)->select();
+
+说明：关联的方式是跟id对比的
+
+==>视图
+$this->assign('name','user1');
+$this->name='user1';
+
+$this->display();
+$this->display('show')
+$this->display('Index/show')
+$this->display('Member:edit');//跨越选择其它模板要用【：】冒号
+
+$content = $this->fetch('Member:edit');//fetch的作用是先将内容取出但不输出，之后需要再输出
+
+==>变量输出
+写变量	{这里输出}
+
+==》系统变量
+{$Think.server.script_name} // 输出$_SERVER['SCRIPT_NAME']变量
+{$Think.session.user_id} // 输出$_SESSION['user_id']变量
+{$Think.get.pageNumber} // 输出$_GET['pageNumber']变量
+{$Think.cookie.name}  // 输出$_COOKIE['name']变量
+支持输出 $_SERVER、$_ENV、 $_POST、 $_GET、 $_REQUEST、$_SESSION和 $_COOKIE变量。
+
+{$Think.now}//现在时间
+{:C('TMPL_L_DELIM')}	//左定界符
+{$Think.config.TMPL_L_DELIM}	//左定界符
+{$Think.const.Host}
+{$Think.ldelim}
+
+==>使用函数{变量|这里使用php函数}
+{$name|strtoupper}	//对模板输出变量使用函数(php函数)
+{$name|strtoupper|substr=0,4}	//连续使用php函数
+
+$time=time();
+{$time|date="Y-M-D H;i;s",###}	//输出时间函数,###代表前面的参数
+{:date('Y-M-D H;i;s',time())}	//php函数前面加【：】冒号，可以直接使用
+
+==》默认值输出
+{$user.nickname|default="这家伙很懒，什么也没留下"}
+
+==》使用运算符	//我们可以对模板输出使用运算符，包括对“+”“ ” “*” “/”和“%”的支持。
+{$a+$b}
+{$a/$b}
+。。。
+
+==》内置标签
+->比较符
+eq或equal	等于
+neq或notequal	不等于
+gt		大于
+egt		大于等于
+lt		小于
+elt		小于等于
+heq		恒等于 
+nheq		不恒等于 
+
+-》For标签
+<for start="开始值" end="结束值" comparison="" step="步进值" name="循环变量名" ></for>
+		//开始值、结束值、步进值和循环变量都可以支持变量，
+		开始值和结束值是必须，其他是可选。comparison 的默认值是lt;
+		name的默认值是i，步进值的默认值是1，举例如下：
+	<for start='0' end='10'>
+		<if condition='$i%2 eq 0'>
+		<h1 style='background-color:#ccc;'>{$i}</h1>
+		<else/>
+		<h1>{$i}</h1>
+		</if>
+	</for>
+
+->if标签
+	<if condition="$i++%2 eq 0">
+		<h2 style="background-color:#ccc;">{$val['username']}</h2>
+		<else/>
+		<h2>{$val['username']}</h2>
+	</if>
+
+->assign标签：在模板文件中加入变量并赋值
+	<assign name="i" value="0"/>
+
+->foreach标签
+	<foreach name='rows' item="val" key="k">
+		<if condition="$k%2 eq 0">
+		<h2 style="background-color:#ccc;">{$k}==>{$val['username']}</h2>
+		<else/>
+		<h2>{$k}==>{$val['username']}</h2>
+		</if>
+	</foreach>
+
+-->switch标签
+	<switch name="week">
+		<case value="1">111</case>
+		<case value="3">3</case>
+		<case value="5">55</case>
+	</switch>
+
+--》empty标签：用于判断某个变量是否为空
+<empty name="name">name为空值</empty>
+
+
+-->包含文件：在当前模版文件中包含其他的模版文件使用include标签
+	<include file='模版表达式或者模版文件1,模版表达式或者模版文件2,...' />
+
+-->导入文件
+
+
+-->获取客户端的IP地址
+echo $ip = get_client_ip();
+
+-->IP定位功能
+	$Ip = new \Org\Net\IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
+	$area = $Ip->getlocation('203.34.5.66'); // 获取某个IP地址所在的位置
+
+【此功能有问题，在IpLocation.php中$this->fp文件打开有错误 解决：下载一个UTFWry.dat文件】
+
+-->三元运算：{条件?'正常':'错误'}-》判断条件是否为真，为真则返回正常处的字串，
+				    为假则返回错误处的字串。
+	{$status?'正常':'错误'}
+	{$state==1?'1':'2'}
+
+--》php标签：在里面可以直接使用php代码
+<php>echo 'Hello,world!';</php>
+
+--》模板布局-layout
+1.开启layout，声明layout模板的名称：'LAYOUT_ON'=>true,'LAYOUT_NAME'=>'layout',
+2.创建layout模板：在view下创建layout.html并在其中写入想要的内容
+3.{__CONTENT__}会在目标模板中自动将layout模板的内容载入
+
+-->模板继承：让模板以base模板的结构打开，并将想要覆盖的内容覆盖
+base.html->
+	<div ><block name="c1"></block></div></br>
+想要继承的模板-》
+	<extend name="base"/>
+	<block name="c1">
+		<h1>--aaa--</h1>
+		<h1>--bbb--</h1>
+	</block>
+
+--》模板注释：tp内部注释
+	{/* 注释内容 */ } 或 {// 注释内容 } 
+
+--》快捷缓存（数据缓存）：小数据缓存【S】函数
+	S('缓存名',缓存信息,缓存时间);
+		if(!S('rows')){
+			$user=M('user');
+			$rows=$user->select();
+			S('rows',$rows);
+		}
+		$this->rows=S('rows');
+		$this->display();
+
+	小数据缓存被放在Application\Runtime\Temp下
+
+-->快速缓存：【F】方法-》存储数据没有有效期的需求
+
+
+
+--》静态缓存（模板缓存）：生效时，不走动态部分功能
+	静态规则的定义方式如下：
+	'HTML_CACHE_ON'     =>    true, // 开启静态缓存
+	'HTML_CACHE_TIME'   =>    60,   // 全局静态缓存有效期（秒）
+	'HTML_FILE_SUFFIX'  =>    '.shtml', // 设置静态缓存文件后缀
+	'HTML_CACHE_RULES'  =>     array( // 定义静态缓存规则     
+		// 定义格式1 数组方式     
+			'静态地址'    =>     array('静态规则', '有效期', '附加规则'),     
+		// 定义格式2 字符串方式     
+			'静态地址'    =>     '静态规则', )
+	-》例
+	'HTML_CACHE_RULES'  =>     array(
+		'*'=>array('{:module}/{:action}',10),
+	),
+	说明：这是一个全局的静态缓存，并且会在静态目录下面创建模块名称的子目录，
+	然后写入操作名.shtml 文件。
+	->结果：在app文件下生成了html文件，里面生成了相应缓存
+	
+--》session支持：
+	session默认是开着的，想要关闭则写入
+	'SESSION_AUTO_START' =>false
+  -session赋值
+	session('name','value');  //设置session
+  -session取值
+	$value = session('name');
+  -session删除
+	session('name',null); // 删除name
+	session(null); // 清空当前的session
+  -session判断
+	// 判断名称为name的session值是否已经设置
+	session('?name');
+  -session('[操作名]');
+	session('[pause]'); // 暂停session写入
+	session('[start]'); // 启动session
+	session('[destroy]'); // 销毁session
+	session('[regenerate]'); // 重新生成session id
+  -要彻底删除session要三步
+	session(null); // 清空当前的session
+	session('[destroy]'); // 销毁session
+	cookie(session_name(),null);//删除相应的session_id(name位置)//PHPSESSID 
+
+--》cookie支持
+	cookie('name','aaa');//写入cookie
+	cookie('name',null);//删除cookie
+	cookie(null);//删除所有cookie 【不能用】
+	
+	$value = cookie('name');//获取cookie
+--》数据分页(见page.class.php-已修改)
+修改1：给 //数字连接 --部分加了空格，让各个分页连接空开
+修改2：给上一页和下一页的跳转数改了，将1改为了10
+修改3：将nowpage的属性由private改为public
+	
+	$test=M('test');
+	$count=$test->count();//获得数据总条数
+	$this->listrows=10;
+	$page=new \Think\Page($count,$this->listrows);//初始化，（总条数，单页条数）
+	$page->setConfig('theme','%HEADER% %FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%');
+				//设置显示那些项目
+	$page->setConfig('header','<span class="rows">共 %TOTAL_PAGE% 页</span>');
+				// 进行分页数据查询
+	$this->show=$page->show();//分页连接部分（显示分页链接）
+	$this->rows=$test->page($page->nowPage,$this->listrows)->select();
+	$this->display();
+
+	str_replace(a.b.c) //php函数--将c中的a部分替换为b部分，
+			注：a，b中的部分可以使用数组进行多重替换
+
+
+-->文件上传
+	//文件上传
+	$up=new \Think\Upload();// 实例化上传类
+	$up->savePath = './Upload/';//设置上传目录
+	$up->rootPath='./Public/';//上传根目录
+	// 上传文件 
+	$info   =   $up->upload();
+	if(!$info) {// 上传错误提示错误信息
+		echo $up->getError();
+	}else{// 上传成功 获取上传文件信息    
+		echo "<pre>";
+		print_r($info);
+		echo "</pre>";
+	}
+
+--》验证码
+		$varify = new \Think\Verify();	//初始化验证码
+		$varify->fontSize=13;		//字体大小
+		$varify->length=4;		//字数
+		$varify->imageH=28;		//行高
+		$varify->imageW=90;		//宽度
+		$varify->entry();		//输出图像
+
+	function verify_check($code){		//验证
+		$varify = new \Think\Verify();
+		return $varify->check($code);
+	}
+
+===》图片处理
+--》图片水印
+		$image = new \Think\Image(); //初始换图片处理
+		$image->open("./Public/image/1.png");//打开图片
+			-》【注意】：根目录相当于是在index.php文件所在位置
+		$image->water('./Public/image/aa.png')->save("./Public/image/water.gif");
+				//将原图进行添加水印的处理，以aa.png为水印，
+				并生成结果图water.gif
+--》图片缩放
+	$image->thumb(100,100)->save("./Public/image/T1.jpg");//生成缩略图

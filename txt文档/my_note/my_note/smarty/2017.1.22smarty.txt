@@ -1,0 +1,189 @@
+==>正式smarty-》3.1.16
+demo：案例
+libs：资源库
+	smarty.class.php：
+	plugin:插件
+	sysplugin：系统核心插件
+
+-》使用正式smarty
+1。将lib文件复制进来
+2.使用。。。
+//第一次使用成熟smarty
+include_once "./libs/Smarty.class.php";
+$smarty=new Smarty;
+//本质：把addr、name设置为smarty对象属性的一部分
+//表面：把addr、name传递给模板以便使用
+//标记：标记'{'是可以换的$smarty->left_delimiter(right_delimiter)='想要的标记即可'
+$smarty->setTemplateDir("./View/");//设置模板文件位置和生成的文件的位置
+$smarty->setCompileDir("./View_c/");
+$smarty->assign('addr','建材城西路');
+$smarty->assign('name','中财大厦');
+$smarty->display("01.html");
+
+==》smarty三种变量信息使用
+1.assign变量信息使用
+2.保留变量信息
+      对php中的超级全局数组变量信息的使用
+     例如：$_GET、$_POST、$_SESSION、$_COOKIE、$_REQUEST、$_SERVER、$_ENV、
+     $GLOBALS、$_FILES,8个常量信息
+  <h2>保留变量使用</h2>
+<div>名字：{$name}</div>
+<div>名字：{$smarty.get.name}</div>
+<div>主机名：{$smarty.const.Host}</div>
+<div>时间戳：{$smarty.now}</div>
+<div>当前模板名称：{$smarty.template}</div>
+<div>模板目录名称：{$smarty.current_dir}</div>
+<div>模板引擎版本：{$smarty.version}</div>
+<div>模板引擎定界符：{$smarty.ldelim}--{$smarty.rdelim}</div>
+   {$smarty.get.xxx}
+   {$smarty.post.xxx}
+   {$smarty.session.xxx}
+   {$smarty.cookies.xxx}
+   {$smarty.request.xxx}
+   {$smarty.server.xxx}
+   {$smarty.env.xxx}
+   {$smarty.request.xxx}
+   {$smarty.now}//时间戳
+   {$smarty.const.xxx}
+   {$smarty.config.xxx}
+   .....
+
+3.配置变量信息
+网站上有一些比较简单的变量信息，美工人员可以自行定义并调用，这样可以脱离程序员的依赖，工作比较有主动权。
+-》建立一个配置变量文件configs(自己创建)（此文件位置可在smarty。class。phhp文件中修改）
+
+在里面创建 一个配置文件xxx.conf
+	在其中设置配置变量信息
+	 NETWORK=互联网出版许可证
+	POLICE=京公网安备11000000013
+	DONG=广东省通信管理局
+
+在模板文件中引入xxx.conf
+{config_load file="site.conf"}
+在下面即可使用配置文件中的配置变量信息
+<h2>配置变量的使用</h2>
+	{#NETWORK#}</br>//注意前后都有#号
+	{#POLICE#}</br>
+	{#DONG#}</br>
+	也可以这样访问：
+	{$smarty.config.DONG}</br>
+使用变量名称：	{#配置变量名#}
+		{$smarty.config.配置变量名}
+
+->对于{}使用与css或js内容有冲突的解决办法
+1.basmarty的标记{}更改为其他的标记
+2.给{}标记的开始和结束加空格{ xxx }
+3.在不想解析的内容前后加{literal}{/literal}(推荐)
+
+->css中配置变量信息
+------------------style.conf---------------------------
+[year]
+CLR=red
+WD=300px
+HT=200px
+BG=pink
+
+[yuandan]
+CLR=blue
+WD=400px
+HT=300px
+BG=lightblue
+
+[senlin]
+CLR=green
+WD=500px
+HT=300px
+BG=lightgreen
+------------------04.html---------------------------
+div{
+color:{#CLR#};
+width:{#WD#};
+height:{#HT#};
+background-color:{#BG#};
+}
+------------------04.php---------------------------
+//模拟从数据库获取信息
+$smarty->assign("hobby","year");
+
+--》smarty数组的使用
+1.数组元素访问
+	索引关联数组
+	smarty对数组元素的访问
+	-》{$数组[下标]}
+	-》{$数组。下标}
+	多维素组
+	-》{$数组[][][]}
+	{$数组。。。}
+	{$数组[]。[]。[]}
+2.遍历数组
+    1.foreach：索引、关联数组都可以遍历
+	{foreach 数组 下标变量 as 值变量}
+	遍历
+	{foreachelse}
+	没有遍历到数组
+	{/foreach}
+	->说明：添加序号 {$v@iteration} 表示以$v来编写序号（从1开始）
+			{$v@index} 如上来编写序号（从0开始）
+			{$v@first} {$v@first} 判断第一个/最后一个元素，返回boolean
+			{$v@total} 计算总数
+			{$v@show} 判断数组是否有遍历元素出来，返回Boolean
+		以上boolean值真为1，假不返回值
+    2.section ：只能遍历索引数组
+       {section name="自定义名称" loop="被遍历数组"}
+		{$数组。名称}获得被遍历出来的元素的值
+		关键字使用：
+		{$smarty.section.名称.iteration}
+		{$smarty.section.名称.index}
+		{$smarty.section.名称.first}
+		{$smarty.section.名称.last}
+       {/section}
+
+-->案例：
+//索引数组
+$smarty->assign("fruit",array('apple','banana','applepine','shizi','orange'));
+//关联数组
+$smarty->assign('animal',array('huaGS'=>'monkey','deguo'=>'dog','northeast'=>'bear'));
+
+<h2>数组元素访问</h2>
+<div>{$fruit[2]}</div>
+<div>{$fruit.3}</div>
+<div>{$animal.huaGS}</div>
+<div>{$animal.deguo}</div>
+<div>{$animal.northeast}</div>
+
+//多维
+$smarty->assign('test',array(array('0-0','0-1'),array('1-0','1-1')));
+多维数组：
+<div>{$test[0][0]}</div>
+<div>{$test[1][1]}</div>
+
+==>五、分支结构
+单路分支{if  条件}分支逻辑{/if}
+双路分支{if  条件}分支逻辑{else}{/if}
+多路{if  条件}{else if}{else if}{else}{/if}
+
+==>六、复选框、下拉列表、单选按钮的应用
+1.复选框{html_checkboxes}
+//$smarty->assign('seled','c');//单选
+$smarty->assign('seled',array('a','c','d'));//多选
+$smarty->assign("outval",array('a'=>'篮球','b'=>'排球','c'=>'棒球','d'=>'看书'));
+{html_checkboxes name="hobby" options=$outval label_ids=true selected=$seled separator="</br>" labels=false }</br>
+
+【遇到问题：id未输出】
+2.下拉列表{html_options}
+//城市下拉列表
+$smarty->assign('area',array(1=>'沈阳',2=>'大连',3=>'铁岭',4=>'开源'));//多选
+//选中
+$smarty->assign('seled',array(2,3,4));//多选
+	<h2>下拉列表应用</h2>
+	{html_options name="city" options=$area selected=$seled multiple="multiple"}
+
+3.单选{html_radios}
+与上面相似，自己领悟。。
+
+
+==》七、已有模板（纯html）引入
+1。把模板复制到view目录下，并且在文件css前后加{literate}{/literate}防止其中大括号{}影响
+2.在文件主目录下添加public并在其中新建js、css、img文件并将相应文件拷贝来
+3.在模板文件中修改路径（css文件中的路径可以使用替换"url("=>"url(相应的目录"
+4.在入口php文件获得变量信息用于模板显示

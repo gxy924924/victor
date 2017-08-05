@@ -1,0 +1,104 @@
+==>dom编程
+js最重要的作用是可以让用户对网页进行交互操作.
+DOM=Document Object Model(文档对象模型)（把文档当成对象）
+DOM是HTML与XML的应用接口（API）
+==>为什么要学习dom编程
+（1）通过dom编程，我们可以写出各种网页游戏
+（2）dom编程也是ajax的重要基础
+
+==》bom（browser object model）浏览器对象模型
+因为浏览器厂家很多，w3c定义了一个做浏览器的规范，规定了浏览器的一些规则
+可以这么理解，dom就是bom的具体实现。
+浏览器最基本的要支持window，document等对象
+document对象是window的成员属性，body是document的成员属性
+
+
+==》table对象实例（删除一行）
+function delRow()
+  {
+  document.getElementById('myTable').deleteRow(0)
+  }
+<table id="myTable" border="1">
+
+==》window对象 
+（1）confirm（弹出确认对话框）
+var r=confirm("Press a button")
+  if (r==true){
+    document.write("You pressed OK!")
+  }
+  else{
+    document.write("You pressed Cancel!")
+  }
+}
+
+<input type="button" onclick="disp_confirm()"
+value="Display a confirm box" />
+
+（2）setInterval() （照指定的周期（以毫秒计）来调用函数或计算表达式）
+var int=self.setInterval("clock()",50)
+function clock()
+  {
+  var t=new Date()
+  document.getElementById("clock").value=t
+  }
+
+<button onclick="int=window.clearInterval(int)">
+Stop interval</button>
+
+说明：<span id="mytime"></span>
+这里中间的值：document.getElementById("mytime").innerText
+
+(3)clearInterval() 方法可取消由 setInterval() 设置的 timeout。
+var int=self.setInterval("clock()",50);
+<button onclick="int=window.clearInterval(int)">
+Stop interval</button>
+
+
+(4)function timedCount() (用于在指定的毫秒数后调用函数或计算表达式)
+  {
+  document.getElementById('txt').value=c;
+  c=c+1;
+  t=setTimeout("timedCount()",1000);
+  }
+<input type="button" value="Start count!" onClick="timedCount()">
+
+
+(5)clearTimeout() (可取消由 setTimeout() 方法设置的 timeout。)
+function stopCount()
+  {
+  clearTimeout(t)
+  }
+<input type="button" value="Stop count!" onClick="stopCount()">
+
+==>window.moveTo()/window.moveBy()
+//移动一定的像素
+<input type="button" onclick="moveBy(50,50)" value="moveBy">
+//移动到某一像素
+<input type="button" onclick="moveTo(50,50)" value="moveTo">
+
+
+==>resizeTo()//调整到resizeBy()//增加窗口大小
+<td><input type="button" onclick="resizeTo(800,600)" value="resizeTo"></td>
+<td><input type="button" onclick="resizeBy(10,10)" value="resizeBy"></td>
+
+==》history->back() 方法可加载历史列表中的前一个 URL（如果存在）。
+function goBack()
+  {
+  window.history.back()
+  }
+<input type="button" value="Back" onclick="goBack()" />
+
+->history.go(num)更好用（num为1是后一页，num是-1是前一页）
+->history.length;//返回浏览器历史列表中的 URL 数量。
+
+==》Navigator 对象 //Navigator 对象包含有关浏览器的信息
+
+==>关于绑定事件的细节
+（1）直接和某个html控件绑定 比如：
+<input type="button" value="刷星页面" onclick="test()">
+（2）通过getElementById()获取到元素后，再绑定监听
+（3）如果我们有一个投票系统但只能投一次票
+//绑定事件
+document.getElementById("but1").attachEvent("onclick",test);
+//解除绑定
+document.getElementById("but1").detachEvent("onclick",test);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<books>
+	<book house="清华出版社">
+		<code>sb001</code>
+		<price>200</price>
+		<author>大明</author>
+		<title>天龙八部</title>
+	</book>
+	<book house="清华出版社2xx北大">
+		<code>sb002</code>
+		<price>400</price>
+		<author>大明3</author>
+		<title>笑傲江湖</title>
+	</book>
+</books>

@@ -1,0 +1,49 @@
+2017.3.31_响应式网站设计
+
+上次复习
+------------------------------------
+1.幻灯片
+2.滚动监听
+3.响应式设计
+4.动漫项目
+
+今天内容
+------------------------------
+1.响应式设计实例
+2.结合bs完成响应式设计的动漫项目
+
+一。media query媒体查询
+css3中通过分辨率来设置不同的样式
+
+二。media query写法：
+@media screen and (max-width:1024px){}
+
+三。Media query文件包含：
+<link rel="stylesheet" text="text/css" media="(min-width: 450px) and (max-width: 780px)" href="mobile.css" >
+
+四。viewport设置：
+meta 标签的viewport属性是在移动设备生设置原始大小显示是否缩放的声明，可以使用的参数设置如下：
+width ： viewport的宽度
+height： viewport的高度
+initial-scale : 初始的缩放比例
+minimum-scale :	允许用户缩放到的最小比例
+maximum-scale : 允许用户缩放到的最大比例
+user-scalable : 用户是否可以手动缩放
+
+五。Viewport写法
+<meta name="viewport" content="width=device-width,initial-scale=1">(有时不能用)
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+
+六。响应式设计实例
+1.pc网站
+width=1200px;
+
+2.平板网站
+768-1200px
+
+3.手机网站
+width<=768px
+
+七。bs网站响应实例
+
+25:45

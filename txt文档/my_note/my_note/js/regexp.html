@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+//域名解析
+function test(){
+	var con=content.innerText;
+	var reg=/((\w)+\.)+(com|cn)/gi;//查找域名
+	while(res=reg.exec(con)){
+		alert("域名："+res[0]);
+	}
+	reg=/:(\d)+/gi;//端口
+	if(res=reg.exec(con)){
+		alert("端口："+res[0]);
+	}else{
+		alert("默认端口：80");
+	}
+	reg=/((\w)+\.(\w)+)$/gi;//文件名
+	while(res=reg.exec(con)){
+		alert("文件名："+res[0]);
+	}
+}
+
+function test2(){
+	var con=content.innerText;
+	var reg=/^((\()?((\d){3,4})?(\))?-?)((\d){8}|(\d){11}|(\d){12})$/gi;//
+	if(res=reg.exec(con)){
+		//alert("电话："+res[0]);
+		reg=/^(\d){12}$/gi;//12位电话号码
+		if(res=reg.exec(con)){
+			reg=/^013/gi;//12位电话号码013开头
+			if(res=reg.exec(con)){
+				alert("正确的12位移动电话号码");
+			}else{
+				alert("错误的12位移动电话号码");
+			}
+		}
+		reg=/^(\d){11}$/gi;//11位电话号码
+		if(res=reg.exec(con)){
+			reg=/^13/gi;//11位电话号码13开头
+			if(res=reg.exec(con)){
+				alert("正确的11位移动电话号码");
+			}else{
+				alert("错误的11位移动电话号码");
+			}
+		}
+		reg=/^((\()?((\d){3,4})((\))|-))?((\d){8})$/gi;//12位电话号码
+		if(res=reg.exec(con)){
+			reg=/(^(\d){8})$|^(\((\d){3,4}\)(\d){8})$|^((\d){3,4}-(\d){8})$/gi;
+			if(res=reg.exec(con)){
+				alert("正确的8位座机号码");
+			}else{
+				alert("错误的8位座机号码");
+			}
+		}
+
+	}else{
+		alert("不是电话号码");
+	}
+
+}
+//-->
+</script>
+</head>
+<body > 
+<textarea id="content">1234567</textarea>
+<input type="button" value="域名解析" onclick="test()">
+<input type="button" value="电话解析" onclick="test2()">
+</body>
+<html>

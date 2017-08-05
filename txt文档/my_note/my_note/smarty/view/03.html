@@ -1,0 +1,16 @@
+{config_load file="site.conf"}
+//配置信息
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html"charset="utf-8">
+</head>
+<body>
+<h2>配置变量的使用</h2>
+	{#NETWORK#}</br>
+	{#POLICE#}</br>
+	{#DONG#}</br>
+	也可以这样访问：{$smarty.config.DONG}</br>
+	数字不加引号会认为是数字（有最大值限制）：{$smarty.config.Money}</br>
+	数字加引号会认为是字串{$smarty.config.Money2}</br>
+</body>
+</html>

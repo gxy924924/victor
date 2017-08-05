@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<link href="mycss.css" rel="stylesheet" type="text/css"/>
+<!--Js 代码一般是放在 head标签，但实际上也可以在别的位置-->
+<script language="javascript" type="text/javascript">
+<!--
+/*
+//区分浏览器是什么浏览器
+function show(){
+	if(window.XMLHttpRequest){//Mozilla,Safari,Ie7,IE8
+		if(!window.ActiveXObject){
+			window.alert("Mozilla,Safari");
+		}else{
+			window.alert("Ie");
+		}
+	}else{
+		window.alert("IE6");
+	}
+}
+show();
+function test4(aaa){
+	//获取css文件 中所有class选择器[这里表示第几个css文件]
+	var ocssRules=document.styleSheets[0].rules;
+	//alert(ocssRules);【这里表示文件中第一个规则】
+	var style1=ocssRules[0];
+	if(aaa.value=="黑色"){
+		style1.style.backgroundColor="black";
+	}else if(aaa.value=="红色"){
+		style1.style.backgroundColor="red";
+	}
+
+}
+*/
+
+//一个事务可以同时调2个方法
+function test4(e){
+	window.alert('ok1');
+}
+function test5(e){
+	window.alert('ok2');
+
+}
+
+//输入框事务
+function test6(){
+	window.alert('输入框被选中');
+}
+
+//打开页面时触发
+function test7(){
+	//window.alert('初始化');
+	//把鼠标定位到text输入框
+	document.getElementById('text1').onfocus;
+}
+
+//关闭页面时触发onunload
+function test8(){
+	window.alert('关闭');
+}
+
+function test10(){
+	window.alert('不允许弹出菜单');
+	return false;
+}
+
+function test11(){
+	window.alert('不允选择');
+	return false;
+}
+
+//-->
+</script>
+</head>
+<body oncontextmenu=" return test10()" onselectstart="return test11()"> 
+
+<div id="div1" class="style1">
+div1
+</div>
+<input type="button" value="黑色" onclick="test5(this),test4(this)">
+<input type="button" value="红色" onclick="test4(this)">
+<input type="text" onfocus="test6()" id="text1" />
+</body>
+<html>

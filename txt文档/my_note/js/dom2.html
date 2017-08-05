@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+var mynewWindow;
+function test(){
+	//mynewWindow实际上就是指向新窗口引用
+	mynewWindow=window.open("newWindow.html","_blank");
+}
+function test3(){
+	var val2=$("info2").value;
+//	alert(val2);
+//	var val3=mynewWindow.document.getElementById("info").value;
+//	alert(val3);
+	mynewWindow.document.getElementById("info").value=val2;
+}
+function $(id){
+	return document.getElementById(id);
+}
+//-->
+</script>
+</head>
+<body > 
+<input type="button" onclick="test()"value="打开新窗口"/>
+<span id="myspan">消息</span>
+<input type="text" id="info2" value=""/>
+<input type="button" onclick="test3();"value="通知给子窗口"/>
+
+</body>
+<html>

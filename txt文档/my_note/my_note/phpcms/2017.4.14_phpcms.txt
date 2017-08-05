@@ -1,0 +1,88 @@
+phpcms 二次开发
+==》安装
+下载-》将文件中的install文件拷贝到想要安装的位置-》更改为想要改的文件名-》在网页上打开此位置，如果没有跳转到安装的页面则找到其中的install文件-》一步步安装即可。
+
+==》页面位置
+index：主页面
+index.php?m=admin/admin.php:控制页面
+
+==》页面功能说明：mca结构
+m（module）：模块
+c(controller):控制器
+a(action):方法
+
+==》二次开发
+1.熟悉phpcms产品的前后台
+2.模块
+3.管理栏目
+4.模型管理
+5.推荐位管理
+6.管理内容
+7.碎片管理
+8.模板风格
+9.菜单管理
+
+10.模块开发
+11.控制器开发
+12.mvc模式
+13.模板引擎
+14.模板开发
+
+模块开发中如何包含外部类
+pc_base::_load_class($classname, $path = '', $initialize = 1) 
+ 当$path为空，则寻找'libs'.DIRECTORY_SEPARATOR.'classes';（libs/classes）
+ 当$path非空，则寻找PC_PATH.$path.DIRECTORY_SEPARATOR.$classname.'.class.php'
+ 	($path/$classname.class.php)
+ _load_class有重复检测机制，不会重复调用
+
+ 发现：
+ 	1.用static声明的变量在被调用时只会生效一次（在写另外同变量声明的会执行最后一个）（static声明必须放在调用的前面）。
+ 	2.ruturn false 在类中会使类中的return false后面部分不再执行
+
+==>phpcms案例可见link中
+
+说明：ctrl+p找文件  Ctrl+r找函数
+
+==>数据库查询过程理解：
+建立user_model.class.php:获取信息传给model.class.php
+model.class.php:获取值，管理获取值，并将数据传递值给其他工具类，通过db_mysqli之类的工具类进行操作获取值，并返回值
+db_factory.class.php:选择数据库，声明数据库类
+db_mysqli.class.php:操作php 的mysqli对象的各个功能。
+
+==>前台模板引擎
+1.定义变量
+{php $num=1}
+
+2.if语句
+{if $num>5}
+	<h1>aaaa<h1>
+{else}
+	<h1>bbbb<h1>
+{/if}
+
+3.for语句
+{for $i=0;$i<10;$i++}
+
+4.loop循环 ***
+{loop $arr $key $val}
+	<h1>{$key}-->{$val}</h1>
+{/loop}
+
+5.直接使用php标签
+<?php
+#code...
+?>
+
+==》常量
+CACHE_PATH 缓存文件夹地址 SITE_PROTOCOL 主机协议 SITE_URL 当前访问的主机名 HTTP_REFERER  来源 SYS_START_TIME 系统开始时间 CHARSET  页面字符集 SYS_TIME 当前时间戳 WEB_PATH  网站根路径 JS_PATH  JS路径 CSS_PATH CSS路径 IMG_PATH  图片路径 APP_PATH  动态程序路径  PLUGIN_STATICS_PATH 应用静态文件路径 
+
+==》功能模块：
+1.内容模块
+2.评论模块
+3.投票模块
+4.公告模块
+5.会员模块
+6.友情链接模块
+
+==>百度地图
+map.baidu.com

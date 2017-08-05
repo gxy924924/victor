@@ -1,0 +1,108 @@
+
+==>php（脚本语言）
+脚本语言:又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如ASCII)保存，只在被调用时进行解释或编译。
+对php文件来说
+php（html/css/javascript/php脚本/flash。。。）它的不同部分，是在不同的地方（服务器端、客户端）执行
+
+==》php数据库编程
+说php有三种方式来操作我们的mysql数据库（mysql扩展库/mysqli扩展库/pdo扩展库）
+mysql扩展库和mysql数据库的区别
+1mysql数据库适用于存放数据
+2mysql数据库的三层结构示意图
+3mysql扩展库是一堆函数，是php设计者提供给程序员用于完成对mysql数据库的各种操作			（重点：CRUD增删改查）
+
+==》使用php的mysql扩展库完成对mysql操作的案例
+1。环境搭建
+1.1启用mysql扩展库
+在php。ini中去配置mysql扩展库
+extension=php_mysql.dll
+extension=php_mysqli.dll（查看是否已启用）
+可以通过<?php phpinfo()?>查看当前php支持什么扩展库
+1.2创建一张用户表，供我们使用
+
+create table user1(
+id int primary key auto_increment,
+name varchar(32) not null,
+password varchar(64) not null,
+email varchar(128) not null,
+age tinyint unsigned not null
+);
+
+预先加入数据  //md5为加密算法（加密后密码不可见）
+insert into user1(name,password,email,age)values('zs',md5('123456'),'zs@soho.com',30);
+
+==>dos进入mysql
+cmd--》net start mysql（启动）（net stop mysql停止）--》找到文件bin--》输入 mysql -hlocalhost -uroot -p回车（-h表示服务器名，localhost表示本地；-u为数据库用户名，root是mysql默认用户名；-p为密码，如果设置了密码，可直接在-p后链接输入，如：-p123456，）--》show databases；（必须写分号）（显示你有的数据库）--》退出mysql数据库，输入exit;回车
+
+cmd：netstat -an  （显示占用端口 mysql 3306）
+
+mysql操作命令：
+show databases；（必须写分号）（显示你有的数据库）
+use test；（test数据库表名）
+show tables；（显示上级表中有哪些表）
+drop table user1；（user1数据库表名）（删除表）
+create table xxx；（创建表）
+select * from 表名 where 条件 limit 从第几条取，取几条；  （显示表单内容）  where ..  limit 0,1(限制只显示一条)
+select count(id) from 表名; （显示表单数量）
+insert into 表名(项目1,。。)values('zs'，'zs@soho.com');  （表单内加入内容）
+delete from 表单名 where id=1;  (删除保单内id=1 的内容)(删除多行时 id in (1,2,..) )
+\s  (列出当前所在表的各项属性（位置、编码等）)
+desc 表名；  （显示表单结构（各项的类型如int char等））
+show variables like '%char%'; （显示数据库编码）
+ set character_set_client=gbk;  （设置编码）
+update user1 set age=100 where id=3   （更改表单内容）
+start transaction; (开始事物)
+savepoint a;      (（需要先开启事物）设置保存点)
+rollback to a；   （（需要先开启事物）返回保存点a）
+rollback;         (返回之前状态)
+mysql 自我复制
+insert into emp(name,grade,email,salary) select name,grade,email,salary from emp;
+
+
+==》编写php文件显示mysql表单内容
+$conn=mysql_connect("127.0.0.1","root","root");
+	if(!$conn){
+		die("连接失败".mysql_error());
+	}else{echo "成功</br>";}
+mysql_select_db("test");
+$sql="select * from user1";
+$res=mysql_query($sql,$conn);//mysql_query的返回值是一个资源标识符，必须用其它函数解析
+while($row=mysql_fetch_row($res)){
+	foreach($row as $key => $val){
+		echo "--$val";
+	}
+	echo "</br>";
+mysql_free_result($res);
+mysql_close($conn);
+
+细节：  1使用完$res后一定要释放掉内存mysql_free_result($res);
+	2mysql_close()如果没有，系统也会自动关闭（一段时间后）
+	3从$res获取行数据的时候处理mysql_fetch_row($res),还有三个方法分别是：
+mysql_fetch_row($res)    (返回一个索引数组 数组的[]中编号按顺序从0开始排)
+mysql_fetch_assoc($res)  (返回一个关联数组 数组的[]中编号按数据库中id编)(echo $row['id'])
+mysql_fetch_array($res)  （返回一个索引数组和一个关联数组（两套）（不建议使用））
+mysql_fetch_object($res) （返回一行数据，当作一个对象返回）（echo $row->email）
+mysql_fetch_field($res)   (返回表头等，当作对象返回（根据对象不同返回不同）)
+
+mysql_query — 发送一条 MySQL 查询 语句返回一个【资源标识符】
+mysql_affect_rows 取得前一次 MySQL 操作所影响的记录行数
+mysql_num_rows  取得取得结果集中行的数目
+mysql_num_fields取得结果集中字段的数目
+mysql_insert_id — 取得上一步 INSERT 操作产生的 ID
+
+@@==>在增删改时要把类型是字符串的变量如$aaa 前后加单双引号 '".$aaa."'
+
+$conn尽量晚一点创建，早一点关闭。
+
+===》php对mysql进行增删改
+php中通常对数据库的操作封装成一个工具类，如 sqltool
+
+
+
+ORDER BY uid ASC
+
+按照uid正序查询数据，也就是按照uid从小到大排列
+
+ORDER BY uid DESC
+
+按照uid逆序查询数据，也就是按照uid从大到小排列

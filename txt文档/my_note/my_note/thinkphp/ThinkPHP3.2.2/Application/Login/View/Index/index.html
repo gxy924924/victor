@@ -1,0 +1,31 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>index</title>
+</head>
+<body>
+	<extend name="base"/>
+	<block name="b1">
+		<h3>用户<{$username}>登陆成功：</h3>
+		<hr>
+		<center>
+		<h1>查看表test中的信息</h1>
+		<table border=1px width=200px>
+			<tr>
+				<td>id</td>
+				<td>name</td>
+				<td>age</td>
+			</tr>
+			<foreach name="rows" item="row" key="k">
+			<tr>
+				<td><{$row[id]}></td>
+				<td><{$row[name]}></td>
+				<td><{$row[age]}></td>
+			</tr>
+			</foreach>
+		</table>
+		<{$show}>
+		</center>
+	</block>
+</body>
+</html>

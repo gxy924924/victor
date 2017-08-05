@@ -1,0 +1,188 @@
+大型网站技术
+==》如何为大型网站提速-》三大技术
+静态化
+缓存技术-》memcache
+mysql优化
+
+提出问题-》引出新技术-》小案例（快速入门）-》细节-》使用到项目中
+
+==》重要概念
+1.静态网址
+http://localhost/test1.html
+
+2.动态网址
+http://localhost/showNews.php?id=2&title=hello
+
+3.伪静态网址
+传统的做法-》动态网址
+http://localhost/showNews.php?id=2&title=hello 
+-》不好
+	1.seo不好 （seo：search engine optimization 搜索引擎优化）
+	2.减少sql注入攻击风险
+
+
+--》改成伪静态
+http://localhost/news-cn-sport-id100.html
+
+->页面静态化分类：真静态、伪静态
+真静态：把php-》html访问时就不操作数据库
+
+伪静态：
+
+-》为什么要静态化
+1.访问php速度比html慢
+在apache/bin/ab.exe 可以做压力测试，可以模拟多人并发访问
+	基本用法（ab.exe -n 10000 -c 10 http://localhost/test.php）
+	-n 请求次数 
+	-c 多少人
+
+2.静态化利于seo
+3.防止sql注入
+
+==》seo建议
+url长度：255byte
+静态页参数：在静态页面使用动态参数会使spider多次抓取
+meta信息完善程度：有keywords和description的meta标签
+图片alt信息：图片ale有图片的描述
+frame信息：有frame/frameset/iframe标签(html)
+
+==》真静态：三个方法
+方法一：使用php自身的缓存机制
+	如果要测试php自己的缓存机制，需要做配置
+	php.ini 文件
+	display error=On
+	output_buffering=Off //缓存机制是否开启
+	error_reporting=设置错误级别
+
+-》开启缓存：
+ob_start();//这里是在php文件中写的，也可以在php.ini中设置
+
+
+看一段代码：
+<?php
+	echo "aaa";
+	header();	//会报错-在发aaa时已经把默认头header发出去了
+	echo "bbb";s
+?>
+
+<?php
+	//开启缓存
+	ob_start();
+	echo "aaa";
+	//不再会报错-要查看缓存或将文件整体处理后才发出
+	header("content-type:text/html;charset=utf-8");	
+	echo "bbb";
+	//可以获取output_buffering的内容
+	$content=ob_get_contents();
+
+	file_put_contents("d:\log.text",$contents);
+?>
+
+函数：
+ob_clean(); //可以清空outputbuffer的内容（之后在写的信息还会缓存）
+ob_end_clean();//关闭ob缓存，不再缓存信息
+ob_end_flush();//把ob缓存的内容输出来并关闭ob
+ob_flush();//输出内容，不再缓存信息
+sleep(1);//休眠一秒
+flush();//输出内容
+
+filemtime();//获取文件最后修改时间
+
+==>程序的开销
+内存《文件《数据库
+
+==》页面静态化思路：
+因为新闻这种信息不是对实时性要求高，并且比较稳定，所以我们可以这样做，当第一个用户访问某条新闻后，我们使用ob缓存机制，之后访问html即可。
+
+==》缓存页面更新
+if(filemtime($file)+30>time()){
+	更新
+}
+
+==》任然不完美。。。
+1.news_list.php页面任然是php->html网址
+2.页面刷新要等30s时间
+
+
+----------------------------------------------------------
+==》上次总结
+整理思路：
+提出为什么要静态化
+静态化的方式（使用ob缓存来实现静态化，问题1，实时性不好，有延时，2.请求某个查询页面使用php动态网址）
+-》真静态（在添加和修改时，可以实时处理静态页面）
+		问题：如果数据是海量的，造成真静态的html文件过多，占用磁盘很大
+
+-->防止浏览器缓存文件
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta http-equiv="Expires" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+
+--》伪静态：http://localhost/aaa/index.php/11.2.34.html
+
+	如何解析获得11 2 34	？
+
+这里我们有两种方法来处理
+1.在php文件中，直接使用正则表达式技术处理
+2.使用appache的重写机制处理
+
+->先要有正则分析
+
+//$str:匹配查找句
+//$arr:$arr[0][..]里面是查到的主表达式的结果
+		$arr[1][..]里面是查到的第一个字表达式的结果
+preg_match_all("/(\d\d)(\d\d)/si",$str,$arr);
+
+$str="111-999-444 ka345-099-499 jdl90akjadsa";
+
+//preg_match("/(\d)\1{2}-(\d)\2{2}-(\d)\3{2}/si",$str,$arr);
+	//这里如果用双引号 “ 会出错，应该用单引号
+preg_match('/(\d)\1{2}-(\d)\2{2}-(\d)\3{2}/si',$str,$arr);
+
+用正则解析$_SERVER['PATH_INFO']...
+
+==>在appache中配置重写规则
+1.在appache中目标目录设置allowoverwrite
+2.在目标目录写入.htaccess文件，说明重写规则（在thinkPHP中学过）
+
+
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  #appache调用php5模块使用（windows中使用）
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+
+  #fast-cgi模式使用（Unix中使用）
+  #RewriteRule ^(.*)$ index.php?s=$1 [QSA,PT,L]
+</IfModule>
+
+//这里就是重写规则：前面的正则表达式表示选择目标，后面的表示表示目标更换后实际的网址
+//$1表示第一个匹配值
+ RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+-》如：
+	我们输入的：http://www.aaabbb.com/aaa.html（实际看到的网址始终是这个，重写不会让输入框的url改变）
+	实际重写后的：http://www.aaabbb.com/index.php/aaa.html
+
+	（我们可以写多条重写规则，会按顺序从上往下匹配）
+
+------------------------------------------------------------------
+Rewrite标志
+R[=code](force redirect) 强制外部重定向
+G(force URL to be gone) 强制URL为GONE，返回410HTTP状态码。
+P(force proxy) 强制使用代理转发。
+L(last rule) 表明当前规则是最后一条规则，停止分析以后规则的重写。
+N(next round) 重新从第一条规则开始运行重写过程。
+C(chained with next rule) 与下一条规则关联
+如果规则匹配则正常处理，该标志无效，如果不匹配，那么下面所有关联的规则都跳过
+T=MIME-type(force MIME type) 强制MIME类型
+NS (used only if no internal sub-request) 只用于不是内部子请求
+NC(no case) 不区分大小写
+QSA(query string append) 追加请求字符串
+NE(no URI escaping of output) 不在输出转义特殊字符
+------------------------------------------------------------------
+
+
+13:54

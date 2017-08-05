@@ -1,0 +1,51 @@
+<html>
+<head>
+<style type="text/css">
+#head{
+	width:730px;
+	height:90px;
+	background-color:lightblue;
+}
+#main{
+	width:730px;
+	height:300px;
+	background-color:pink;
+}
+#foot{
+	width:730px;
+	height:90px;
+	background-color:lightblue;
+}
+#left{
+	width:230px;
+	height:300px;
+	background-color:lightgreen;
+	position:relative;
+	float:left;
+}
+#right{
+	width:450px;
+	height:300px;
+	background-color:lightgray;
+	position:relative;
+}
+</style>
+</head>
+<body>
+	<div id="head">首页、充值卡、手机配件、优惠活动</div>
+	<div id="main">
+		{block name="center"}
+		<div id="left">
+			欢迎页</br>
+			我的订单</br>
+			收货地址</br>
+			更改密码</br>
+		</div>
+		<div id="right">
+			{block name="right"}{/block}
+		</div>
+		{/block}
+	</div>
+	<div id="foot">订购方式、联系我们、售后保障</div>
+</body>
+</html>

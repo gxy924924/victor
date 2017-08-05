@@ -1,0 +1,13 @@
+<html>
+ <head>
+  <title>fieldset</title>
+ </head>
+ <body>
+ <fieldset>
+<legend></legend>
+<form>
+<input type="radio" name=><>
+</form>
+</fieldset>
+ </body>
+</html>

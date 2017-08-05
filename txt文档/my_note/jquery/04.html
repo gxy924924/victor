@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css"></style>
+
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<form action="" id="formid">
+		<select name="" id="s1" size="10">
+			<option value="">苹果</option>
+			<option value="">西瓜</option>
+			<option value="">南瓜</option>
+			<option value="">桃子</option>
+			<option value="">橘子</option>
+		</select>
+	</form>
+
+	<div id="div18">
+		<h1 class="abc"><ul></ul>aaaaaa</h1>
+		<h1 class="ppp">aaaaaa</h1>
+		<h1 class="abc">aaaaaa</h1>
+	</div>
+	
+	<div id="div20">
+		<h1>bbbb</h1>
+		<h1>bbbb</h1>
+		<h1>click</h1>
+		<h1>bbbb</h1>
+		<h1>bbbb</h1>
+	</div>
+	
+	<div id="div38">
+		<h1 id="ha1">ccccc</h1>
+		<h1>ccccc</h1>
+		<h1>ccccc</h1>
+	</div>
+
+	<div id="div55">
+		<h5>111</h5>
+		<h5>111</h5>
+		<h5>111</h5>
+		<h5>111</h5>
+		<h5>111</h5>
+		<h5>111</h5>
+	</div>
+
+
+</body>
+<script>
+//has
+$("h1").has("ul").css("color","green");
+//not
+$("#div38").children().not($("#ha1")).css({"color":"red","background-color":"green"});
+//slice 
+$("h1").slice(1,2).css("background-color","yellow");
+
+$("div:eq(1)>h1:eq(2)").click(function(){
+	//$(this).nextAll().css({"color":"blue"});
+	$(this).prevAll().css({"color":"blue"});
+});
+
+$("#div55").children().click(function(){
+	$(this).next().next().andSelf().css("color","blue");
+});
+
+</script>
+</html>

@@ -1,0 +1,398 @@
+2017.5.21
+----------------------------学习章节
+第一章 linux系统安装
+第二章 linux常用命令
+第三章 linux系统启动和磁盘分区
+第四章 linux rpm软件包管理
+第五章 linux用户与权限
+第六章 linux服务进程和任务计划
+第七章 linux lamp环境编译
+第八章 linux appache服务器
+------------------------------------------------
+上次复习
+1.常用命令
+2.根目录下目录分类
+3.文件操作
+4.目录操作
+5.用户操作
+6.压缩包
+7.防火墙
+8.网络设置
+9.文件搜索
+10.内容搜索
+11.shell技巧
+12.获取帮助
+
+今天内容：
+----------------------------------
+linux系统启动和磁盘分区
+
+1.linux系统启动流程
+2.linux磁盘分区
+
+linux系统启动流程
+1.bios找到磁盘上的mbr主引导扇区
+2.通过grub选择linux内核
+3.读取kernel内核文件 -/boot/vmlinuz-2.6.18-194.el5
+4.读取init镜像文件 -/boot/initrd-2.6.18-194.el5.img
+5.init去读取 /etc/inittab
+6.读取启动级别（id:3:initdefault）
+7.读取  /etc/rc.d/rc3.d 其中 
+			k开头表示本次启动 不允许启动的，
+			s表示要启动的
+	读取 /etc/rc.d/rc.sysinit,
+	完成时钟设置，主句名的设置，分区表的挂载（/etc/fstab）
+8.读取 /etc/rc.d/rc脚本，通过该脚本吸收3级别，然后启动 /etc/rc.d/rc3.d下所有以s开头的服务，不启动该目录下以k开头的服务
+9.进入登录界面 
+
+==》service 命令（仅限rpm包安装的程序）
+查看可用的 cd /etc/rc.d/init.d/
+				ls
+				//这里的都是可用service命令管理的程序
+	service httpd restart
+
+==》设置自动启动（仅限rpm包安装的程序）
+chkconfig -h
+ chkconfig --level 3 httpd on 		//设置httpd 在level3 级别下自启动
+
+==>查看时间
+date
+date "+%Y-%m-%d %H:%M:%S"
+
+==》修改时间
+date -s "2014/1/3 9:45:25"
+
+==>查看主机名：
+hostname
+
+==》修改主机名：
+1.临时修改
+hostname ymaa
+
+2.永久修改
+vi /etc/sysconfig/network
+HOSTNAME=ym1
+
+NETWORKING=yes
+NETWORKING_IPV6=no
+HOSTNAME=localhost.localdomain
+
+
+==》查看级别
+runlevel
+
+==>查看挂载表
+cat  /etc/fstab
+硬件分区  挂载目录  文件系统  文件属性  读取顺序  
+2.查看挂载以后的结果 
+df
+df -Th //详细。。
+
+设置光驱自动挂载：
+vi /etc/fstab
+/dev/cdrom    /media   iso9660   default   0 0 
+
+
+测试fstab中光驱挂载是否成功：
+mount -a  /将没有挂载的挂载
+
+虚拟机上如何加硬盘
+编辑虚拟机设置-》添加。。。
+
+查看硬盘状态：
+ fdisk -l
+
+分出3g分区出来：
+fdisc /dev/sdb
+	m:获取帮助
+	n：添加一个分区
+		p:加到主分区
+			partition number（1-4）：1(选择分区扇面)
+				first cylinder：1 （开始位置）
+		Last cylinder or +size or +sizeM or +sizeK (1-652, default 652): +3072M	（选择分区大小）
+	p:查看分区状态
+	l:查看分区数据类型列表
+	t:更改分区数据类型 （83 默认linux //8e Linux LVM ）
+	w:保存当前设置
+
+格式化成ext3文件系统：
+mkfs 
+mkfs.ext3 /dev/sdb1
+
+挂载在/mnt下使用
+mount /dev/sdb1 /mnt
+
+卸载 
+umount 
+	注意：前缀不是un是u
+	在 umount 时 有时会遇到 device is busy
+	这时可以使用fuser -m /挂载目录
+
+
+-------------------------------------------------------------
+==》rpm软件包安装： yum
+1.准备yum源
+2.修改yum配置文件
+
+==》准备yum源
+1.挂载光盘
+mount /dev/cdrom /media 
+
+
+yum位置：
+/etc/yum.repos.d
+[root@localhost yum.repos.d]# ls
+	CentOS-Base.repo（由于这个是从网络上下载，将后缀更改）  
+	CentOS-Media.repo
+
+->改名：
+mv CentOS-Base.repo CentOS-Base
+
+
+->修改CentOS-Media.repo：
+-> vi CentOS-Media.repo
+可以看到
+ [c5-media] 		/仓库名称
+ 将这些更改：
+baseurl=file:///media  //目录位置
+gpgcheck=0   			//关闭gpg签名
+enabled=1 				//开启本yum源（yum软件仓库）
+
+3.测试yum源是否能用？
+	->yum 查看
+		yum list
+	-》yum安装
+	yum [-y] install mysql * 		//yum安装mysql
+
+	yum install mysql* httpd* php*
+
+	-》yum卸载(危险，尽量少用)
+	yum remove  
+	yum remove httpd
+
+	yum remove 很危险，容易把关联的却不想删的软件删掉
+	此时建议使用rpm -e xxx --nodeps
+
+
+
+-》yum安装时有时会报错
+warning: rpmts_HdrFromFdno: Header V3 DSA signature: NOKEY, key ID***** 
+
+这是由于yum安装了旧版本的GPG keys造成的，解决办法就是 
+
+rpm --import /etc/pki/rpm-gpg/RPM* 
+
+==》rpm功能
+
+	--》查看已安装的软件
+	rpm -qa 		//查看已安装的软件
+	--》rpm删除功能
+	rpm -e 			//此时任然存有依赖关联
+	rpm -e xxxx --nodeps //此时会忽视依赖关联而只删除xxxx
+
+==》查看任务消耗
+	top 	
+	-》停止任务
+	pkill 
+
+
+-------------------------------------------------------------
+==》用户权限
+	使用ls -l 可以查看权限
+	rwx  r-x r-x root root rootdir  
+
+	-rw-r--r-- 1 root root 295 Apr  5  2010 manual.conf
+	-rw-r--r-- 1 root root 771 Mar 31  2010 php.conf
+	-rw-r--r-- 1 root root 566 Apr  5  2010 proxy_ajp.conf
+
+	r  读取（查看）
+	w  写入与删除
+	x  执行，切入目录
+
+	第一类人 rwx root用户  					（u） user
+	第二类人 r-x root组内 的其它用户  		(g) group
+	第三类人 r-x root组以外的其它用户		(o) other
+
+	a=u+g+o  	all
+
+--》设置权限（chmod）
+	chmod o-x aaa   设置 o 用户取消x权限
+	chmod u+x a.sh  给   u  增加x权限
+	可以连续操作 chmod g+w,o-w  file
+
+-->查看用户和组
+	1.id root
+
+	-》把aaa加入到root组
+	gpasswd -a aaa root
+
+	-》把aa移出 
+	gpasswd -d aaa root 
+
+	注意：即使修改了用户的所在组，但相关权限不能立即生效，需要下次重新进入时才有效
+
+--》锁定用户
+usermod -L user1
+-->解锁用户
+usermod -U user1
+
+
+	r 读取  4
+	w 写入  2
+	x 执行  1
+	rwx
+	421  --》例如：r-x=5 rw-=6 
+	可以这么写 ：chmod 777 aaa //会给所有用户aaa全部权限
+
+==》sudo授权
+visudo 
+xingyu localhost=/usr/sbin/useradd,/usr/sbin/userdel
+
+查看用户
+cat /etc/shadow 		//
+
+==》acl授权
+1.添加权限
+setfacl -m u:xingyu:rwx rootdir
+	(rootdir 表示当前目录)
+
+	例如：给appache设置在html和其子文件所有权限
+	setfacl -m u:apache:rwx -R html/
+
+2.查看权限
+getfacl file
+3.删除权限
+setfacl -x u:xingyu rootdir
+setfacl -b file (删除此文件所有权限)
+
+	说明：acl权限是受到mask控制的，他不能大于mask的权限
+
+==》服务进程
+1.安装软件
+	yum xxx
+2.修改配置文件
+	/etc/yum.repos.d  CentOS-Media.repo ...
+3.启动服务
+	service xxx restart
+
+4.查看进程
+	ps -ef
+	pstree -p
+5.查看端口
+	netstat -tunpl
+			(tun是网络里的通讯，进程，端口 )
+			t-tcp 有人管，安全
+			udp 没人看门，容易丢包
+6.关闭进程(进程被关闭端口也会被关闭)
+	pkill httpd		（等进程完成后才会将应用关掉）
+	kill -9 pid （即使应用正在运行也会立即将其杀掉）
+
+
+7.查看服务器性能负载
+-》top：即时查看（3s 一次看负载）
+	load average ：0.00,0.00,0.00(1min 5min 15min)
+us 用户占用  sy 系统占用 id 空闲率
+mem 内存状态
+swap 虚拟内存
+
+-》uptime	（平均负载）
+ 19:59:54 up  3:16,  1 user,  load average: 0.00, 0.00, 0.00
+
+-》last 			//查看谁登录过，操作什么，在什么时间
+
+-》cat /var/log/messages   //查看系统日志
+
+-》who			//查看在线用户
+
+
+==》任务计划-crontab
+crontab -e //创建计划
+	分时日月周 命令。。
+	22 20 23 * * /sbin/init 6
+	*/5 * * * * 每隔五分钟
+	59 23 * * 1-5 周一到周五
+	59 23 * * 1,3,5 周1,3,5
+		(date 查看时间)
+
+crontab -l //查看任务计划
+
+	需求：凌晨3:00 把网站制作成一个压缩包，并且拷贝到 /mnt
+	下面 ，而且压缩包的名字中必须包含日期
+	-》最好将任务写到一个shell脚本中，再将shell脚本写入计划
+
+crontab -r //删除所有任务计划
+
+shell 脚本的简单书写：
+vi back.sh
+	#!/bin/bash
+	#webbak.sh
+	date=`date "+%Y-%m-%d"`
+	zip -r /var/www/web-${date}.zip /var/www/html
+	mv /var/www/web-${date}.zip /mnt/
+
+		//rsync -a 远程传输（也可当做mv使用）
+
+->执行脚本
+chmod a+x webbak.sh
+
+bin/bash /root/webbak.sh
+
+==》安装编译apache的源代码
+1.解压：tar xzf  xxxx
+	生成编译配置文件
+	./configure --prefix=/usr/local/apache2/ --sysconfdir=/usr/local/apache2/etc/ --with-included-apr --enable-so --enable-deflate=shared --enable-expires=shared --enable-rewrite=shared
+
+	--prefix 主文件目录位置
+	--sysconfdir .conf文件位置
+
+	--with-included-apr  增加编译效率
+	--enable-so 可以支持一些动态模块，不需要重新再编译
+	--enable-deflate=shared  跟网站压缩技术有关
+	--enable-expires=shared  支持缓存技术
+	--enable-rewrite=shared  重写技术
+
+
+
+
+
+	--enable-so：支持动态共享模块，如果支持php将不能与apache一起工作。必须要有
+	--enable-ssl：启用ssl功能，如果不启用将无法使用https
+	--enable-mpms-shared=all：prefork、worker、event
+	--with-mpm=event：event为默认
+	 --enable-rewrite：支持URL重写
+	--enable-cgi :支持cgi
+	--enable-cgid:httpd使用event或者worker得启用被线程方式访问
+	--enable-modules=most :启用大多数模块
+	--enable-mods-shared=most:启用大多数共享模块
+
+
+	出现错误：gcc缺少
+	yum -y install gcc*
+2.进行编译
+	make
+3.进行安装
+	make install
+4.修改配置文件
+
+5.启动服务
+	/usr/local/appache2/bin/apachectl start
+
+	查看进程
+	ps -ls|grep httpd
+
+	查看apache模块
+	/usr/local/apache2/bin/apachectl -h
+	#share 动态模块或动态库文件
+	Php5 rewrite
+	#static  静态模块或表态库文件
+	Server-status
+	Userdir
+	Virtual host
+	
+
+6.重载配置文件
+pkill -HUP httpd //挂起进程，不中断进程并重新读取配置文件
+
+注：建议公司不要随便重新启动apache，而要让进程更新
+
+16-22:19

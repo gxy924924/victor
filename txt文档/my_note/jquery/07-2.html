@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	#div1{
+		height:200px;
+		background:red;
+		border:12px solid red;
+		padding:11px;
+		margin:10px;
+		width:500px;
+
+		
+	}
+	#div2{
+		background:green;
+		height:200px
+	}
+	#div33{
+		position:absolute;
+		top:100px;
+		left:50px;
+		border:1px solid blue
+	}
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div id="div1">
+		<h1>01</h1>
+		<h1>02</h1>
+		<h1>03</h1>
+	</div>
+	<div id="div2">
+		<h1>04</h1>
+	</div>
+
+	<h1>1</h1>
+	<h1>2</h1>
+	<h1>3</h1>
+	<h1>4</h1>
+	<h1>5</h1>
+	<h1>6</h1>
+	
+	<div id="div33">飘啊飘</div>
+</body>
+<script>
+/*	// $("#div2").append($("#div1 h1:eq(2)").clone());
+	// $("#div1 h1").replaceWith("<span>"+$("#div1 h1").text()+"</span>");
+	// alert($("#div1 h1").length);
+	// alert($("#div1 h1:eq(0)").text()); */
+
+	//替换标签名
+	var mylength=$("#div1 h1").length;
+	for(var i=0;i<mylength;i++){
+		var mytext=$("#div1 h1:eq(0)").text();
+		//alert(i+"->"+mytext);
+		$("#div1 h1:eq(0)").replaceWith("<span>"+mytext+"</span>");
+	}
+	//alert($("#div2").css("height"));
+	//alert($("#div1").width());//500
+	//alert($("#div1").innerWidth());//520
+	//alert($("#div1").outerWidth());//544
+
+$("<h1>aaaa</h1>").get(0);//jquery对象直接写出一句元素对象，并转成js对象
+
+	$(window).scroll(function(){
+		var myscrolltop=$(window).scrollTop();
+		document.title=myscrolltop;
+		$("#div33").offset({top : myscrolltop+100});
+	});//将元素相对滚动条顶部的偏移量打印到标题部位
+
+	//alert($("#div33").offset().top+"||"+$("#div33").offset().left);
+
+	//$(window).scrollTop());
+</script>
+</html>

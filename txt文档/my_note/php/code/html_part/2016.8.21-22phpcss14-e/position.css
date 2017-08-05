@@ -1,0 +1,24 @@
+.div1{
+	width:70px;
+	height:30px;
+	background:silver;
+	float:left;
+	margin-left:5px;
+
+}
+
+.spe{
+	position:relative;
+	left:40px;
+	top:100px;
+}
+.dd{
+	width:500px;
+	height:150px;
+	border:1px solid;
+}
+.spe2{
+	position:absolute;
+	left:40px;
+	top:100px;
+}

@@ -1,0 +1,96 @@
+﻿文件编程
+
+==》文件编程的必要性
+1.在网站开发中，我们要使用到文件的上传和下载，就是经典的文件编程使用。
+
+--》文件的基本概念
+文件就是保存数据（二进制数据，文本数据），在程序员的角度看，文件就是数据源（文件流（file string））
+
+--》文件流
+在对文件进行操作的过程中，我们是以流的概念来操作
+
+php程序（内存）《————输入流——
+		——输出流————》文件
+如果你的数据是从程序（内存）向 文件（磁盘）流动，则成为输出流，反之则称输入流
+
+==》常用的文件操作函数
+1.获取文件的相关信息
+1.1fopen打开文件
+基本用法
+fopen(文件路径【相对路径/绝对路径】，打开模式)
+常用打开模式：r(只读)，r+（覆盖读写）,a（写入）,a+（读写，添加）
+w(写入),w+(新建读写)
+
+1.2.fstat
+该函数返回几个信息
+["atime"]=> int(1479810402)   
+		//该文件上一次被访问的时间
+["mtime"]=> int(1479810402)   
+		//该文件上一次内容被修改的时间
+["ctime"]=> int(1479810402)   
+		//该文件上一次文件所有者/所在组 修改时间
+
+1.3.fclose
+关闭文件!!!很重要
+fclose($fp);
+
+
+//第二种方式获取文件信息(不需要打开文件fopen)
+
+echo "<br/>".filesize($file_path);
+echo "<br/>".fileatime($file_path);
+echo "<br/>".filectime($file_path);
+echo "<br/>".filemtime($file_path);
+
+2 读取文件
+fread,file_get_contents,str_replace,feof,
+==>parse_ini_file("db.ini")//对ini文件读取=》print_r($con);
+
+3写入文件
+fwrite($fp,"\r\nhello");
+file_put_contents($filepath,"\r\nhello222",FILE_APPEND);
+
+4拷贝文件
+copy("test.txt","aa.txt")
+
+5创建目录
+ mkdir("/xx")
+//2 递归创建mkdir中0777，true必须有才能递归创建
+mkdir($path,0777,true）
+//查看目录是否存在
+is_dir($path)
+
+6删除目录
+rmdir($path)
+
+7删除文件
+unlink($path)
+//查看文件是否存在
+is_file($path)
+
+
+==>php文件上传实际运用--文件上传
+//enctype="multipart/form-data"这句话是说接下来有可能有文件
+//上传文件必须用post方法
+<form enctype="multipart/form-data" method="post" action="">
+上传文件<input type="file">
+</form>
+//判断是否上传 
+is_uploaded_file($_FILES['myfile']['tmp_name']
+//上传文件
+//把文件转存到想要放的位置
+//$_FILE是文件已经被缓存的，再用下面的函数相当于copy
+move_uploaded_file($uploaded_file,$move_to_file)
+注意：php.ini文件中有设置，限制上传大小，可将其改动
+upload_max_filesize = 200M
+
+上传文件需要考虑的细节
+1.如何控制用户上传文件的大小
+$file_size=$_FILE['myfile']['size'];
+if($file_size>2*1024*1024){
+	echo "文件过大";
+	exit();
+}
+2.如何控制用户上传的文件类型
+3.如何防止用户图片覆盖问题
+4如何防止同一个用户上传的文件名相同问题

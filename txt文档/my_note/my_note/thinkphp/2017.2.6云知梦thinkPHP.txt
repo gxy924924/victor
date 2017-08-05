@@ -1,0 +1,122 @@
+==>tp框架
+1.模板引擎
+2.MVC设计模式
+
+
+模板引擎和框架区别
+1.模板引擎只是框架中用来做PHP和html分离
+
+MVC设计模式：
+M	model		数据模式	（数据表和表操作）
+V	view		视图		（模板）对外-》让客户看的
+C	control		控制器		（控制）
+
+V(HTML模板)--"Smarty/tp"模板引擎-->C(PHP逻辑控制)--》M(Model类表操作)
+-》理解：smarty相当于去掉很多功能的Tp(只处理V-C)
+
+//以下这些可以在convention.php中配置（所有应用都生效）
+//也可以在app下conf中的config.php中配置，（只在本应用中生效）
+改变左右定界符:
+'TMPL_L_DELIM'		=>	'<{',
+'TMPL_R_DELIM'		=>	'}>',
+
+与数据库连接有关的：
+    'DB_TYPE'               =>  'mysql',     // 数据库类型
+    'DB_HOST'               =>  'localhost', // 服务器地址
+    'DB_NAME'               =>  '',          // 数据库名
+    'DB_USER'               =>  'root',      // 用户名
+    'DB_PWD'                =>  'root',          // 密码
+    'DB_PORT'               =>  '3306',        // 端口
+
+模板替换（view下）：
+__ROOT__： 会替换成当前网站的地址（不含域名）
+__APP__： 会替换成当前应用的URL地址 （不含域名）
+__MODULE__：会替换成当前模块的URL地址 （不含域名）
+__CONTROLLER（__或者__URL__ 兼容考虑）： 会替换成当前控制器的URL地址
+	（不含域名）
+__ACTION__：会替换成当前操作的URL地址 （不含域名）
+__SELF__： 会替换成当前的页面URL
+__PUBLIC__：会被替换成当前网站的公共目录 通常是：./public
+
+__TMPL__:./tpl/
+
+PHP中可以使用的路径常量：
+__ROOT__
+__APP__
+__URL__
+__ACTION__
+__SELF__
+
+
+模板中可以使用的路径-模板替换
+__ROOT__
+__APP__
+__URL__
+__ACTION__
+__SELF__
+__PUBLIC__
+../public
+__TMPL__
+
+===>C的功能
+echo C("DB_HOST");	//C可以获取配置文件中的所有配置项的值
+
+-》区分module（模块）modle（模型）
+
+需求：有一个方法在Login模块的所有方法前不执行，但是在其所有其他的模块的所有操作之前都要执行
+(见Index中CommonController等文件)
+class CommonController extends Controller {
+	public function _initialize(){
+		echo "<p>先进行权限把控</p>";
+	}
+}
+class LoginController extends Controller {}
+class IndexController extends CommonController{}
+
+==》URL模式
+URL模式 URL_MODEL设置 
+普通模式 0 
+http://tp/ThinkPHP3.2.2/index.php?m=Index&c=Index&a=index
+PATHINFO模式 1 
+http://tp/ThinkPHP3.2.2/index.php/Index/Index/index
+REWRITE模式 2 --》（是要在.htaccess）
+http://tp/ThinkPHP3.2.2/Index/Index/index
+兼容模式 3 
+http://tp/ThinkPHP3.2.2/index.php?s=/Index/Index/index.html
+
+rewrite方式来访问模式和操作：
+1、apache支持mod_rewrite.so模块
+LodeModule rewrite_module modules/mod_rewrite.so
+2、www网站根目录支持解析rewrite重写表达式文件 .htaccess
+并且apache中：
+	Options 不能出现Multiviews,AllowOverride All
+3、.htaccess里面书写的rewrite表达式
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  #appache调用php5模块使用（windows中使用）
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+
+  #fast-cgi模式使用（Unix中使用）
+  #RewriteRule ^(.*)$ index.php?s=$1 [QSA,PT,L]
+</IfModule>
+
+==》URL重写
+U("Index/index");	//当使用'URL_MODEL'时必须使用U,
+			这样地址才能自动根据访问模式来生成相应的地址
+U('地址表达式',['参数'],['伪静态后缀'],['显示域名'])
+
+http://localhost/test/Index/show.html
+这种REWRITE方式对网站的seo（搜索引擎）优化最好：
+1.'URL_MODEL' =》2，
+2.a标签或form表单的连接地址
+<a href="{:U('show','','html')}"></a>
+
+注意：在模板中使用php（tp）函数时前面要加冒号：
+
+说名：在使用url模式时建议使用U函数，在不使用url模式时建议使用模版替换
+
+

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+ <head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+        {include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+	</div><!-- col-md-3 -->
+
+        <div class="col-md-9">
+              <form action=""  method="post" id="add_new_form">
+       {volist name='list' id="v"}
+      	<div class="modal-body">
+    		<div class="input-group">
+			  <span class="input-group-addon">姓名：</span>
+			  <input type="text" class="form-control" value="{$v['username']}" name="username">
+			</div>
+	       <div class="input-group">
+		       <span class="input-group-addon">密码：</span>
+		       <input type="text" class="form-control"  value="{$v['password']}"  name="password">
+		</div>
+		<div class="input-group">
+		       <span class="input-group-addon">电话：</span>
+		       <input type="text" class="form-control" value="{$v['tel']}"  name="tel">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">QQ：</span>
+		       <input type="text" class="form-control"   value="{$v['qq']}" name="qq">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">微信：</span>
+		       <input type="text" class="form-control"   value="{$v['weixin']}" name="weixin">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">推荐码：</span>
+		       <input type="text" class="form-control"   value="" name="parentid">
+		</div>
+      	</div>
+       {/volist}
+       <div class="modal-footer">
+      	<button type="submit" class="btn btn-primary" id="submit" >确认</button>
+      </div>
+       
+    </form>          
+        </div>
+ </div>
+        <script>
+            $("#submit").click(function(){ 
+               return  confirm('保存成功');
+               }) 
+        </script> 
+    </body>
+</html>

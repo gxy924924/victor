@@ -1,0 +1,93 @@
+apache 服务器的安装演示
+
+localhost:8088 返回，成功
+安装成功后，操作系统是以服务的方式管理，
+我们可以通过服务来启动和关闭，也可以通过monitor来管理
+另一种方式就是通过命令行来管理。
+httpd -k start/shutdown/restart 启动、关闭、重启
+测试1，进入控制台（切换到 Apache 安装目录下）
+Apache其实就是一个软件，apache有一个非常重要的应用程序，
+在apache安装目录的bin目录
+
+cd apache 目录
+
+如果你希望在任何目录下都可以运行apache就需要加入一个变量
+
+---》端口（port）
+1一台机器可以有1-65535号端口（2字节）
+2在实际开发中，我们经常使用
+netstat -an 来查看那些机器有哪些端口在监听，如果发现有异常端口监听，则可以关闭该端口
+
+netstat -anb 关闭某个想要关闭的端口
+
+3一台机器的80端口被apache监听，则该端口不能再被其他的应用程序监听
+4端口分为有名端口1-1024，其他端口可以自由分配
+一个完整的url包括ip和端口
+
++++apache如何去配置（修改）端口++++++++++++++++++++++++++++
+1.我们的apache软件配置是在 httpd。conf文件中配置的
+  在httpd.conf文件中我们修改端口
+listen 81  注意，修改完后要重新启动apache才能生效
+   apache可以同时监听多个端口
+
+apache的目录结构
+1 *bin 		apache 	常用命令，如hpptd
+2 cgi-bin    	linux等常用命令.sh
+3 *conf       	存放配置文件httpd.conf
+4 error	     	错误记录（logs 日志）
+5 *htdocs	存放站点的文件（默认情况下）/如果有多个站点可以通过文件夹分类
+6 icons		图标
+7 *logs		日志
+8 manual	手册
+9 modules	模块（）
+
+注：*重要文件
+
+apache是以模块的形式来管理（apache启动 会读httpd.config 加载模块）
+
+apache是目前世界上使用最为广泛的web server，以跨平台、高效。稳定而闻名。
+apache缺点：被认为是重量级的web server
+
+apache是基于模块化设计的，大多数功能被分散到各个模块，各模块可在启动时按需载入。
+了解：重要模块
+mpm模块（mutil processing module多重处理模块）
+apr模块 （可移植运行库）
+
+==》虚拟目录
+提一个需求：我的apache是安装在c盘，但是c盘没有空间，d盘有空间，能不能把目录放在d盘？
+
+
+1配置虚拟目录在apache的conf目录下的httpd.conf
+direcotory相当于欢迎页面
+alias /mybliog "d:/myblog" 你的站点别名
+order allow deny
+allow from all访问权限设置
+
+#配置虚拟目录
+<IfModule dir_module>
+#欢迎页面设置
+    DirectoryIndex index.html
+#你的站点别名
+ Alias /mysite "D:/mysite"
+<Directory d:/mysite>
+#访问权限设置
+Order allow,deny
+Allow from all
+	</Directory>
+</IfModule>
+
+2注销documentroot路径
+# documentroot。。。。。。。
+
+3测试
+http://localhost/myblog/news.html
+
+4如何设置欢迎页面
+#欢迎页面设置
+    DirectoryIndex index.html news.html hello.html .......
+
+5关于访问权限
+<directory >
+order allow,deny  order顺序 allow允许 deny 表示拒绝 表示先看许可（allow）后看拒绝（deny）
+allow from all    先看看（allow）后看拒绝（deny）  allow from all许可所有IP
+</directory>

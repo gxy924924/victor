@@ -1,0 +1,420 @@
+==>jquery->1.4.2.js
+1.js内置对象
+2.js元素对象
+3.jquery对象
+
+js特效：
+1.js元素对象
+2.jquery对象
+
+==》jquary简化原理
+function test(){
+	var obj=new Object();
+	obj.eat=function(){
+		alert(1);
+	}
+	obj.say=function(){
+		alert(2);
+	}
+	return obj;
+}
+alert(test());//此函数返回[object Object] 将obj返回
+test().eat();//此时会调用obj的eat函数
+
+==》jquery学习：
+1.核心函数
+2.选择器
+3.筛选
+4.文档处理
+5.属性
+6.css
+7.事件
+8.效果
+9.ajax
+10.工具
+
+$("div:eq(1)")//选择器：选择第二个div元素
+$("div").eq(2);//这个与上一个相等
+
+-》两种操作方式
+1.当页面加载完毕--》慢
+2.当dom加载完--》快
+$(document).ready();//当dom加载完执行
+说明：这个与js的onload事件不同onload是要等到页面（包括图片）加载完毕后执行
+注$(function() ...)==$(document).ready(function() ...)
+
+->隐式遍历：
+$("h1").click(function(){
+	alert($(this).text());
+})//虽然没有遍历，但做到了遍历的部分效果
+
+===>jquery对象访问
+each();
+	//$("h1").each(function (){})
+	//可以遍历jquery对象集合，与隐式遍历不同，有些情况隐式遍历做不到
+size();//alert($("h1").size());
+get();//jquery对象转成js元素对象
+get(index);
+
+	==>js元素对象和jquery对象的转换
+	//js格式转换成jquery
+	var objs=document.getElementsByTagName("h1");
+	$(objs).css("color","red");
+	//$（）括弧内的东西不加双引号表示是对象，加双引号则是标签名
+
+	==》jquery对象转成js元素对象
+	//jquery转换成js
+	//alert($("h1").get(2).outerHTML);
+	
+	-》jquery转换js（特别）
+	$("<h1>aaaa</h1>").get(0);//jquery对象直接写出一句元素对象，并转成js对象
+
+index();
+	//得到标签名的排序
+	$("h1").click(function(){
+		alert($(this).index("h1"));
+	});
+data();//可给对象赋隐藏内容
+	//得到标签名的排序
+	$("h1").each(function(i){
+		//隐藏数据
+		$(this).data("idx",{"name":"user"+i,"age":"30"})
+	});
+
+	$("h1").click(function(){
+		//输出隐藏数据
+		alert($(this).data("idx").name+"==>"+$(this).data("idx").age);
+		});
+
+//text();两组尖括号之间的<>xxx<>
+//attr();第一个尖括号里面的
+
+
+->筛选
+first()
+last()
+hasClass() ==is(.class)
+	<div class="protected">
+	$(this).hasClass("protected") 
+	//用来判断是否有一个类名叫abc，返回boolean
+is() //判断是否是某种标签
+filter() //筛选相应标签的内容
+	//filter
+	$(".ppp").css("color","yellow");
+has() //$('li').has('ul')  保留包含特定后代的元素
+not() //$("p").not("#selected")从p元素中删除带有 selected 的ID的元素 
+slice()//$("h1").slice(1,2) 选取第二个元素（开头前，结尾后）0x1x2x3x(选择几到几表示选择中间x部分)
+
+-》查找
+children() //找到元素下面的子元素
+parent() //父元素
+parents() //所有祖先元素
+parentsUntil() //所有祖先元素--直到
+next() //下一个
+nextAll() //查找当前元素之后所有的同辈元素(同等级)
+	//$(this).nextAll().css({"color":"blue"});
+nextUntil() //查找 连续 直到找到
+prevAll() //查找当前元素之前所有的同辈元素
+	$(this).prevAll().css({"color":"blue"});
+siblings() //取得一个包含匹配的元素集合中每一个元素的所有唯一同辈元素的元素集合
+	//元素前后所有同级元素
+find() //与children相似，但必须在()内写想要的表达式
+
+-》串联
+add() //选择一个元素加入到前面的组中
+andSelf() //加入当前语句前一句的元素
+	//如：$(this).next().next().andSelf().css("color","blue");
+	//这句andSelf()表示 $(this).next()
+
+->事件
+mouseenter() //鼠标移入
+mouseout() //鼠标移出
+
+//不建议使用mouseover,使用时如果碰到内部别的元素会认为是跳出，不好用
+
+->关于css
+当写了float漂浮之后，子元素下面的母元素会自己缩回去，此时应当卡他一下。
+//这样下面的母元素的大小就会自动适应子元素
+<div class="nav"></div>
+.nav{clear:both;}
+
+==>属性
+
+attr() //设置相应属性
+	$("img").attr({"src":"a.png"});
+removeAttr() //清除属性
+	$("img").removeAttr("src");
+
+->css
+addClass() //添加相应的类名
+removeClass() //删除相应的类名
+	$("img").addClass("imgcls");
+	$("img").removeClass("imgcls");
+toggleClass() //无则添加，有则去掉 toggle（开关）
+	$("img").toggleClass("imgcls");
+
+->html、text
+alert($("h1").html());->aa<span>bb</span>cc
+alert($("h1").text());->aabbcc
+
+->查看源代码
+alert($("body").html());
+
+->表单的val使用
+alert($("input:text").val());//input-text获取值
+$("input:text").val("222");//input-text赋值
+//val还可以给select，check radio等使用
+	$("input:radio").val(["radio2"]);
+	//原来的习惯
+	$("input:eq(0)").attr("checked",1);
+
+-》内部插入
+append(content) //将content加入到前面的元素后面去（后元素后追加）
+	$("#div2").append($("#div1 h1:eq(2)").clone());//clone表示复制
+appendTo() //把前面元素的东西加到后面去（前元素后追加）
+
+prepend() //（后元素前追加）
+prependTo() //（前元素前追加）
+
+after() //将元素放到外面去(放到外部后面)
+before() //将元素放到外面去(放到外部前面)
+
+insertAfter() //将元素放倒指定元素的后面（元素外部）
+insertBefore() //将元素放倒指定元素的前面（元素外部）
+
+-》包裹
+wrap() //在元素前后包围标签
+	$("#div1 h1").wrap("<i></i>");<h1>a</h1>--><h1><i>a</i></h1>
+wrapAll() //整体包围
+wrapInner() //内部包围
+unwrap()  //去包围  $("#div1 h1").unwrap();
+
+————》替换标签名
+	//替换标签名
+	var mylength=$("#div1 h1").length;
+	for(var i=0;i<mylength;i++){
+		var mytext=$("#div1 h1:eq(0)").text();
+		$("#div1 h1:eq(0)").replaceWith("<span>"+mytext+"</span>");
+	}
+
+replaceWith(content) //后面替换前面
+	$("p").replaceWith("<b>Paragraph. </b>"); 
+replaceAll(selector) //前面替换后面
+	$("<b>Paragraph. </b>").replaceAll("p"); 
+
+-》删除
+empty()  //删除内部内容
+remove()  //删除整体（连标签）
+detach()  //删除标签，但保存内部标签
+
+->css样式显示
+alert($("#div2").css("height"));
+
+-》尺寸
+width()  //宽度，括号中不写会获取相应数值 (不加内边距、边框等)
+height()  //高度，括号中不写会获取相应数值
+innerWidth() //获取第一个匹配元素内部区域宽度（包括补白、不包括边框）。
+innerHeight() //获取第一个匹配元素内部区域高度（包括补白、不包括边框）。
+
+outerHeight() //获取第一个匹配元素外部高度（默认包括补白和边框）。
+outerWidth() 
+
+
+	-》例：
+		border:12px solid red;
+		padding:10px;
+		margin:10px;
+		width:500px;
+	alert($("#div1").width());//500
+	alert($("#div1").innerWidth());//520（+padding）
+	alert($("#div1").outerWidth());//544 (+border)
+
+-》位置
+scrollTop() //获取匹配元素相对滚动条顶部的偏移。
+	(括号内部的值可以将页面设定到相应位置)
+	$(window).scroll(function(){
+		document.title=$(window).scrollTop();
+	});//将元素相对滚动条顶部的偏移量打印到标题部位
+offset()  //获取匹配元素在当前视口的相对偏移。
+	//offset().top   offset().left)
+	获取值：alert($("#div33").offset().top+"||"+$("#div33").offset().left);
+	
+	$(window).scroll(function(){
+		var myscrolltop=$(window).scrollTop();
+		$("#div33").offset({top : myscrolltop+100});
+	//浮动广告效果
+position	//获取匹配元素相对父元素的偏移
+
+==》事件
+-》ready()  //
+	-->如果script写在body前面
+	->应当这样写
+	$(function(){
+	$("img").click(function(){
+		alert($(this).attr("src"));
+	});
+	});//相当于在原来的内容外面包上一个 -》 $(function(){原来内容})
+
+-->bind()  //绑定事件
+-->unbind()  //解除绑定
+	$("#btn1").click(function(){
+		$("img").bind("click",imgclk);
+	});
+	$("#btn2").click(function(){
+		$("img").unbind("click",imgclk);
+	});
+one()  //一次性绑定事件(只触发一次)
+
+trigger()  //触发
+	trigger("事件名","传入值内容");
+
+->事件委派
+live()  //给现有+将来的标签加事件（包括以后生成的相似的标签，如<p>标签）
+die()  //取消标签事件
+
+--》事件切换
+toggle()  //单击循环切换事件
+hover()   //鼠标画上去和拿走相互切换
+	$("#img_tog").toggle(
+		function(){
+			$(this).attr("src","a.png");
+		},
+		function(){
+			$(this).attr("src","b.png");
+		}
+	);
+
+->说明：所有事件后面括号（这里有东西是方法） （）里面没有东西的是事件
+blur()  //元素失去焦点时触发(如：光标退出)
+
+click() //触发click事件
+click(fn)  //写入触发事件
+
+change(fn) //元素改变时会触发（如：select元素）
+
+error() //错误时触发。。
+
+focus()  //获得焦点(光标位置)时  
+focusin()  //光标进入时
+focusout()  //光标退出时
+
+scroll()  //滚动条滚动时
+
+resize()   //窗口大小改变时
+
+keydown()
+keypress()
+keyup()		//键盘按键事件
+
+load()  //元素加载完成后触发
+
+mousedown()  
+mousemove()
+mouseout()
+mouseover()
+mouseenter()
+mouseup()   //鼠标事件
+
+select() //select事件被触发
+
+submit()  //提交时
+
+unload()  //卸载（关闭）时
+
+==》效果
+->基本
+show()  //显示隐藏的匹配元素。
+
+show(speed,[callback])  //动画-逐渐显示元素
+	$("#btn").click(function(){
+		$("img").show(1000,function(){
+			alert("图片载入完毕");
+			$(document.documentElement).css("background","#f0f");
+		});
+	});
+hide()  //动画-逐渐隐藏元素
+toggle()  //切换元素的可见状态
+
+->滑动
+slideDown()  //动画-逐渐显示元素(左上角放大)
+slideUp()  //隐藏
+slideToggle()  //切换显示与隐藏
+->淡入淡出
+fadeIn()  //淡入
+fadeOut()  //淡出
+fadeTo(speed,opacity,[callback])  //调整到指定的不透明度
+--》自定义动画
+animate()  //创建自定义动画的函数
+			$("img").animate({left:"700px"},1000,function(){
+				$(this).animate({top:"500px"},1000,function(){
+					$(this).animate({left:"100px"},1000,function(){
+						$(this).animate({top:"100px"},1000);
+					});
+				});
+			});
+	-.>说明：动画中的元素必须有相应的标签，如要改变left，则必须有left标签
+stop()   //停止当前动画
+
+==>jquery->ajax
+注意：在任何使用ajax时必须走服务器端，否则会不能读取php代码
+-》ajax请求
+jQuery.get(url,[data],[callback])  //使用get传递ajax参数的方法
+	->$.get("index.php",function(data){
+		alert(data);
+	});
+
+jQuery.post(url,[data],[callback])   //使用post传递ajax参数的方法
+	$.post("index.php",{"id":1},function(data){
+		alert(data);
+	});
+	---------------------------php----------------
+	$id=$_POST['id'];
+	$arr=array("a.png","b.png");
+	echo "<img src='{$arr[$id]}'>";
+
+->ajax之json数据传递
+	$("#btn").click(function(){
+		$.post("json.php",function(data){
+			//alert(data["id"]);
+			$("#main").html("id="+data.id+"</br>name="+data.name);
+		},"json");
+	});
+
+load(url,[data],[callback])  //载入远程 HTML 文件代码并插入至 DOM 中。
+
+	//把另一个页面的东西换入目标页面
+		$("button").click(function(){
+		var idx="div"+$(this).index("button");
+		$("#main").load("index22.php #"+idx);});
+
+
+->ajax传值
+serialize()  //序列表表格内容为字符串。
+		$("form").submit(function(){
+		var formstr=$(this).serialize();
+
+->转换
+param()   //将表单元素数组或者对象序列化
+	(变成类似get发送的数据)
+	var obj={"name":"user1","age":"30"};
+	alert($.param(obj));
+
+-》数组判断
+方法1：xx.constructor==Array
+方法2：$.isArray() //判断是否是数组，返回true/false
+
+$.inArray()   //确定第一个参数在数组中的位置
+	(在指针为英文时不好用)（建议用json）
+
+$.merge(first,second)   //合并两个数组
+		js中concat(a,b)功能相同
+
+--》实现微博无刷新显示图片
+基本原理：在主页面中加入一个iframe，让主页面提交到这个iframe中，
+	此时这个iframe相当于变成了主页面下的一个元素，此时就可以操作主页面。
+
+
+->鼠标移入变小手是css
+.clicktab{
+	cursor:pointer;
+}

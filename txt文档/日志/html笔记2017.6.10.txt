@@ -1,0 +1,27 @@
+
+==》html转义
+&lt <
+&gt >
+
+==>文字说明
+<abbr title="People's Republic of China">PRC</abbr>
+
+
+==>语义化
+给文字套上标签和标签说明，让页面seo优化
+
+
+==》html 本地存储
+//浏览器存储（暂时）
+sessionStorage.setItem("key",username);
+//获取
+sessionStorage.setItem("key");
+
+//本地存储（关掉还有）
+localStorage.setItem("key",username);
+//获取
+localStorage.setItem("key");
+
+//删除
+*。removeItem("key");
+*.clear();

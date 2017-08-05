@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+	<style>
+		.btn{
+			margin-left: 50px;
+			margin-right: 50px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 10px;
+		}
+		.input-group{
+			margin-top: 20px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}
+		th{
+			text-align: center;
+		}
+		.drop_width{
+			width: 100px;
+		}
+		.dropdown{
+			float:right;
+			position: relative;
+			top:-5px;
+		}
+		.control{
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container text-center">
+		
+		<div class="panel panel-info">
+			<div class="panel-heading">
+			<h4>
+				日志
+			</h4>
+			</div>
+			<div class="panel panel-body">
+				<table class="table">
+					<tr>
+						<th>id</th><th>用户</th><th>权限组</th><th>行为</th><th>uri</th><th>remote_addr</th><th>时间</th>
+					</tr>
+				<?php foreach($log as $v):?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['username']}</td>
+						<td>{$v['title']}</td>
+						<td>{$v['act_group']}</td>
+						<td>{$v['request_uri']}</td>
+						<td>{$v['remote_addr']}</td>
+						<td>{$v['time']}</td>
+							
+					</tr>
+				<?php endforeach;?>
+				</table>
+				{$log->render()}
+			</div>
+		</div>
+
+
+		
+	</div>	
+	<script>
+
+</body>
+</html>
+

@@ -1,0 +1,164 @@
+﻿PHP面试题
+==>输出当前时间，格式 2017-4-17 14:00:02
+date_default_timezone_set('PRC');
+echo date('Y-n-d H:i:s');
+n:没有前导零	如：2
+m：有前导零 	如：02
+
+==》字符串转数组，数组转字符串，字符串截取，字符串替换，字符串查找的函数
+1.//字串-》数组
+	explode($separator,$string);//用字符分割成数组
+	str_spilt($string,num);//将字符串以num个字符一组拆分组成数组
+2.//数组-》字符串
+	implode([$separator,]$array);//以$separator（可省略）为分界符将数组组成字符串
+3.字符串截取
+	substr($str,start,length);//英文字符截取
+	mb_substr($str,start,length);//汉字字符截取
+	mb_strcut($str,start,length);//
+4.字符替换
+	str_raplace($search,$replace,$str);//str中的search换为replace
+	preg_replace();正则替换
+5.字符串查找
+	strpos($str,$find[,偏移量]);//查找$find首次出现的位置
+	strrpos($str,..);//查找最后出现
+	preg_match($find,$str[,$matches]);//正则表达式查找（正则可见js中的笔记）
+	preg_match_all($find,$str[,$matches]);
+
+==>解释一下php中protect,public,private,interface,abstract,final,static的含义
+1.protected 被保护的
+2.public 公有的
+3.private 私有的
+4.interface 接口	（只含有抽象方法的类）
+5.abstrace 抽象类 （含有任何一个抽象方法的类）
+6.final	最后的类和方法 （不能有子类）
+7.static 静态方法和属性
+
+==》写出下面的代码的数据结果
+1.$date="08/26/2003";//转为2003/08/26
+
+echo preg_replace('/(\d+)\/(\d+)\/(\d+)/','$3/$1/$2',$date);
+
+==>从表login中选出name字段包含admin的前10条结果所有信息的sql语句
+select * from login where name like '%admin%' limit 10 order by id;
+注意：面试题中select语句最好有排序
+
+==》解释：左连接，右连接，内连接，索引
+解释答题方法：2种，1-说明 2-举例
+1.left join	查询两表，将后查项的表跟前查的表结合（前表为主导），后查表中值若不存在则值为null
+2.right join	左连接掉个个
+3.inner join
+左连接
+select user.username,post.info from user left join post where user.id=post.uid;
+
+普通多表查询与内连接相似，只会查出目标值都存在的情况
+select t1.name,t2.info from t1,t2 where t1.id=t2.uid
+select t1.name,t2.addr from t1 inner join t2 on t1.id=t2.uid;
+
+4.index（索引）(相当于一个目录，查表更快)
+索引分为：主键索引（通常给id，不重复），唯一索引（不允许重复），普通索引
+alter table t1 add
+
+说明：如何查看mysql检索了的行数：
+desc select * from user where id=5\G
+
+数据库优化有效性：最有效的是索引优化
+添加与删除索引
+alter table user add index in_username;
+alter table user drop index in_username;
+
+==>简述论坛中无限分类的实现原理
+1.一张表，有id，pid(父级id)，path(分类路径)
+2.get
+id  		name		pid
+1 		aaa		0
+2 		bbb		0
+3		ccc		1
+4 		ddd		1
+5		fff		2
+6		eee		2
+path：prev》next
+id 	name 	pid 	path
+1 	xxx		0 		0
+2 	xxx 	3 		0-1-3
+3 	xxx 	2 		0-2
+
+==>写一个函数，尽可能高效的从一个标准url 中取出文件的扩展名
+例如：http://www.test.com.cn/abc/de/fg.php?a=1&b=2
+
+$ref="http://www.test.com.cn/abc/de/fg.php?a=1&b=2";
+$arr=parse_url($ref);		//解析url路径
+$arr=pathinfo($arr['path']);//解析路径
+echo $arr['basename'];
+
+==》解释MVC
+1。由模型(model),视图(view),控制器(controller)来控制的应用程序
+	由模型发出要实现的功能到控制器，控制器接收组织功能传递给视图
+
+==》描述一下大流量高并发量网站的解决方案（服务器优化技术）
+大流量：游戏等（大流量会使高并发生率极大提高）
+高并发：足球比赛开始时
+
+1.lvs或 nginx 负载均衡器
+负载均衡：主服务器分配给多服务器共同均衡服务
+		->dns负载均衡：dns服务器设置负载均衡，分流流量
+			-》lvs（linux）服务器负载均衡：服务器可以进一步分流
+				-》集群服务器：保证服务器可以正常运行
+集群：有多个服务器在运行，一个服务器提供服务，如果坏了会有别的服务器接替他
+		服务器a坏掉-》服务器b上-》b坏掉-》c检查a好了没-》a好了a上，没好c上
+2.squid 缓存或nginx web cache 缓存
+3.web 服务器选型（nginx 代替 apache）
+	nginx：并发承受能力更加强大的服务器（缺点：不够稳定）
+4.php 代码静态化(smarty 或框架)（静态缓存）（tp）（数据(文件)缓存）
+5.sphinx
+6.memcache		（内存数据缓存）
+7.sql语句一定要注意索引使用
+8.主从分流
+9.分库分表或分区
+10.磁盘分布(raid0+raid1)	（磁盘阵列技术）
+
+
+说明：Apache服务器同时可以承受3-4k人访问
+1s一人（10w日ip）年收入上千万
+
+==》mysql数据优化
+7.sql语句一定要注意[索引]使用
+8.主从分流
+9.分库分表或分区
+
+==>如何防止sql注入
+sql注入：借助sql语句缺陷更改mysql数据库
+1.表单尽量用post提交，表单判断控制走get，因为get比post速度快 
+2.$_SERVER[HTTP_REFERER]判断提交者的源头
+3.开启addslashes,会自动在',"',\头加\
+4.密码一定要md5加密
+5.服务器本身的安全（web+mysql）
+
+==》防止盗链
+1.服务器上防止
+apache 和 nenix 做rewrite 基于源来做判断阻止盗链
+
+2.代码防止
+$_SERVER[HTTP_REFERER];
+
+==>13.用PHP写出一个安全的用户登录系统需要注意哪些方面。
+1.服务器
+	重写功能防止盗链
+	ssl（不知道。。。）
+2.用户注册
+	验证交给php，不要给js
+	密码md5加密
+3.用户登录
+	验证码
+	密保卡
+	口令卡
+	密码不能粘贴（不让用户按ctrl键）
+4.以post提交给后端php程序
+
+==》14.使用过哪些php框架，描述其优缺点
+yii（大型企业使用、框架较大）ci（codeIgniter）（同样快速开发，很多函数需要自己来写，模板引擎没有完全分离） thinkphp(国内产品，适合快速开发) zend-framework（zend官方框架，较复杂）
+
+==》用过哪些版本控制工具？
+svn （subversion） 版本控制
+GitHub
+
+

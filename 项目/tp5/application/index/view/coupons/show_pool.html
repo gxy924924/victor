@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+
+
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+		/*border:1px solid red;*/
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	.btn{
+		margin-right: 10px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			
+			<div class="panel panel-default text-center">
+				<div class="panel-heading">
+					<h4>生成折扣券表</h4>
+				</div>
+				<div class="panel-body">
+					<form action="{:url('index/coupons/add_pool')}" method="post">
+					<input type="hidden" name="id" value="{$_GET['id']}">
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">生成折扣券</span>
+								<input type="text" name="generate_number"  class="form-control " value="" placeholder="生成折扣券数量">
+							</div>
+						</div>
+						<div class="col-sm-8 text-left">
+							<button class="btn btn-primary search_btn" type="submit">生成</button>
+							<a href="{:url('index/coupons/show_discount')}" class="btn btn-primary">返回券包</a>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="panel panel-default text-center">
+
+				<div class="panel-heading">
+					<h4>查看折扣券</h4>
+				</div>
+				<div class="panel-body">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<th>id</th>
+							<th>pid</th>
+							<th>折扣码</th>
+							<th>已使用</th>
+							<th>获取用户</th>
+						</tr>
+						<?php foreach ($page_list as $v):?>
+							<tr>
+								<td>{$v['id']}</td>
+								<td>{$v['pid']}</td>
+								<td>{$v['code']}</td>
+								<td>{$v['used']}</td>
+								<td>{$v['got_user_id']}</td>
+							</tr>
+
+						<?php endforeach; ?>
+					</table>
+					{$page_list->appends('id',$_GET['id'])->render()}
+					<pre class="text-left">
+					</pre>
+		
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<!-- date专用 -->
+		<script src="/public/date/lib/picker.js"></script>
+		<script src="/public/date/lib/picker.date.js"></script>
+		<script src="/public/date/lib/picker.time.js"></script>
+		<script src="/public/date/demo/scripts/main.js"></script>
+		<!-- date专用 -->
+
+		<script>
+
+		</script>
+
+</body>
+</html>
+

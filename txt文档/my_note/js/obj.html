@@ -1,0 +1,143 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<!--Js 代码一般是放在 head标签，但实际上也可以在别的位置-->
+<script language="javascript" type="text/javascript">
+/*
+//多态
+function Master(){
+	this.feed=function(animal,food){
+		document.write(animal.name+food.name);
+	}
+}
+
+function Food(name){
+	this.name=name;
+}
+
+function Fish(name){
+	this.food=Food;
+	this.food(name);
+}
+
+function Bone(name){
+	this.food=Food;
+	this.food(name);
+}
+
+function Animal(name){
+	this.name=name;
+}
+
+function Cat(name){
+	this.animal=Animal;
+	this.animal(name);
+}
+function Dog(name){
+	this.animal=Animal;
+	this.animal(name);
+}
+var cat=new Cat("xiaomao");
+var fish=new Fish("xiaoyu");
+var dog=new Cat("gou");
+var bone=new Fish("bone");
+
+var master=new Master();
+master.feed(cat,fish);
+master.feed(dog,bone);
+*/
+/*
+//静态类返回数的绝对值。
+window.alert(Math.abs(-12));
+//动态类
+var nowdate=new Date();
+window.alert(nowdate.toLocaleString());
+*/
+/*
+//Math对象=====================》》》》
+document.write("Math.ceil(4.5))=>"+Math.ceil(4.5));//对数进行上舍入。5
+document.write("Math.floor(4.5)=>"+Math.floor(4.5));//对数进行下舍入。4
+document.write("Math.round(4.77)=>"+Math.round(4.77));//把数四舍五入为最接近的整数。5
+
+document.write("Math.random()=>"+Math.random());//返回 0 ~ 1 之间的随机数。(16位)
+*/
+/*
+//Date类
+var date=new Date();
+//document.write(date.toLocaleString()+"</br>");//可根据本地时间把 Date 对象转换为字符串，并返回结果。
+
+//document.write(date.getYear()+" "+date.getMonth()+" ");
+
+function showHello(date){
+	var nowHour=date.getHours();//返回 Date 对象的小时 (0 ~ 23)。
+	var nowMinute=date.getMinutes();//返回 Date 对象的分钟 (0 ~ 59)。
+	var nowtime=nowHour*60+nowMinute;
+	document.write(nowHour+"点"+nowMinute+"分</br>");
+	if(nowtime>=(6*60)&&nowtime<=9*60){
+		document.write("早上好");
+	}else if(nowtime>=(9*60+1)&&nowtime<=(11*60+30)){
+		document.write("上午好");
+	}else if(nowtime>=(9*60+1)&&nowtime<=(11*60+30)){
+		document.write("上午好");
+	}else if(nowtime>=(18*60+41)&&nowtime<=(24*60-1)){
+		document.write("晚上好");
+	}
+}
+showHello(date);
+*/
+/*
+//string
+var str="abcd1234";
+document.write(str.length);
+
+var str2="abc def oop";
+var arr=str2.split(" ");//把字符串分割为字符串数组。
+document.write(arr);
+
+var str3="abcdef";
+document.write(str3.substr(0,3));//abc  从起始索引号提取字符串中指定数目的字符。
+document.write(str3.substring(1,5));//提取字符串中两个指定的索引号之间的字符。
+
+document.write(str3.charAt(3));//返回在指定位置的字符。
+
+document.write("</br>indexOf="+str3.indexOf("bc",1));//检索字符串。(字串，开始检索的位置)
+document.write("</br>indexOf="+str3.indexOf("cc",1));//不存在会传值-1
+*/
+/*
+//array
+var myarr=new Array();
+myarr[0]="sp";
+myarr[1]=90;
+document.write(myarr[0]+myarr[1]);
+myarr[1]="";
+//alert(myarr[1]);//赋值空串，但字串任然存在
+//alert(myarr[2]);//不存在，undefined
+//myarr.pop();//删除并返回数组的最后一个元素 ->出栈=》相当于删除
+//alert(myarr[1]);//pop成功删除
+myarr[1]=undefined;
+//alert(myarr[1]);//赋值undefined也可以删除
+myarr[5]="";//如果未创建中间元素，系统会自动认为中间是空串
+//myarr.push(1);//向数组的末尾添加一个或更多元素，并返回新的长度。
+document.write("</br>字串长度"+myarr.length+" ==》"+myarr);//
+myarr["ab"]=1;//如果数组序号为字串，length将不能识别出这个数组
+alert(myarr["ab"]);
+document.write("</br>字串长度"+myarr.length+" ==》"+myarr+myarr["ab"]);//
+
+array2=new Array(1,1,2,3,4,"xx");//创建方法2
+
+document.write(array2);
+*/
+/*
+//number
+a=890.2345
+//alert(typeof(a)+a);
+//alert(typeof(a.toString())+a);
+alert(typeof(b=a.toString(2))+b);//以2进制显示
+alert(typeof(b=a.toFixed(2))+b);//toFixed() 方法可把 Number 四舍五入为指定小数位数的数字。
+*/
+
+</script>
+</head>
+<body>
+</body>
+<html>

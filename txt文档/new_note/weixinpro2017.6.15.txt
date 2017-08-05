@@ -1,0 +1,51 @@
+﻿2017.6.23
+
+控制台快速格式化：alt+shift+f
+
+
+2017.6.15
+
+微信小程序：
+
+js文件：监听并处理小程序的生命周期函数、声明全局变量
+
+json文件：全局配置，配置小程序是由哪些页面组成，配置小程序的窗口、背景色，配置导航条样式，配置默认标题。注意该文件不可添加任何注释
+
+wxss文件： 是整个小程序的公共样式表，我们可以在页面组件的 class 属性上直接使用 app.wxss 中声明的样式规则。
+
+.wxml文件：页面结构文件。
+
+文件		必填	作用
+app.js	 	是		小程序逻辑
+app.json	是		小程序公共设置
+app.wxss	否		小程序公共样式表
+
+一个小程序页面由四个文件组成，分别是：
+
+文件类型	必填	作用
+js			是		页面逻辑
+wxml		是		页面结构
+wxss		否		页面样式表
+json		否		页面配置
+
+
+app.json 	配置项列表
+属性		类型			必填		描述
+pages		String Array	是			设置页面路径
+window		Object			否			设置默认页面的窗口表现
+tabBar		Object			否			设置底部 tab 的表现
+network		Timeout	Object	否			设置网络超时时间
+debug		Boolean			否			设置是否开启 debug 模式
+
+
+window:用于设置小程序的状态栏、导航条、标题、窗口背景色。
+
+属性							类型		默认值	描述
+navigationBarBackgroundColor	HexColor	#000000		导航栏背景颜色，如"#000000"
+navigationBarTextStyle			String		white		导航栏标题颜色，仅支持 black/white
+navigationBarTitleText			String		导航栏标题 		文字内容
+backgroundColor					HexColor	#ffffff		窗口的背景色
+backgroundTextStyle				String		dark	下拉背景字体、loading 图的样式，仅支持 dark/light
+enablePullDownRefresh			Boolean		false	是否开启下拉刷新，详见页面相关事件处理函数。
+
+console.log()//放在绑定的方法中，可以在调试时看到提示

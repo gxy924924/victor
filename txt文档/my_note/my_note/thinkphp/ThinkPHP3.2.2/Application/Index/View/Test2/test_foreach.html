@@ -1,0 +1,21 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>foreach</h1>
+	<foreach name='rows' item="val" key="k">
+		<if condition="$k%2 eq 0">
+		<h2 style="background-color:#ccc;">{$k}==>{$val['username']}</h2>
+		<else/>
+		<h2>{$k}==>{$val['username']}</h2>
+		</if>
+	</foreach>
+	<switch name="week">
+		<case value="1">111</case>
+		<case value="3">3</case>
+		<case value="5">55</case>
+	</switch>
+	{$state==1?'1':'2'}
+</body>
+</html>

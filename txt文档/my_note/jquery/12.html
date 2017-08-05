@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	#main{
+		width:500px;
+		height:300px;
+		background:#ccc;
+	}
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<button id="div1">d1</button>
+	<button id="div2">d1</button>
+	<button id="div3">d1</button>
+	<div id="main">
+
+	</div>
+</body>
+<script>
+	$("button").click(function(){
+		var idx="div"+$(this).index("button");
+		//alert(idx);
+		$("#main").load("index22.php #"+idx);
+		//load("index22.php"+idx);
+	});
+</script>
+</html>

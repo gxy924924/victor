@@ -1,0 +1,31 @@
+ssh登录　The authenticity of host 192.168.0.xxx can't be established.　的问题
+scp免密码登录：Linux基础 - scp免密码登陆进行远程文件同步
+
+执行scp一直是OK的，某天在本地生成了公钥私钥后，scp到某个IP报以下错误
+
+The authenticity of host '192.168.233.137 (192.168.233.137)' can't be established.
+ECDSA key fingerprint is SHA256:EsqTfeCJ34DnGV66REuRRPhoFwaLuee5wxFgEAZ8b9k.
+Are you sure you want to continue connecting (yes/no)? 
+Host key verification failed.
+lost connection
+参考：好记心不如烂笔头，ssh登录　The authenticity of host 192.168.0.xxx can't be established.　的问题,即可不修改/etc/ssh/ssh_config文件的配置而解决此问题
+
+ssh  -o StrictHostKeyChecking=no  192.168.0.xxx　
+
+输入密码
+
+ 
+
+再次scp，正常输入密码，问题解决。
+
+ 
+
+ssh连接The authenticity of host can't be established
+
+修改/etc/ssh/ssh_config文件的配置，以后则不会再出现此问题
+
+最后面添加：
+
+StrictHostKeyChecking no
+
+UserKnownHostsFile /dev/null

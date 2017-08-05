@@ -1,0 +1,29 @@
+   +++无序列表++++++++++++++++++++++++++++++++++++++++++++++
+<ul><li>
+
+ <body style="margin:0px">顶部距离0
+
+
+   +++有序列表++++++++++++++++++++++++++++++++++++++++++++++
+<ol><li>
+
+type="1"可有1,a,A,i,I 用于指定用什么来显示
+start="2"表示从多少开始计数
+
+   +++frameset框架集++++++++++++++++++++++++++++++++++++++++++++++
+用途是分割显示多个页面
+
+如果a.html包括了其它的页面（frameset），则a.html本身不能有body和body的内容
+noresize 是不允许移动网页所占比例
+frameborder="0px"边框设置
+target=""表示我们点击后目标指向谁
+  target属性值有4个--1_blank 表示打开一个全新的页面 
+		     2_self  本窗口
+		     3_parent 父窗口
+		     4_top 整个浏览窗口
+
+注意 以下主页不能有body和任何字符
+<frameset cols="30%,*">
+<frame name="frame1" src="b.html" noresize  frameborder="0px"/>
+<frame name="frame2" src="c.html"  frameborder="0px"/>
+</frameset>

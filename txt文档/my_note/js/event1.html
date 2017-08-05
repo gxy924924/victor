@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<!--Js 代码一般是放在 head标签，但实际上也可以在别的位置-->
+<script language="javascript" type="text/javascript">
+
+	function test1(e){
+		window.alert('x='+e.clientX+'y='+e.clientY);
+	}
+
+	function test2(e){
+		//document.write('x='+e.clientX+'y='+e.clientY);
+	}
+	
+	function test3(){
+		window.alert(new Date());
+	}
+//js访问内部css
+	function test4(aaa){
+		//看是哪个按钮被按下
+		window.alert(aaa.value);
+		if(aaa.value=="黑色"){
+			var div1=document.getElementById('div1');
+			div1.style.backgroundColor="black";
+			//window.alert(div1.style.width);
+		}else if(aaa.value=="红色"){
+			var div1=document.getElementById('div1');
+			div1.style.backgroundColor="red";
+		}
+	}
+</script>
+</head>
+<body  >
+<!--
+onmousedown="test1(event)"
+onmousemove="test2(event)"
+-->
+<input type="button" onclick="test3()" value="显示当前时间">
+<!--如何通过修改style来改变style-->
+<div id="div1" style="width:400px;height:300px;background-color:red">
+div1
+</div><!--this表示当前input属性-->
+<input type="button" value="黑色" onclick="test4(this)">
+<input type="button" value="红色" onclick="test4(this)">
+</body>
+<html>

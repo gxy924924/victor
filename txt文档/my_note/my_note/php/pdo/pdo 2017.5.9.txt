@@ -1,0 +1,13 @@
+pdo:
+==>pdo是什么？
+pdo是别人写的“数据库操作工具类” --它可以代替我们自己写的sqlhelper.class.php
+使用它，类似这样
+$pdo=new PDO(链接信息)；
+$sql="select　*...";
+$result=$pdo->query($sql); //返回一个pdo结果集
+$sql="delete/update/insert ....";
+$result2=$pdo->exec($sql);//返回真价值；
+
+
+视频网站：4：52
+http://www.iqiyi.com/v_19rraifs14.html?vfm=m_303_qqll

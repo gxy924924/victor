@@ -1,0 +1,47 @@
+body{
+	background: #aaf;
+}
+.main{
+	width: 350px;
+}
+.top{
+	height: 100px;
+	background: #272822;
+	line-height: 100px;
+	color: #fff;
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+}
+.left{
+	height: 200px;
+	background: #272822;
+	line-height: 200px;
+	color: #fff;
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+	width: 350px;
+	float: none;
+}
+.right{
+	height: 200px;
+	background: #272822;
+	line-height: 200px;
+	color: #fff;
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+	width: 350px;
+	float: none;
+}
+.bottom{
+	height: 100px;
+	background: #272822;
+	line-height: 100px;
+	color: #fff;
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+}
+	

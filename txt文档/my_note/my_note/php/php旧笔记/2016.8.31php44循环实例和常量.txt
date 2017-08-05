@@ -1,0 +1,76 @@
+==>我的计算器====
+<html>
+<head><title>我的计算器</title>
+<meta http-equiv="content-type" content="text/html";charset="utf-8"/>
+</head>
+<body>
+<form action="result.php"method="post">
+<table>
+<tr><td>第一个数</td><td><input type="text" name="num1"></td></tr>
+<tr><td>第二个数</td><td><input type="text" name="num2"></td></tr>
+<tr>
+<td>计算（输入+-*/）</td>
+<td><select name="oper"><option value="+">+</option><option value="-">-</option>
+<option value="*">*</option><option value="/">/</option></select>
+</td></tr>
+<tr><td colspan="2"><input type="submit" value="计算结果"></td></tr>
+</table></body></html>
+---------------------------------------------------
+
+<?php
+//接受用户从calcu.php(对应静态页面 浏览器)提交的数据
+//接收num1的数据
+$num1=$_REQUEST['num1'];
+//接收num2的数据
+$num2=$_REQUEST['num2'];
+//接收运算符
+$oper=$_REQUEST['oper'];
+echo '接收到num1='.$num1.'num2='.$num2.'运算符'.$oper;
+echo "</br>";
+//var_dump($_POST);
+switch($oper){
+	case "+":$res=$num1+$num2;break;case "-":$res=$num1-$num2;break;
+	case "*":$res=$num1*$num2;break;case "/":$res=$num1/$num2;break;}
+echo "</br>接收到要求".$num1.$oper.$num2."=".$res;
+?>
+<a href="calcu.php">返回主页</a>
+
+总结一句话：按照正常思路，应当保证接收数据的时候$_REQUEST['参数']要和提交数据的页面给出的html元素名字一致，如果不一致，会出现notice提示，同时我们接收的数据就是null/“”（空串）
+
+--->循环控制---break语句===========
+基本概念：表示结束当前的for/while/do..while/switch流程,可以给一个数字，表示退出到第几层
+注意：1。break语句默认跳出1层
+2.break语句不能超过实际可以跳出的循环层数，否则会报错fatal（致命错误）
+多层跳出：break 2；
+while（++$i）{}//会不断循环i+1
+while（$i++）{}//一样
+
+--->循环控制---continue语句===========
+基本概念：continue 用于结束本次循环剩余代码，从新开始新的一次循环（如果条件为真，就继续执行），continue 后面也可以带数字，表示从第几层循环重新开始
+
+===》goto语句
+基本概念：通过goto语句我们可以将程序跳转到指定的
+说明：可以直接跳出多层，代替break
+goto 标签；
+标签：语句；
+goto a;
+echo "bb";//会被跳过，不执行
+a:echo "aa";
+------------------
+结果：---》aa
+
+====》常量const TAX_RATE2========
+所为常量，我们可以理解为特殊的变量：体现在
+1.定义常量前不需要$
+2.常量一旦定义，则不能修改其值
+3.常量在定义时，就需要给它赋初值
+4.常量可以通过define 或 const 来定义
+5.常量的名称，我们一般是全部大写，然后用下划线间隔
+6.什么时候需要使用到常量：在程序中我们不希望某个值变化，则考虑使用常量。
+如：圆周率，税率。
+<?php
+define("TAX_RATE","0.08");
+echo 'tax1='.TAX_RATE;
+const TAX_RATE2=0.1;
+echo 'tax2='.TAX_RATE2;
+?>

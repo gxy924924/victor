@@ -1,0 +1,28 @@
+﻿==>mysqli 扩展库 预处理技术 mysqli stmt
+现需要向mysql数据库天剑100个用户，如何实现？
+思路：
+1使用for循环，
+2使用批量添加
+$sql1="insert ...";
+$sql1.="insert...";
+...
+$mysqli->mutil_query($sql)
+
+3方案3：使用预处理
+$mysqli=new MYSQLI("localhost","root","root","test");
+$mysqli_stmt=$mysqli->prepare($sql);
+$mysqli_stmt->bind_param("sssi",$name,$password,$email,$age);
+$mysqli_stmt->execute();//执行
+
+==>使用预编译可以自动防止sql（结构化查询语句）注入攻击
+sql注入攻击：万能密码
+$sql="select * from user1 where id=2 pwd="xxxxx" or 1='1';"//会返回所有结果
+
+方案1：预编译
+方案2：if（pwd==“用户输入的密码”）{//合法}else{}
+
+==》mysqli其它常用函数
+见ls99mysqli_demo.php
+
+==》php->pdo抽象层-》mysql数据库/oracle数据库/。。。
+pdo（特点）：可支持多种数据库

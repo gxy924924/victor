@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+	<link href="/public/css/Index.index.index.css" rel="stylesheet"></link>
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+</head>
+<body>
+	{include file="public/sorand/header.html"}
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<!-- <div class="well text-center">
+				<form action="" method="post">
+				<div class="row">
+					<select name="position" id="">
+						
+					</select>
+				</div>
+				<div class="row">
+				<button class="btn" type="submit">搜索</button>
+				</div>
+
+				</form>
+			</div> -->
+			<div class="well text-center">
+				
+				    	<h3>今天预约人数共{$today_total}人</h3>
+				    	<h3>今天预约人数已到{$today_arrive}人</h3>
+				    	<h3>今天预约人数未到{$today_not}人</h3>
+
+			</div>
+			
+		</div><!-- col-md-9 -->
+	</div><!-- container	 -->
+
+
+</body>
+</html>

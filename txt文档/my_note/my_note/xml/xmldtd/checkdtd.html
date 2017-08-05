@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+<title>测试dtd</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script language="javascript">
+<!--
+	//创建一个xml解析器
+	var xmldoc=new ActiveXObject("Microsoft.XMLDOM");
+	xmldoc.async="false";
+	//开启校验功能
+	xmldoc.validateOnParse=true;
+	//指定对哪个xml文件校验
+	xmldoc.load("classes3.xml");
+	//如果有错误信息，则输出
+	document.write("错误信息="+xmldoc.parseError.reason
++"<br/>");
+	document.write("错误行号="+xmldoc.parseError.line
++"<br/>");
+
+//-->
+</script>
+ </head>
+
+</html>

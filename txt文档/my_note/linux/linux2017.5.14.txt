@@ -1,0 +1,401 @@
+
+==>为什么用linux
+linux节省资源，高效，最重要的是--免费
+
+==》安装
+vmware 7.1.3	//此软件较小，可以任意安装到一个盘中，名字不能有中文
+安装完成后。。。
+打开软件-》新建虚拟机-》下一步-》以后装操作系统-》linux(Other linux 2.6.x kernal/ 【选这个】-》 red hat...5)
+
+==》设置虚拟机信息
+memory 512
+process 2
+hard disk 10G
+cd/dvd
+Network adapter
+display 
+
+	其它的可以全部取消不要
+	floppy 软驱
+	sound card
+	use controller
+	printer 打印机
+
+-》网卡设置
+NAT：vmnet8
+host-only（选这个）: vmnet1
+
+
+==>设置系统信息
+1.设置为英语的
+2.硬盘设置（使用默认就很好）
+硬盘：ide(早期)-》SATA（近期）-》sd。。（sda是第一块sd硬盘）
+->review and modify partitioning layout(预览硬盘状态)
+	linux分区：linux只有一个分区（/）（根）
+
+		文件系统：
+		swap:虚拟缓存
+		ext3:类似于windows中的NTFS格式（增强性的日志文件系统）
+		lvm：逻辑卷（可扩展卷） 
+
+		分区名：
+		/boot：内核文件位置
+
+		硬盘名描述：
+		sda1:第一个硬盘的第一个主分区
+
+	这里lvm（逻辑卷）将10g空间放在volgroup00（想象成一个大水池）中，这种卷可以将更多的空间再加入到这个大水池中，而这个水池已经将里面的10g分别给了虚拟缓存和跟目录，由于他们都在“大水池中”所以水池扩大了可以再次给他们扩充，就有了扩展性
+
+--》Network devices
+edit->(自己配置ip和prefix-子网掩码)
+
+--》设置时间
+亚洲-》上海
+
+--》default installation
+Desktop-Gnome(桌面)
+
+--》software -》customize now：自定义安装的软件包
+	-》desktop ：
+		 GNOME Desktop Environment（桌面）	（留下） 
+	-》Applications
+		Editors:与sublime相似（编辑器） 	（留下）
+		Games and Entertainment	(游戏)			（去掉）
+		Graphical internet (浏览器) 		（留下）
+		Graphics（画板）						（去掉）
+		Office/priductivity（office）			（去掉）
+		sound and Video（视频音频）				（去掉）
+		Text-based Internet(文本浏览器)		（留下）
+
+	-》Development（开发环境）
+		Development Tools(核心开发包)		（留下）
+	-》Servers（服务）
+		Printing support(打印机)				（去掉）
+	-》Base System（）（里面的东西不要动）
+	-》Virtualization
+	-》Clustering
+	-》Cluster Storage
+
+==》安装完成后设置
+	-》firewall:disabled 禁用掉
+	-》SELLinux防火墙：disabled 禁用
+	-》	Create User：不输入跳过
+
+==》开启系统时随意按个键就可以跳到管理界面
+	E:编辑
+	b:boot
+	c:进入命令行
+	esc:返回
+
+==》输入账号和密码
+账号：root
+密码：kkkkkk
+注意：以后再代码界面输密码时密码不显示，直接输完回车即可 
+
+==》打开命令行（窗口中）
+	右键——》open Terminal
+
+==>直接跳到另一个用户的命令行
+	alt+ctrl+f1/f2...f7(图形界面)
+
+-----------------------------------------------------------------
+2017.5.19
+==>linux系统安装
+1.VMware虚拟机
+2.组装linux服务器
+3.安装
+	分区，设置ip，时区，语言，软件包，设置root密码
+4.关闭firewall防火墙和selinux增强防火墙
+
+进入系统后：
+1.图形到字符 ctrl+alt+f1/f2...f6
+2.字符到图形 alt+f1/f2...f7
+	注：后面
+
+设置进入
+1.图形进入
+2.字符进入
+	-》设置进入的地方
+		在编辑界面输入
+			vi /etc/inittab
+
+		default runlevel
+	
+		id:3:initdefault
+	//默认启动项，3为多用户字符界面，5为多用户图形界面
+
+	-》计算机运行级别
+	0：关机
+	3.字符界面
+	5.图形界面
+	6.重启
+
+
+
+vi编辑器：--》vim（进化版本）
+	大部分跟sublime相似
+	w:保存
+	x:保存并退出
+
+
+==》命令行
+	vi xxx.xxx	//使用vi编辑器打开
+	ls	（list）//查看当前位置文件
+	cd 			//切换目录
+	runlevel	//运行模式（3表示字符界面，5表示图形界面）
+	history		//曾经敲过的所有历史
+		【-c】	//清空运行码的历史
+	init 			0：关机
+					3.字符界面
+					5.图形界面
+					6.重启
+
+==>虚拟机设置
+	-》快照:创建快照	//创建一个备份，以后可以还原
+
+	虚拟机优势：不怕中病毒。。。。。^_^!|||
+
+==》linux常用指令
+1.常用操作
+2.系统目录结构
+3.文件管理
+4.目录管理
+5.用户管理
+6.文件搜索
+7.内容搜素
+8.压缩包管理
+9.网络设置
+10.shell常用技巧
+11.帮助方法
+12.防火墙设置
+
+注意：所有命令都要有空格如ls -l
+	命令的本质是一个文件（执行程序）
+
+
+==》常用操作
+1./root  				root根目录
+2.ls					查看当前目录下与目录下文件
+		ls xxx* 		以xxx开头的文件
+		-l 				文件详细信息（可以看到权限）
+  ll 					文件属性信息
+3.cd 					切换目录（什么都不写会返回家目录）
+4.cd -
+					切换返回上一个目录（最后两次目录来回切换）
+5.pwd					查看当前目录
+6.ctrl+c 				强制中断
+  ctrl+z				不中断，跳转到后台
+7.clear（ctrl+l） 		清屏
+8.ifconfig				查看ip
+9.mount		a..  b..	挂载a到b
+  unmount				卸载光盘
+10.df 					查看硬件设备情况展示挂载表
+		-T 				查看格式类型
+10.cp		a..  b.. 	将a拷贝到b
+11.rm 
+		 -rf * 			清空当前文件夹下的文件
+12.which xx 			查找一个命令所在位置
+13.mkdir xx 			创建文件
+14.rpm -qa 				安装过那些rpm
+			|grap xxx 	抓取其中有xxx的那部分
+15.ctrl+u   			清除当前输入的命令
+16.mv axxx xxx			将axxx移动到xxx
+17.vi 	xxx				创建文件xxx
+
+282757391
+
+	-》按tab键可以自动将匹配的内容补充（自动补全）
+	-》鼠标选中的会自动复制，右键粘贴
+	-》~ 波浪线表示家目录
+	-》| 前面的命令的结果给了后面的命令
+	-》rpm 类似于windows中的exe
+
+/根目录下面的目录分类
+	/root 		root超级用户的家目录
+	/home 		普通用户的家目录
+	/dev  		硬件设备（其中有很多磁盘一类的硬件）  device
+		cdrom 	光盘
+	/media		空目录，常用来挂载光驱
+	/mnt 		空目录，仅供测试
+	/var 		日志
+		log		日志
+	/tmp 		临时文件夹
+	/bin		所有用户执行的命令
+	/sbin		只有superuser可以使用的命令
+	/etc 		配置文件
+	/usr 	 	用户安装的东西	
+
+==》各种格式：
+	fet32 ntfs ext3 iso-9660
+
+==》挂载	（光盘的格式iso-9660）
+	类似于光驱读取光盘的内容，将光盘的内容放在某个文件目录下浏览
+
+==》cdrom是一种快捷方式
+	原来是hdc
+	[root@localhost dev]# ll cdrom
+	lrwxrwxrwx 1 root root 3 May 19 20:51 cdrom -> hdc
+
+
+==》补充ip设施
+设置IP和掩码
+ifconfig eth0 192.168.5.40 netmask 255.255.255.0
+设置网关
+route add default gw 192.168.5.1
+
+2、设置虚拟机IP
+涉及文件列表：
+/etc/sysconfig/network-scripts/ifcfg-eth0（网卡），/etc/sysconfig/network（主机名），/etc/resolv.conf（DNS）。
+
+#使ip配置生效'
+/etc/init.d/network restart
+
+=>关闭sendmail服务：(下次重启会再次打开，需要服务进程更改)
+service sendmail stop
+service sendmail start
+
+==》centos 5.5中已经安装appache
+	cd /usr/sbin 	在里面可以找到apachectl 这个文件
+	ls apachectl  
+	apachectl  -h  	可以查看appache相关功能
+
+ vi /etc/httpd/conf/httpd.conf
+
+-------------------------------------------------------
+==shell技巧
+1.tab补全
+2.！v 	表示上一次离你现在最近的一次v打头的
+3.集合命令 touch file{1..5}.txt //同时创建多个文件
+
+==>文件管理
+1.创建文件
+touch xxx
+touch file{1..5}.txt 		//表示同时创建file1。。2.3.5个文件
+vi xxx
+2.删除文件
+rm （-rf） xxx.xxx
+3.修改文件
+vi xxx
+
+4.查看文件
+vi
+cat |more
+head 		（-1）		//查看前10（1）行
+tail 		（-2）		//查看最后10（2）行
+
+5.文件复制
+cp xxx xxx
+6.文件移动
+mv xxx xxx
+
+=》文件查找
+which ls //查找命令程序
+ls file*
+find /etc/aaa*	//大范围查找（可精确，可模糊）
+updatedb ->locate		
+				//查找一个精确地文件
+->文件内查找
+	在vi内直接写/后查找内容，查找下一条输入n
+	xxx |grep  文件外查找 
+
+->grep 
+grep -E "xxx" //正则表达式筛选
+
+==>目录管理
+1.新建目录
+mkdir xxx
+
+2.删除目录
+rmdir xx 	//即使目录中有文件
+rm [-rf]	//
+3.修改目录
+mv xxx vvv
+4.递归式创建目录
+mkdir -p a/b/c/b/v
+5.递归查看
+tree a
+
+==》用户管理
+1.添加用户
+useradd yujie
+2.改密码
+passwd yujie
+...xxx
+3.查看用户
+id xxx 		//查看用户id
+cat /etc/passwd |grep user1
+4.删除用户
+userdel
+
+查看用户
+cat /etc/shadow 		//
+
+==>gz压缩包：
+1.制作压缩包
+tar czf file.tar.gz file.txt
+2.解压缩包
+tar xzf file.tar.gz
+tar xzf file.tar.gz -C /tmp
+3.查看压缩包
+tar tf file.tar.gz
+
+==>zip压缩包
+1.压缩 
+zip aaa.zip file
+2.解压缩
+unzip aaa.zip
+3.查看 文件
+unzip -l file.zip
+
+==>网络设置
+1.临时设置
+ifconfig eth0 192.168.100.2
+2.永久设置
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+IPADDR=192.168.100.3
+
+	模拟启动时ip生效
+	service network restart
+3.查看网络配置
+ifconfig
+ifconfig eth0
+
+==>防火墙
+1.iptables
+	->查看iptables防火墙
+	iptables -L -n
+	->清除防火墙（临时）
+	iptables -F
+	-》保存防火墙策略（永久）
+	service iptables save
+2.sellinux
+	->查看sellinux防火墙
+	sestatus 
+	-》关闭selinux防火墙
+	vi /etc/selinux/config
+	SELINUX=disabled
+	更改设置后重启服务器才能生效
+
+==》获取帮助
+	--help或-h
+	men xxx		(获取帮助手册)
+-------------------------------------------------------------
+fuser /mnt  //查看占用此目录的进程
+
+查看当前进程：ps aux
+
+* kill -9 25023 # ps aux | grep 25023 应该就会看到它
+    * fuser -m -v -i -k /media/share # 会问你是不是要把 25023 这个 kill 掉, 选 y 就会 kill 掉
+
+==>查看端口
+netstat -tunpl 
+
+
+==》shell脚本
+echo 111 > aa.txt  //将111写入aa.txt(覆盖)
+echo 222 >> aa.txt  //将222补充进入aa.txt
+
+date=`date "+%Y-%m-%d"`
+echo $date
+			//定义变量不带$,执行带$
+echo "aaa${date}aaa"

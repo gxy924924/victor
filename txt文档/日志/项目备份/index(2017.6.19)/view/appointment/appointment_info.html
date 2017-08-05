@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+
+</head>
+	<style>
+		.mar{
+			color: #ccc;
+		}
+		.navbar-header .navbar-brand{
+			font-size: 28px;
+		}
+		.col-md-3{
+			padding-left: 0;
+			padding-right: 5px;
+		}
+		.col-md-9{
+			padding-left: 5px;
+			padding-right: 0;
+		}
+		.row{
+			margin-bottom: 5px;
+			text-align: center;
+		}
+		.font-gray{
+			color: #666;
+		}
+		textarea{
+			width: 100%;
+		}
+		h4{
+			margin: 5px;
+			font-weight: bold;
+			color: #444;
+		}
+		.posit{
+			width:70px;
+		}
+		.appo_time{
+			width:90px;
+		}
+		.reg_time{
+			width:90px;
+		}
+		.table>tbody>tr>td{
+			padding: 5px;
+		}
+		.col-sm-4{
+			margin-bottom: 10px;
+		}
+
+		.search_btn{
+			width:100px;
+			margin-right: 20px;
+		}
+	</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			
+		<div class="panel panel-default text-center">
+			<div class="panel-heading">
+			<h4>搜索</h4>
+				
+			</div>
+			<div class="panel-body">
+			<form action="{:url('index/appointment/appointment_info')}" method="post">
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">登记(起)</span>
+						<input type="text" name="add_time_start"  class="form-control form-control js__datepicker" value="" placeholder="输入时间" value="" id="add_time_start">
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">登记(止)</span>
+						<input type="text" name="add_time_stop"  class="form-control form-control js__datepicker" value="" placeholder="输入时间" id="add_time_stop">
+					</div>
+				</div>
+				
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">到达</span>
+						<select name="appointment_go" id=""  class="form-control">
+							<option value="">-未选择-</option>
+							<option value="1" <?php if(isset($_POST['appointment_go'])&&$_POST['appointment_go']=="1"){ echo "selected='selected'"; } ?> >到达</option>
+							<option value="0" <?php if(isset($_POST['appointment_go'])&&$_POST['appointment_go']=="0"){ echo "selected='selected'"; } ?>>未到达</option>
+						</select>
+					</div>
+					
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">预约(起)</span>
+						<input type="text" name="appointment_time_start"  class="form-control form-control js__datepicker" placeholder="输入时间" id="appointment_time_start">
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">预约(止)</span>
+						<input type="text" name="appointment_time_stop"  class="form-control form-control js__datepicker" placeholder="输入时间" id="appointment_time_stop">
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">预约类型</span>
+						<select name="appointment_style" id=""  class="form-control">
+							<option value="">-未选择-</option>
+							<?php foreach ($appointment_style as $v) :?>
+						  		<option value="{$v['style']}" <?php if(isset($_POST['appointment_style'])&&$_POST['appointment_style']==$v['style']){ echo "selected='selected'"; } ?>>{$v['style']}</option>
+						  	<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">省市县</span>
+						<select name="province" id="province"  class="form-control">
+							<option value="">-未选择-</option>
+							<?php foreach ($province as $v) :?>
+						  		<option value="{$v['id']}-{$v['name']}" <?php if(isset($_POST['province'])&&$_POST['province']==$v['id'].'-'.$v['name']){ echo "selected='selected'"; } ?> >{$v['name']}</option>
+						  	<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">市</span>
+						<select name="city" id="city"  class="form-control">
+							<option value="">-未选择-</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">县</span>
+						<select name="county" id="county"  class="form-control">
+							<option value="">-未选择-</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">添加者</span>
+						<input type="text" class="form-control" name="adder_name" value="<?php if(!empty($_POST['adder_name'])){ echo $_POST['adder_name'];}?>">
+					</div>
+				</div>
+				<div class="col-sm-8 text-right">
+						<button class="btn btn-primary search_btn" type="submit">搜索</button>
+				</div>
+			</form>
+				
+			</div>
+			<div class="panel-heading">
+				<h4>预约信息</h4>
+				
+			</div>
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>名称</th>
+					<th class="reg_time">登记时间</th>
+					<th class="appo_time">预约时间</th>
+					<?php if($tel_access):?>
+					<th class="tel">电话</th>
+					<th>微信</th>
+					<?php endif;?>
+					<th>性别</th>
+					<th>年龄</th>
+					<th>到达</th>
+					<th class="posit">区域</th>
+					
+					<th>预约类型</th>
+					<?php if($tel_access):?>
+						<th>商店信息</th>
+						<th>添加者</th>
+					<?php endif;?>
+					
+					<th>操作功能</th>
+				</tr>
+				<?php foreach ($appo_info as $v) :?>
+				<tr>
+					<td>{$v['id']}</td>
+					<td>{$v['name']}</td>
+					<td>{$v['add_time']}</td>
+					<td>{$v['appointment_time']}</td>
+					<?php if($tel_access):?>
+					<td>{$v['tel']}</td>
+					<td>{$v['weixin']}</td>
+					<?php endif;?>
+					
+					<td>{$v['sex']}</td>
+					<td>{$v['age']}</td>
+					<td><?php echo $v['appointment_go']?'已到':'未到'?></td>
+					<td>{$v['position']}</td>
+					<td>{$v['appointment_style']}</td>
+					<?php if($tel_access):?>
+					<td>{$v['shop']}</td>
+					<td>{$v['username']}</td>
+					<?php endif;?>
+					
+					<td>
+						
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    操作
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+						    <li><a href='{:url("index/appointment/show_detail")}?ap_id={$v["id"]}'>详细内容</a></li>
+						    <li><a href='{:url("index/appointment/appoint_detail")}?ap_id={$v["id"]}'>添加/修改详细</a></li>
+
+						    <li role="separator" class="divider"></li>
+
+						    <li><a href='{:url("index/appointment/appointment_update")}?appo_id={$v["id"]}'>修改预约</a></li>
+						    <li><a href='{:url("index/appointment/appoint_delete")}?id={$v["id"]}' class="delete">删除预约</a></li>
+
+						    <li role="separator" class="divider"></li>
+						    
+						    <li><a href='{:url("index/appointment/appoint_arrive")}?id={$v["id"]}'>客户到达</a></li>
+						  </ul>
+						</div>
+
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		</div>
+
+			
+		</div><!-- col-md-9 -->
+	</div><!-- container	 -->
+
+
+	<!-- 省市县三级联动隐藏地址（勿删） -->
+<input type="hidden" value='{$city_get_url}' id="city_get_url">
+<input type="hidden" value='<?php if(!empty($_POST['city'])){  $arr_city=explode('-',$_POST['city']);echo $arr_city[0];} ?>' id="city_hid">
+
+
+<input type="hidden" value='<?php if(!empty($_POST['add_time_start'])){ echo $_POST['add_time_start'];} ?>' id="add_time_start_hid">
+<input type="hidden" value='<?php if(!empty($_POST['add_time_stop'])){ echo $_POST['add_time_stop'];} ?>' id="add_time_stop_hid">
+<input type="hidden" value='<?php if(!empty($_POST['appointment_time_start'])){ echo $_POST['appointment_time_start'];} ?>' id="appointment_time_start_hid">
+<input type="hidden" value='<?php if(!empty($_POST['appointment_time_stop'])){ echo $_POST['appointment_time_stop'];} ?>' id="appointment_time_stop_hid">
+<script>
+	// $("#add_time_start")
+	changeCity();
+	//添加开始时间
+	add_start_time=$('#add_time_start_hid').val();
+	$('#add_time_start').val(add_start_time);
+	add_time_stop=$('#add_time_stop_hid').val();
+	$('#add_time_stop').val(add_time_stop);
+	$('#appointment_time_start').val($('#appointment_time_start_hid').val());
+	$('#appointment_time_stop').val($('#appointment_time_stop_hid').val());
+
+
+	$("#province").change(function changeCity(){
+		$("#city").empty();
+		$("#city").append("<option value=''>-请选择(市)-</option>");
+		
+		var id=$("#province").val();
+		var url=$("#city_get_url").val();
+		// alert(url);
+		$.get(url,{"id":id},function(data){
+		
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#city").append(append_val);
+			};
+		},"json");
+	});
+	function changeCity(){
+		$("#city").empty();
+		$("#city").append("<option value=''>-请选择(市)-</option>");
+		
+		var id=$("#province").val();
+		var url=$("#city_get_url").val();
+		var city_hid=$('#city_hid').val();
+		// alert(city_hid);
+		$.get(url,{"id":id},function(data){
+		
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name'];
+				if(city_hid==obj[i]['id']){
+					append_val+=" selected='selected'";
+				}
+				append_val+=">"+obj[i]['name']+"</option>";
+				$("#city").append(append_val);
+			};
+		},"json");
+	}
+	$("#city").change(function(){
+		$("#county").empty();
+		$("#county").append("<option value=''>-请选择(县)-</option>");
+		var id=$("#city").val();
+		var url=$("#city_get_url").val();
+		$.get(url,{"id":id},function(data){
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#county").append(append_val);
+			};
+		},"json");
+	});
+	function changeCounty(){
+		$("#county").empty();
+		$("#county").append("<option value=''>-请选择(县)-</option>");
+		var id=$("#city").val();
+		var url=$("#city_get_url").val();
+		$.get(url,{"id":id},function(data){
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#county").append(append_val);
+			};
+		},"json");
+	}
+
+
+
+
+	$(".delete").click(function(){
+		return confirm("确认删除");
+	});
+
+</script>
+
+	<!-- date专用 -->
+	<script src="/public/date/lib/picker.js"></script>
+    <script src="/public/date/lib/picker.date.js"></script>
+    <script src="/public/date/lib/picker.time.js"></script>
+    <script src="/public/date/demo/scripts/main.js"></script>
+	<!-- date专用 -->
+
+</body>
+</html>
+

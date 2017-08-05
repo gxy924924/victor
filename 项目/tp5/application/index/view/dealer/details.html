@@ -1,0 +1,53 @@
+
+<html>
+    <head>
+	{include file="public/sorand/title.html"}
+ </head>
+    <body>
+        {include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+	</div><!-- col-md-3 -->
+        <div class="col-md-9">
+                 <table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>用户</th>
+					<th>电话</th>
+					<th>qq</th>
+					<th>微信</th>
+                                        <th>累积销售（元）</th>
+                                        
+                                        <th>累积会员</th>
+                                        <th>累积订单数</th>
+				
+				</tr>
+                              {volist  name="list"  id="v"}
+		
+				<tr>
+					<td>{$v['id']}</td>
+                                        <td>{$v['username']}</td>
+                                        <td>{$v['tel']}</td>
+                                        <td>{$v['qq']}</td>
+                                        <td>{$v['weixin']}</td>
+                                        <td>{$sum}</td>
+                                        <td>{$count}</td>
+                                        
+                                  
+                                        <td>{$a}</td>
+	
+				</tr>
+				{/volist}
+			</table>
+        
+        
+        
+        
+	
+     	</div>
+      	</div>               
+    </body>
+</html>

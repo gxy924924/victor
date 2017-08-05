@@ -1,0 +1,23 @@
+﻿chcp 936  cmd中计算机默认编码
+==》词典
+create database worddb;
+
+create table words(
+id int primary key auto_increment,
+enword varchar(32) not null,
+chword varchar(256) not null
+);
+
+insert into words (enword,chword) values('boy','男孩');
+insert into words (enword,chword) values('school','学校');
+insert into words (enword,chword) values('middle school','中学校');
+---------------------------------------------------------------
+PHP isset()与empty()的使用区别详解
+isset()函数 一般用来检测变量是否设置 
+若变量不存在则返回 FALSE 
+若变量存在且其值为NULL，也返回 FALSE 
+若变量存在且值不为NULL，则返回 TURE 
+empty()函数 判断值为否为空 
+若变量不存在则返回 TRUE 
+若变量存在且其值为""、0、"0"、NULL、、FALSE、array()、var $var; 以及没有任何属性的对象，则返回 TURE 
+若变量存在且值不为""、0、"0"、NULL、、FALSE、array()、var $var; 以及没有任何属性的对象，则返回 FALSE 

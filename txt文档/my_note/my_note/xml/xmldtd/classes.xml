@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<班级>aaa
+<stu stuno="001">
+<name>孙悟空</name>
+<sex>男</sex>
+<age>136000</age>
+<介绍><![CDATA[$#%&!#*<>|<>\]]></介绍>
+</stu>
+<stu stuno="002">
+<name>白骨精</name>
+<sex>女</sex>
+<age>800</age>
+</stu>
+</班级>

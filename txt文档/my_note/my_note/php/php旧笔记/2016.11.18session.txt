@@ -1,0 +1,158 @@
+﻿cookie/session
+==>思考问题
+我们在浏览网站，去购物时候，zhangsan和李四，可以购买不同的商品，并且在查看购物车的时候，可以看到自己购买的商品。
+
+思路1：数据库 2.cookie -》》？？
+当你登录某个网站，你可以在任何一个网页，查看登录的名字？
+思路
+1.数据库
+2.cookie
+问题：安全性/在网络传输数据（带宽问题）
+3.解决之道--》session（服务器端技术）
+
+==》思考的问题？
+用户无需登录，可以直接进入管理页面，并且可以对用户进行crud操作
+
+==》session的初步介绍
+1.session是服务器端技术
+2.见原理示意图
+  注意：一个会话对应一个session文件（默认存在时间1440秒）
+3.session的基本用法（cruf）增删改查
+3.1如何保存session
+
+保存的数据格式：
+name|s:8:"shunping";
+
+name 就是key
+s：数据类型
+8：数据大小
+
+session可保存各类数据（string ，int，bool，array，object） 包括类
+
+==》如何获取
+1.要使用session，都要先初始化session_start();
+2session文件中可以放入多个key<==>val键值对，注意key不能重复，val可以是基本数据类型，和array对象
+3.如果要取出对象，则需要申明定义（引出对象）
+
+3.3更新session 
+直接给其赋值会替换掉旧的数据
+
+3.4删除session
+//删除一个键值对
+unset($_SESSION['name']);
+
+//删除所有的key<==>val
+//这样就会把当前这个浏览器对应的session文件删除
+session_destroy();
+
+
+思考：如果没有手动删除 session ，那么系统是怎么维护的
+
+==》session的细节讨论
+1.session数据默认存放时间是1440秒，这个时间通过php。ini修改
+
+session.gc_maxlifetime=1440
+时间可以自定，修改后，也要重新启动apache
+这个时间是指定在1440秒内，没有使用session文件，该session才会被当做垃圾，从而被回收。（打盹时间）
+
+2.session文件存放的路径是可以修改的session.save_path
+修改后需要重启apache
+
+3.在使用session的时候，应当保证，对session进行初始化。
+方法1；在每个需要使用session页面都写入session_start();
+方法2：在php.ini中配置修改session.auto_start = 1（不推荐）
+
+4服务器中，一个session文件是对应的一个会话的，再开一个会话会对应另一个session。
+
+
+==>session的实际运用
+
+购物车实际案例——给出界面，然后实现为后面讲知识点
+
+再请思考一个问题？
+如果用户禁用cookie？
+当用户禁用 cookie后，服务器每次 session_start()都会创建一个全新的session文件
+
+如何解决?----URL重写
+从cookie session 和http协议入手解决
+
+方案一：传值session_id();
+答：在每个超链接中将session_id();传入
+再在新的文件中session_id($_GET['PHPSESSID']);
+if(isset($_GET['PHPSESSID])){
+	session_id($_GET['PHPSESSID]);
+}
+
+方案二：使用常量SID（系统函数）
+SID函数会返回PHPSESSID=id值（session_id()）
+
+方案三：启用session_use_trans_sid指定是否启用透明SID支持，即可这样设置
+session_use_trans_sid=1，这样重启apache即可生效
+
+==>session 技术的实际运用
+1.防止登录时，恶意攻击
+2.防止灌水。。
+。。。
+实现之
+
+代码 直接在我们的雇员系统中增加验证码功能
+
+1.checkCode.php这个文件引入到文件中
+2.在login.php页面中添加一个<img>标签，向checkCode.php发送请求
+3.在loginProcess.php页面中，添加对验证码的处理
+
+
+==>php.ini文件中关于cookie和session的设置
+
+1。session_name
+    该配置用于设置session的名字，这个值可以通过session_name()来获取
+2.session.use_trans_sid默认是0
+    session_use_trans_sid=0
+    说明给每个url启用session名=SESSIONID，对安全有影响，不推荐开启
+3.session.save_path=路径
+    配置session文件的存储路径
+
+4.三个一组
+session.gc_maxlifetime=1440
+说明：session默认最大生命周期
+session.gc_probability=1  //垃圾回收机制发生的概率（分子）
+session.gc_divisor=1000   //发生概率（分母）
+
+说明：上面三个配置，共同来决定，session的垃圾回收清除
+
+原理图：见图
+
+说明：当某个用户操作session的时候，会使用到session_start(),该函数会调用gc但其概率是session.gc_probability/session.gc_divisor
+原因：对于一个网站来说，当大量人来访问的时候，如果没有概率发生机制，则近乎相当于在不停的使用垃圾回收机制，浪费资源，有了概率机制可以大量节省资源。
+注：越大的网站就会把其概率设置的越小。
+
+
+5.session.cookie_lifetime=0
+该设置可以指定cookie默认生命周期，默认是0，表示当关闭浏览器后该cookies失效，你可以这样
+setcookie（"名字","val",time()+3600）
+setcookie（"名字","val"）
+
+==>自定义会话处理器session_set_save_handler
+session的各种操作，都可以自定义会话来自己决定，靠
+session_set_save_handler
+如果你要自定义处理session，需要在php.ini中来设置
+//session_set_save_handler有六个回调函数
+session_set_save_handler（"open","close","read","write","destroy","gc"）
+
+通过该案例：我们充分体会session的操作流程，是可以修改session数据可以存放的位置
+（1）文件  （2）数据库	（3）内存（memcache）（4）网络文件 nfs 
+
+nfs技术把session存放到网络系统（云数据）
+
+session和cookie对比
+1。存放位置
+cookie：客户端 session：服务器端
+2.安全
+session》cookie
+3.网络传输量
+cookie：客户端与服务器端来回传输
+session：服务器端，不需要传输
+4生命周期
+cookie：自己定义，并且累计，时间到了就清除
+session：系统默认，打盹时间，没删除时间内操作时间重新计时
+

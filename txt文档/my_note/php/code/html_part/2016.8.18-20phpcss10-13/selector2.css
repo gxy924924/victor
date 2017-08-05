@@ -1,0 +1,57 @@
+/*招生广告*/
+.ad_stu{
+width:136px;
+height:196px;
+background-color:#fc7e8c;
+margin:5px 0 0 6px;
+float:left;
+}
+
+/*广告2*/
+.ad_2{
+background:#7cf574;
+height:196px;
+width:457px;
+float:left;
+margin:5px 0 0 6px;
+}
+
+/*房地产广告*/
+.ad_house{
+background:#7cf574;
+height:196px;
+width:152px;
+float:left;
+margin:5px 0 0 6px;
+}
+
+/*把各个类选择器的公共部分，单独抽取一份，好处是可以减少冗余*/
+/*招生广告*/
+.ad_stu{
+width:136px;
+
+background-color:#fc7e8c;
+}
+
+/*广告2*/
+.ad_2{
+background:#7cf574;
+
+width:457px;
+
+
+}
+
+/*房地产广告*/
+.ad_house{
+background:#7cf574;
+
+width:152px;
+
+}
+.ad_stu,.ad_2,.ad_house{
+	margin:5px 0 0 6px;
+	height:196px;
+	float:left;
+
+}

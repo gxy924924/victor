@@ -1,0 +1,16 @@
+<html>
+<head>
+
+
+</head>
+<body align="middle">
+Õº–Œ”≥…‰</br>
+<img src="face.png" usemap="#abc"/>
+<!--”≥…‰«¯”Ú-->
+<map name="abc">
+<area shape="rect" href="fang.html"coords="128,21,252,58"></a>
+<area shape="circle" onclick="show();" href="#" coords="75,93,54"></a>
+</map>
+
+</body>
+</html>

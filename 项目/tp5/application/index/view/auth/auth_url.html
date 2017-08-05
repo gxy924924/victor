@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+	<style>
+		.btn{
+			margin-left: 50px;
+			margin-right: 50px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 10px;
+		}
+		.input-group{
+			margin-top: 20px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}
+		th{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container text-center">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+			<h4>
+				权限目录添加
+			</h4>
+			</div>
+			<div class="panel panel-body">
+				<form action="{:url('index/auth/add_level')}" method="post">
+					<div class="input-group">
+						<span class="input-group-addon">目录名称</span>
+						<input type="text" class="form-control" name="title"  placeholder="目录功能-如：查看预约">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">目录位置</span>
+						<input type="text" class="form-control" name="request_uri" placeholder="格式（如）：/index.php/index/index/index">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">分组</span>
+						<select name="pid" class="form-control">
+							<option value="0">无分组</option>
+							<?php foreach($group as $val):?>
+							<option value="{$val['id']}-{$val['group_name']}">{$val['id']}-{$val['group_name']}</option>
+
+							<?php endforeach;?>
+						</select>
+					</div>
+					<div class="btn-control">
+						<button class="btn btn-primary" type="submit" id="submit">提交</button>
+						<button class="btn btn-default" type="reset">重填</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+			<h4>
+				权限目录查看
+			</h4>
+			</div>
+			<div class="panel panel-body">
+				<table class="table">
+					<tr>
+						<th>id</th><th>目录名</th><th>目录位置</th><th>分组名</th><th>管理</th>
+					</tr>
+				<?php foreach($auth as $v):?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['title']}</td>
+						<td>{$v['request_uri']}</td>
+						<td>{$v['group_name']}</td>
+
+						<td>
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    操作
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+							    <li><a href='{:url("index/auth/update_url")}?id={$v["id"]}'>修改</a></li>
+							    <li><a href='{:url("index/auth/delete_url")}?id={$v["id"]}' onclick="return check()">删除</a></li>
+
+							    <li role="separator" class="divider"></li>
+							  </ul>
+							</div>
+						</td>
+
+							
+					</tr>
+				<?php endforeach;?>
+				</table>
+			</div>
+		</div>
+	</div>	
+	<script>
+	function check(){
+		return confirm("确认删除？");
+	}
+	</script>
+</body>
+</html>
+

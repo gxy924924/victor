@@ -1,0 +1,148 @@
+==>javascript 基本介绍
+<script language="javascript" type="text/javascript">
+建议language和type都写
+之后内容<!--写在这里-->
+1.js是用于web开发的 脚本语言
+脚本语言是什么？
+-》脚本语言往往不能独立使用，它和html/jsp/php/asp/asp.net配合使用
+-》脚本语言有自己的变量，函数、控制语句（顺序、分支、循环）
+-》脚本语言实际上是解释性语言（即在执行的时候，直接对原码执行）
+-》java程序   .java->.class->.jvm  js-》浏览器（js引擎来解释执行）
+
+2.js在客户端（浏览器）执行,因此这里有一个问题，不同的浏览器对js的支持可能不同
+
+==>js的开发工具选择
+1.记事本
+2.eclipse（myeclipse）
+
+==》案例1：打开网页，显示helloWorld --》见hello.html
+
+问题1：javascript可以放在哪里
+答：随意。。。
+
+问题2：js必须用<script language="javascript">代码</script>
+答：不包将其视为普通文本
+
+问题3：在一个html文件中（jsp/asp/php）可以出现多对<script片段浏览器会按照顺序依次执行。
+答：会按照先后执行
+
+==》案例2：加法运算--》见文件
+
+==》js的变量类型究竟怎样决定
+1.js是弱数据类型语言
+即：在定义变量的时候，统一使用var表示，甚至可以去掉var这个关键字
+
+2.js中的变量的数据类型是由引擎决定的
+
+==》js的命名规范
+1.使用字母，数字，_，$可以命名
+2.不能数字开头
+3.不能使用js关键字/保留字
+4.区分大小写，
+5.但行注释//多行注释/*   */
+
+==》js的数据类型
+-->基本数据类型
+1.数值 (十六进制 0x开头 |八进制 0开头 |十进制 数字开头)
+	特别：Nan（not a number 非数字） infinity(无穷大)
+	函数(判断)：	isNaN();//判断不是一个数
+			isinfinity();//判断是否为无穷
+2.字符串 (要用单引号/双引号包起来)（\表示转义 "aaasd\"xca"）
+3.布尔（true/false）
+//0，'',false，null,undefine,NaN表示false
+
+--》复合类型
+1.数组
+2.对象
+
+--》特殊类型
+1.null
+2.undefine  var tt;window.alert(tt);->报错 undefine
+
+
+==>转换数据类型
+1.自动转换
+ （1）var a=123; a="hello";
+ （2）var b=90;b=b+"";
+2.强制转换
+var a="123";a=parseInt(a);//使用系统函数强制转换
+
+
+==>++运算符	a++<==>a=a+1 
+		b=a++<-->[b=a;a=a+1;]
+		b=++a<-->[a=a+1;b=a;]
+说明：++的位置表示运算的先后，++在前优先度高，++在后优先度低
+
+==>比较符 （==,>=,<=,!=,===...）
+
+--》函数window
+弹出窗口获取值-》var vt1=window.prompt("请输入值");//弹出窗口获取值
+输出在html页面-》document.writeln("错误结果是："+vt3);
+
+==》&& || !（与、或、非）
+	var a=4;var b=90;window.alert(a||b);--》返回 4
+	var a=false;var b=0;window.alert(a||b);--》返回 0
+||  ->会返回第一个不为FALSE的值，或返回最好的值
+
+==>位运算、移位运算（见php笔记）
+
+==》分支运算
+//顺序控制
+-》单分支 if
+-》双分支 if{}else{}
+-》多分支 if{}else if{}... else{}//一旦条件满足，循环结束
+	  switch(条件){case 常量1;break;...}
+	 //switch语句类型可以是任何类型
+	 //case后面数据可以任意（数组、对象除外）
+	 //break-》跳出语句
+	 //没有匹配值-》default
+
+//循环控制
+for（;;）{}
+while(条件){}
+do{}while(条件)
+
+==》调试
+在ie8中，我们可以通过ie工具中开发人员工具调试
+（首先要取消工具-》int..选项-》高级-》禁用调试）
+
+==》js函数 function xxx(){}
+建立一个js文件
+引入<script language="javascript" src="文件名"></script>
+var a=函数名=》表示函数指针传递
+var a=函数名(传值)=》表示传回返回值（若没有返回值返回undefine）
+
+==》全局函数
+eval();//将内容当做脚本执行
+	//例：var a="window.alert("ok")";eval(a);
+
+escape();//将文字进行编码
+unescape();//转码
+-==》编码与转码函数配合使用，防止乱码出现
+
+
+==》window函数：
+window.moveto(x,y);//设定窗口左上角位置
+window.resizeTo(x,y);//设定窗口大小
+
+-》arguments可以访问所有的传入值（可变参数）
+function abc(){window.alert(arguments.length)}//传入参数个数
+abc(1,3,4);abc();
+//arguments[0]->他是一个数组
+注：js不支持重载
+
+==》数组 a[] a[][]（数组是引用传递）
+一维数组，二维，多维（数组名.length->数组子集个数）
+//函数spilt（str类中）-》作用是把一个字符串分割成字符串数组
+var str="How are you doing today?"
+document.write(str.split(" ") + "<br />");
+==》How,are,you,doing,today?
+
+
+arr=[1,34,4] 
+遍历：for(var key in arr){}
+概念：栈 --》堆（数组在堆中，指针在栈中）
+函数：Num.toFixed(保留位数)//将小数保留几位
+
+==》排序（冒泡 交换 快速）
+==》查找（顺序 二分）

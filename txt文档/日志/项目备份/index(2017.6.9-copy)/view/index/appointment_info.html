@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+	<style>
+		.mar{
+			color: #ccc;
+		}
+		.navbar-header .navbar-brand{
+			font-size: 28px;
+		}
+		.col-md-3{
+			padding-left: 0;
+			padding-right: 5px;
+		}
+		.col-md-9{
+			padding-left: 5px;
+			padding-right: 0;
+		}
+		.row{
+			margin-bottom: 5px;
+			text-align: center;
+		}
+		.font-gray{
+			color: #666;
+		}
+		textarea{
+			width: 100%;
+		}
+		h4{
+			margin: 5px;
+			font-weight: bold;
+			color: #444;
+		}
+		.posit{
+			width:70px;
+		}
+		.appo_time{
+			width:90px;
+		}
+		.reg_time{
+			width:90px;
+		}
+		.table>tbody>tr>td{
+			padding: 5px;
+		}
+	</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="panel panel-default text-center">
+			<div class="panel-heading">
+			<h4>预约信息</h4>
+				
+			</div>
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>名称</th>
+					<th class="reg_time">登记时间</th>
+					<th class="appo_time">预约时间</th>
+					<th class="tel">电话</th>
+					<th>性别</th>
+					<th>年龄</th>
+					<th>到达</th>
+					<th class="posit">区域</th>
+					
+					<th>预约类型</th>
+					<th>预约方式</th>
+					<th>详细信息</th>
+					<th>操作功能</th>
+				</tr>
+				<?php foreach ($appo_info as $v) :?>
+				<tr>
+					<td>{$v['id']}</td>
+					<td>{$v['name']}</td>
+					<td>{$v['add_time']}</td>
+					<td>{$v['appointment_time']}</td>
+					<td>{$v['tel']}</td>
+					<td>{$v['sex']}</td>
+					<td>{$v['age']}</td>
+					<td><?php echo $v['appointment_go']?'已到':'未到'?></td>
+					<td>{$v['position']}</td>
+					
+					<td>{$v['appointment_style']}</td>
+
+					<td>{$v['appointment_type']}</td>
+					<td><?php echo $v['detail_exist']?'有':'无'?></td>
+					
+					<td>
+						
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    操作
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+						    <li><a href='{:url("index/index/show_detail")}?ap_id={$v["id"]}'>详细内容</a></li>
+						    <li><a href='{:url("index/index/appoint_detail")}?ap_id={$v["id"]}'>添加/修改详细</a></li>
+
+						    <li role="separator" class="divider"></li>
+
+						    <li><a href='{:url("index/index/appointment_update")}?appo_id={$v["id"]}'>修改预约</a></li>
+						    <li><a href='{:url("index/index/appoint_delete")}?id={$v["id"]}' class="delete">删除预约</a></li>
+
+						    <li role="separator" class="divider"></li>
+						    
+						    <li><a href='{:url("index/index/appoint_do")}'>顾客到达</a></li>
+						  </ul>
+						</div>
+
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		</div>
+	</div>
+<script>
+	$(".delete").click(function(){
+		return confirm("确认删除");
+	});
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div id="div1">
+		<h3>用户注册</h3>
+		<form action="#" method="get">
+			用户：<input tupe="text" class="auth" name="username" id="nameid">
+			<span style="color:red;font-weight:bold;display:none;">用户名不能为空</span></br>
+			密码：<input tupe="text" class="auth" name="password" id="passid">
+			<span style="color:red;font-weight:bold;display:none;">密码不能为空</span></br>
+			<input type="submit" value="提交">
+		</form>
+	</div>
+</body>
+<script>
+$(".auth").each(function(){
+	$(this).data("s",1);
+	$(this).data("e",$(this).next().html());
+	//alert($(this).next().html());
+});
+//当失去焦点时
+$("#nameid").blur(function(){
+	nameval=$(this).val();
+	if(nameval){
+		if(nameval.length>=6){
+			//此处可加入ajax查询数据库看看是否用户已经注册
+		$(this).next().css({"color":"green","display":"inline"}).html("用户名可以注册");
+		$(this).data("s",0);
+		$(this).data("e","");
+		}else{
+			$(this).next().css({"color":"red","display":"inline"}).html("用户名大于等于6位");
+			$(this).data("s",1);
+			$(this).data("e","用户名大于等于6位");
+		}
+	}else{
+		$(this).next().css({"color":"red","display":"inline"}).html("用户名不能为空");
+		$(this).data("s",1);
+		$(this).data("e","用户名不能为空");
+	}
+});
+
+$("#passid").blur(function(){
+	passval=$(this).val();
+	if(passval){
+		$(this).next().css({"color":"green","display":"inline"}).html("密码可以使用");
+		$(this).data("s",0);
+		$(this).data("e","");
+	}else{
+		$(this).next().css({"color":"red","display":"inline"}).html("密码不能为空");
+		$(this).data("s",1);
+		$(this).data("e","密码不能为空");
+	}
+});
+
+	$("form").submit(function(){
+		var tot=0;
+		var err="";
+		$(".auth").each(function(){
+			tot+=$(this).data("s");
+			err+=" "+$(this).data("e")
+		});
+		//alert(tot);
+		if(tot!=0){
+			alert(err);
+			return false;
+		}
+
+	});
+</script>
+</html>

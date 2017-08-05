@@ -1,0 +1,82 @@
+2017.3.16
+
+1.分页(pagination)
+2.标签(label)
+3.徽章(badge)
+4.大屏幕（jumbotron）
+5.页面标题(page-header)
+6.缩略图(thumbnail)-->定制内容
+7.警告框(alert)
+8.进度条(progress)
+9.媒体对象(media)
+10.列表组(list-group)
+11.面板(panel)--table--list-group
+12.well墙
+------------------------------------------------------------------------
+分页：
+ul.pagination
+	li(active/disable(href="javascript:;"/onclick="return false"))
+
+分页大小：
+.pagination-lg
+.pagination-sm
+
+上下翻页：
+ul.pager;
+	li.previous;(顶头)
+	li.next;(推尾)
+
+标签：
+span.label
+	label-default(primary/info/success/warning/danger)
+
+徽标：
+span.badge
+
+大屏幕：
+.jumbotron
+
+缩略图（定制内容）：
+.thumbnail
+	img
+	div.caption
+		h3
+		p
+		button
+
+警告框：
+.alert alert-success(warning/danger/info)
+	close[data-dismiss="alert"]
+
+进度条(progress)
+.progress progress-striped(条纹) active(活动的)
+	.progress-bar progress-bar-info(danger/warning/success)
+
+媒体对象(media)
+.media
+	a.pull-left
+		img
+	.media-body
+		h3
+		p
+		.media
+		...
+
+列表组(list-group)
+ul.list-group
+	li.list-group-item
+		h3
+		p
+
+
+
+11.面板(panel)--table--list-group
+.panel panel-default
+	.panel-heading
+	.panel-body
+		tabel
+		.list-group
+	.panel-footer
+
+12.well墙
+.well (well-lg(sm))

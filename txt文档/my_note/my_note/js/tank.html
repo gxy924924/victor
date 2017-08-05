@@ -1,0 +1,43 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+#tank{
+border:1px solid red;
+height:35px;
+width:35px;
+ background-image: url(tank.png);
+background-repeat: no-repeat;
+background-position-Y:0;
+}
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function tankdirect(num){
+	$("tank").style.backgroundPositionY=num;
+}
+
+function $(id){
+	return document.getElementById(id);
+}
+function keymade(keynum){
+//alert(keynum.keyCode);
+	switch(keynum.keyCode){
+		case 65:tankdirect('-100px');break;
+		case 83:tankdirect('-68px');break;
+		case 68:tankdirect('-35px');break;
+		case 87:tankdirect('0px');break;
+	}
+}
+//-->
+</script>
+</head>
+<body onkeydown="return keymade(event)"> 
+<div id="tank" value="1"></div>
+<button onclick="tankdirect('0px')">上</button>
+<button onclick="tankdirect('-68px')">下</button>
+<button onclick="tankdirect('-100px')">左</button>
+<button onclick="tankdirect('-35px')">右</button>
+</body>
+<html>

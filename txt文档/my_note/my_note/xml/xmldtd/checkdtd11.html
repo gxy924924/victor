@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+<title>测试dtd</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script language="javascript">
+<!--
+	var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+xmlDoc.async="false";
+xmlDoc.validateOnParse="true";
+xmlDoc.load("classes3.xml");
+
+document.write("<br>Error Code: ");
+document.write(xmlDoc.parseError.errorCode);
+document.write("<br>Error Reason: ");
+document.write(xmlDoc.parseError.reason);
+document.write("<br>Error Line: ");
+document.write(xmlDoc.parseError.line);
+
+//-->
+</script>
+ </head>
+
+</html>

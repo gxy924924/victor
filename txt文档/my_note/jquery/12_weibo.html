@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<h2>发微博</h2>
+	<form action="send.php" method="post">
+		<textarea name="txtname" id="" cols="70"rows="10">aaa</textarea>
+		<input type="hidden" name="imgname" value="" id="hid">
+		</br>
+		<input type="submit" value="发布">
+	</form>
+	<form action="upload.php" method="post" enctype="multipart/form-data" target="winupload">
+		<input type="file" name="imgname" id="fileid">
+	</form>
+	<div id="uploadimg">
+	</div>
+	<iframe src="" name="winupload" style="display:none"></iframe>
+</body>
+<script>
+	$("#fileid").change(function(){
+		$(this).parent().submit();
+	});
+	
+</script>
+</html>

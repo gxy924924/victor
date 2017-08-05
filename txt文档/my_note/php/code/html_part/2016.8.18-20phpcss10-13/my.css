@@ -1,0 +1,18 @@
+/*style1 用术语 类选择器*/
+.style1{
+	/*宽度*/
+	width:400px;
+	/*一定要写分号*/
+	height:300px;
+	background-color:silver;
+	border:1px solid red;
+	margin-left:400px;
+	margin-top:150px;
+	padding-top:100px;
+	padding-left:100px;
+}
+.style1 table{
+	border:1px solid blue;
+	width:200px;
+	height:100px;
+}

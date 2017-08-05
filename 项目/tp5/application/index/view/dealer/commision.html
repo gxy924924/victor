@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+ <head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+        {include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+                <form action=""  method="post"  enctype="multipart/form-data" id="add_new_form">
+           {volist name='list' id='list'}
+      	      <div class="modal-body">
+    		<div class="input-group">
+			  <span class="input-group-addon">一级提成比例：</span>
+			  <input type="text" class="form-control" value="{$list['commision1']}" name="commision1">
+		</div>
+                <div class="input-group">
+			  <span class="input-group-addon">二级提成比例：</span>
+			  <input type="text" class="form-control" value="{$list['commision2']}" name="commision2">
+		</div>
+                <div class="input-group">
+			  <span class="input-group-addon">三级提成比例：</span>
+			  <input type="text" class="form-control" value="{$list['commision3']}" name="commision3">
+		</div>  
+
+        {/volist}
+       <div class="modal-footer">
+      	<button type="submit" class="btn btn-primary" id="submit">保存</button>
+       
+      </div>
+          
+    </form>
+     	</div>
+      	</div>  
+        <script>
+            $("#submit").click(function(){ 
+               return  confirm('保存成功');
+               }) 
+        </script> 
+    </body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	body{
+		margin:0px
+	}
+	#main{
+		width:500px;
+		height:300px;
+		background:#ccc;
+		border:2px solid #0f0;
+		margin:0 auto;
+		position:absolute;
+		top:50%;
+		left:50%;
+		margin-left:-250px;
+		margin-top:-150px;
+		text-align:center;
+		display:none;
+	}
+	form{
+		margin-top:80px;
+	}
+	#loginDiv{
+		width:100%;
+		height:50px;
+		background:#272822;
+		line-height:50px;
+		font-size:20px;
+	}
+	#loginDiv span{
+		float:right;
+	}
+	#loginDiv span a{
+		text-decoration:none;
+		color:#fff;
+		margin-right:20px;
+		cursor:pointer;
+	}
+	#abc{
+		background:#000;
+		position:absolute;
+
+	}
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div id="abc"></div>
+	<div id="loginDiv">
+	<span><a id="aid">登录</a></span>
+	</div>
+	<button id="btn">单击</button>
+	<div id="main">
+		<form action="load.php">
+			账号：<input type="text" name="username" id="nameid"></br>
+			密码：<input type="text" name="password"></br>
+			<input type="submit" value="登录">
+			<input type="reset" value="重置">
+		</form>
+	</div>
+</body>
+<script>
+	$("#btn").click(function(){
+		$.post("index.php",{"id":1},function(data){
+			alert(data);
+		});
+	});
+	$("a").click(function(){
+		x=$(document).width();
+		y=$(document).height();
+		$("#abc").css({"width":x+"px","height":y+"px","opacity":"0.6"});
+
+		$("#main").show(1000);
+		return false;
+	});
+	$("form").submit(function(){
+		var formstr=$(this).serialize();
+		$.post("load.php",formstr,function(data){
+			if(data=="yes"){
+				$("#main").hide(1000);
+				$("#abc").fadeOut(1000);
+				$("#aid").html("欢迎 "+$('#nameid').val()+" 登录");
+			}else{
+			
+			}
+		});
+		
+		return false;
+	});
+</script>	
+</html>

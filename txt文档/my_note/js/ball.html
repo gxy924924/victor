@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+#ball{
+border:1px solid red;
+width:50px;
+height:50px;
+position:absolute;
+top:20px;
+left:20px;
+}
+#mybody{
+	width:auto;
+	height:auto;
+	border:1px solid red;
+
+}
+</style>
+
+<script language="javascript" type="text/javascript">
+<!--
+var Xdirect=1;
+var Ydirect=1;
+var X=0;
+var Y=0;
+var speed=3;
+Xdirect=Xdirect*speed;
+Ydirect=Ydirect*speed;
+function ballMove(){
+	X+=Xdirect
+	Y+=Ydirect
+	ball.style.top=Y;
+	ball.style.left=X;
+//	alert(body.clientWidth);
+//	alert($("mybody").clientWidth);
+
+	if(X+50>$("mybody").clientWidth||X<0){
+		Xdirect=-Xdirect;
+	}
+	if(Y+50>$("mybody").clientHeight||Y<0){
+		Ydirect=-Ydirect;
+	}
+}
+function $(id){
+	return document.getElementById(id);
+}
+setInterval("ballMove()",10);
+function test(){
+alert($("mybody").clientWidth);
+alert($("mybody").clientHeight);
+
+}
+//-->
+</script>
+</head>
+<body onload="ballMove();" id="mybody"> 
+<div id="ball">弹球</div>
+<button onclick="test()">...</button>
+</body>
+<html>

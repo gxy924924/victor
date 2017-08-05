@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>index</title>
+	<link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="js/jquery.min.js">	</script>
+	<script src="js/bootstrap.min.js">	</script>
+	<script src="js/holder.js">	</script>
+	<style>
+		.container{
+			height: auto;
+		}
+		.row{
+			height:50px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<button class="btn btn-primary btn-lg" data-toggle='modal' data-target='#mymodal'>Launch demo modal</button>
+	</div>
+
+	<div class="modal fade in" id="mymodal">
+		<div class="modal-dialog">
+			<div class="modal-content center-block">
+				<div class="modal-header">
+					Modal-heading
+					<button class="close" data-dismiss='modal'>&times;</button>
+				</div>
+				<div class="modal-body">
+					<h4 class="modal-title">title</h4>
+					<p>adfdfsdafsdfasdfsdafasdfasdfawsdf</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" data-dismiss='modal'>ok</button>
+					<button class="btn btn-primary" data-dismiss='modal'>cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<ul class="nav nav-tabs" >
+			<li class="active"><a href="#home" data-toggle="tab">home</a></li>
+			<li class=""><a href="#profile" data-toggle="tab">profile</a></li>
+			<li class=""><a href="#aa" data-toggle="tab">aa</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div class="tab-pane fade in active" id="home">
+				<p>home--asdasdasdas</p>
+			</div>
+			<div class="tab-pane fade" id="profile">
+				<p>profile--asdaasdasdasdsdasdas</p>
+			</div>
+			<div class="tab-pane fade" id="aa">
+				<p>aa--asdasdasfafafasdas</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="btn-group">
+			<button class="btn btn-primary toolp" title="1111">aaa</button>
+			<button class="btn btn-default toolp" title="Tooltip on top">Tooltip on top</button>
+		</div>
+		<div class="row">
+			<button class="btn btn-warning pop" title='111' >弹出框(单击)</button>
+		</div>
+		<div class="row">
+			<button class="btn btn-warning pop1" title='111' data-placement="bottom">弹出框(hover)</button>
+		</div>
+		<div class="row">
+			<button class="btn" id="alert1">alert(待用)</button>
+		</div>
+
+	</div>
+
+	<div class="container">
+		<div class="alert alert-danger">
+			<span class="close">&times;</span>
+			<h3>title</h3>
+			<p>container,container,container,container,container,container,container,</p>
+		</div>
+	</div>
+	<div class="container">
+		<button type="button" id="loading-btn" class="btn btn-primary btn-lg" data-loading-text="加载在..." >load</button>
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="button">toggle</button>
+	</div>
+	<div class="container">
+		<div class="btn-group" data-toggle="buttons">
+			<label for="" class="btn btn-primary">
+				<input type="checkbox"> checkbox
+			</label>
+			<label for="" class="btn btn-primary">
+				<input type="checkbox"> checkbox
+			</label>
+			<label for="" class="btn btn-primary">
+				<input type="checkbox"> checkbox
+			</label>
+		</div>
+	</div>
+	<div class="container">
+		<div class="btn-group" data-toggle="buttons">
+			<label for="" class="btn btn-primary">
+				<input type="radio"> radio
+			</label>
+			<label for="" class="btn btn-primary">
+				<input type="radio"> radio
+			</label>
+			<label for="" class="btn btn-primary">
+				<input type="radio"> radio
+			</label>
+			
+		</div>
+	</div>
+	<div class="container">
+		<button class="btn btn-primary" id="togglebtn">js_toggle</button>
+		<button class="btn btn-primary" id="myStateButton" data-complete-text="啊，完成">btn-complete</button>
+		<button class="btn btn-success" id="allState" data-loading-text="zzzz载入中。。" data-complete-text="yse完成了。">最终按钮</button>
+	</div>
+	
+	<div class="container">
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<hr>
+		<hr>
+		<hr>
+		<hr>
+		<hr>
+	</div>
+</body>
+<script>
+	$('.toolp').tooltip({
+		'title':'111',
+		'placement':'bottom',
+		'trigger':'hover'
+	});
+	$('.pop').popover({
+		'html':true,
+		'content':'111111<br/>2222</br>3333',
+		'placement':'right'
+		
+	});
+	$('.pop1').popover({
+		'html':true,
+		'content':'111111<br/>2222</br>3333',
+		'trigger':'hover'
+	});
+	$('.close').click(function(){
+		$('.alert').alert('close');
+	});
+	$("#togglebtn").click(function(){
+		$(this).button('toggle');
+	});
+	$('#loading-btn').click(function(){
+		$(this).button('loading');
+		setTimeout(function(){
+			$('#loading-btn').button('reset');
+		},900);
+	});
+	$('#myStateButton').click(function(){
+		//alert( "aa");
+		$('#myStateButton').button('complete');
+	});
+	$("#allState").click(function(){
+		$(this).button('loading');
+		setTimeout(function(){
+			$('#allState').button('complete');
+		},1000);
+	});
+</script>
+</html>
+
+		

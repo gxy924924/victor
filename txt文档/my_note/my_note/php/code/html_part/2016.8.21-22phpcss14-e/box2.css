@@ -1,0 +1,25 @@
+.div1{
+	width:500px;
+	height:300px;
+	border:1px solid gray;
+}
+.faceul{
+	width:320px;
+	height:250px;
+	border:1px solid red;
+	padding:5px 5px;
+}
+.faceul li{
+	list-style-type:none;
+	float:left;/*左浮动*/
+	width:50px;
+	height:63px;
+	border:1px solid red;
+	margin:1px 1px 1px 5px;
+	padding:5px
+}
+.face li img{
+	width:50px;
+	height:50px
+
+}

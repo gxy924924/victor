@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function selectAll(){
+	var checked=document.getElementById("s1").checked;
+	//alert(checked);
+	var fruit=document.getElementsByName("fruit");
+	if(checked){
+		for(var i=0;i<fruit.length;i++){
+			fruit[i].checked=checked;
+		}
+		mychart();
+	}else{
+		for(var i=0;i<fruit.length;i++){
+			fruit[i].checked=false;
+		}
+		mychart();
+	}
+
+}
+
+function mychart(){
+	var fruits=document.getElementsByName("fruit");
+	var nums=document.getElementsByName("num");
+	var total=0;
+	for(var i=0;i<fruits.length;i++){
+		if(fruits[i].checked){
+			var myfruit=parseFloat(fruit[i].value);
+		
+			if(nums[i]){
+				//alert(nums[i].value);
+				myfruit=myfruit*parseFloat(nums[i].value);
+			}
+			total+=myfruit;
+		}
+	}
+	//alert(total)
+	document.getElementById("totalnum").innerText=total;
+	
+}
+//-->
+</script>
+</head>
+<body > 
+<div class="">
+<h1>购物车</h1>
+全选:<input type="checkbox" id="s1" onclick="selectAll()"></br>
+<input type="checkbox" name="fruit" value="10" onclick="mychart()">苹果 10元<input type="text" name="num" value="1" onchange="mychart()"></br>
+<input type="checkbox" name="fruit" value="20" onclick="mychart()">香蕉 20元</br>
+<input type="checkbox" name="fruit" value="30" onclick="mychart()">粒子 30元</br>
+<input type="checkbox" name="fruit" value="40" onclick="mychart()">橘子 40元</br>
+<input type="checkbox" name="fruit" value="50" onclick="mychart()">南瓜 50元</br>
+总价格：<span id="totalnum">0</span>元</br>
+</div>
+</body>
+<html>

@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	
+</style>
+
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<form action="">
+		<select name="" id="s1">
+			<option value="pro">-省-</option>
+			<option value="bj">北京</option>
+			<option value="sx">山西</option>s
+		</select>
+		<select name="" id="s2">
+			<option value="city">-市-</option>
+			<option value=""></option>
+			<option value=""></option>s
+		</select>
+	</form>
+</body>
+<script>
+	var ptabobj={"bj":["丰台区","朝阳区","宣武区","昌平区"],"sx":["太原","运城","大同"]};
+	$("#s1").change(function(){
+		var ps=$(this).val();
+		var cs=ptabobj[ps];
+		$("#s2").empty();
+		$("#s2").append("<option value=city>-city-</option>");
+		for(var i=0;i<cs.length;i++){
+			//alert(cs[i]);
+			var html="<option value="+cs[i]+">"+cs[i]+"</option>";
+			
+			$("#s2").append(html);
+			//alert(html);
+		}
+		//alert(ptabobj[ps][0])
+	});
+	
+	//alert(ptabobj.bj);
+
+</script>
+</html>

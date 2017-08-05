@@ -1,0 +1,40 @@
+﻿mysqli 扩展库（mysql增强版）
+==》使用php的mysqli 扩展库 去操作 mysql 数据库
+简单介绍：
+mysqli(mysql improve mysql 扩展库的增强版 )
+
+mysql 扩展库 和 mysqli 扩展库的比较
+
+1.mysqli 的稳定性和安全性，效率有所提高
+2.mysqli 支持面向对象编程，同时 mysqli 扩展库考虑到php老程序员 ，提供面向过程的编程风格
+
+==》mysqli 编程的快速入门
+编写一个程序，这个程序从user1 表中读取数据，并打印在网页上。（使用mysqli完成）
+
+1.先使用mysqli面向对象风格
+
+2.在使用mysqli过程化风格
+
+==》在mysqli 扩展中，也提供了四种方式来获取mysqli result 结果集
+mysql_result::fetch_assoc
+mysql_result::fetch_row
+mysql_result::fetch_array
+mysql_result::fetch_object
+这里推荐使用前两种效率较高
+
+--》mysqli释放结果集有三种(任选一种即可)
+void mysqli_result::free ( void )
+void mysqli_result::close ( void )
+void mysqli_result::free_result ( void )
+
+注意事项
+mysql 的sql 语句的特别说明
+如果操作的字段类型是 string型， 则要求要用 ‘’包起来。
+如果是 数值型，则可以用‘’包起来，也可以不包。
+
+
+create table news(
+id int primary key auto_increment,
+title varchar(32) not null,
+content varchar(128) not null,
+pubdate datetime);

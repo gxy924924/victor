@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+.imgcls{
+	border:2px solid #f00;
+}
+</style>
+
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<img src="a.png" /> 
+	<h1>aa<span>bb</span>cc</h1>
+	<h2>h2</h2>
+	<h3>h3</h3>
+	<form>
+		<input type="text" value="user1">
+		<input type="radio" name="r1" value="radio1" /> radio1
+		<input type="radio" name="r1" value="radio2" /> radio2
+		<select id="multiple" multiple="multiple">
+		  <option selected="selected">Multiple</option>
+		  <option>Multiple2</option>
+		  <option selected="selected">Multiple3</option>
+		</select><br/>
+	</form>
+</body>
+<script>
+	//$("img").attr({"src":"a.png"});
+	//alert($("img").attr("src"));
+	//$("img").removeAttr("src");
+	//$("img").addClass("imgcls");
+	//$("img").removeClass("imgcls");
+	$("img").toggleClass("imgcls");
+	//alert($("h1").html());
+	//alert($("h1").text());
+	$("h2").html("<b>xx</b>");
+	$("h3").text("<b>xx</b>");
+	//alert($("body").html());//源代码显示
+	//alert($("input:text").val());
+	$("input:text").val("222");
+
+	//radio
+	$("input:radio").val(["radio2"]);
+	
+	//select
+	 $("#multiple").val(["Multiple2", "Multiple3"]);
+
+</script>
+</html>

@@ -1,0 +1,130 @@
+﻿date:2017/3/1
+------------------------------验证部分--------------------
+==>原理
+服务器：
+1.token:weixin
+2.timestamp:bbb
+3.nonce:ccc
+-->得到
+	signature:aaa
+
+sae:
+1.接收：
+signature:aaa
+timestamp:bbb
+nonce:ccc
+
+2.自己
+token:weixin
+
+3.得到
+signature
+
+hash（weixinaaabbb）===aaa
+
+说明：微信平台似乎对客户端有较为严格的验证要求，对于某些url会直接连接
+并且返回值也有严格要求，除验证外不能有任何其它代码、空格。。。
+
+---------------------------消息交换----------------------------
+==>介绍一个功能
+
+$str="----%s-------%s------";
+$a="aa";
+$b="bb";
+
+print_r($str,$a,$b);	//表示将两个%s分别替换为两个变量
+
+sprintf();//表示不打印
+
+
+-->================================new date===============================
+date:2017/3/2
+
+1.接入指南
+2.测试号申请
+3.接口在线调试
+4.接收普通消息
+5.接收事件推送
+6.被动回复消息
+7.菜单创建
+8.菜单查询
+9.菜单删除
+10.菜单事件推送
+11.测试常用接口
+
+如何获取 access_token
+1.进入调试模式
+2.打开微信JS-SDK说明文档
+3.开发者工具-》接口在线调试-》进入微信公众平台接口调试工具
+4.输入相关信息（从调试页面可以找到）
+
+
+
+-》信息如下：
+基础支持: 获取access_token接口 /token
+请求地址：
+https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxf7194c23a658275b&secret=80fff401142a264b0fd86f7dc35f6fb0
+返回结果:
+200	OK
+Connection: close
+Date: Thu, 02 Mar 2017 01:24:16 GMT
+Content-Type: application/json; encoding=utf-8
+Content-Length: 175
+{
+    "access_token": "pNOzz-ctRtorY1hgM4OEj4lcNkbsnsiVoBkoR1a7QuP5nKsKBl3tHUCBQG6-ddb2w7VgAVbNoxOdbQ9dvWM-0BNR4ccX_dBmP_oHrVKymdqt6-MlsWXGUktwJ8H2hUcSTLPeAAAIAE", 
+    "expires_in": 7200
+}
+提示:
+Request successful
+
+2017/3/3-->DpjiH1FvxrD8xUgaukaYU1EiEXyjE8O_zH3m9HeD_tlLdF5Q0RVYgxEc8s1n8tXntBZbwRkGeNcz2-prVj5N8WqTWtpM42J436s1v2leB6od0YRPoH_XSnwuSzLOh4BGUSTgAAADBC
+
+
+==》如何上传图片媒介
+将接口列表的下拉菜单更改，输入相关信息即可
+
+
+基础支持: 多媒体文件上传接口 /media/upload (我的微信)
+请求地址：
+http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=pNOzz-ctRtorY1hgM4OEj4lcNkbsnsiVoBkoR1a7QuP5nKsKBl3tHUCBQG6-ddb2w7VgAVbNoxOdbQ9dvWM-0BNR4ccX_dBmP_oHrVKymdqt6-MlsWXGUktwJ8H2hUcSTLPeAAAIAE&type=image
+返回结果:
+200	OK
+Connection: keep-alive
+Date: Thu, 02 Mar 2017 02:22:59 GMT
+Content-Type: text/plain
+Content-Length: 118
+{
+    "type": "image", 
+    "media_id": "jSlX7z4ROGCvejjygprCBMYRYcVP4-qK1uNvbk8WWmqwx1VryJxGAuNOH40S_Fww", 
+    "created_at": 1488421379
+}
+提示:
+Request succe
+
+
+基础支持: 多媒体文件上传接口 /media/upload （测试微信）
+请求地址：
+http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=DpjiH1FvxrD8xUgaukaYU1EiEXyjE8O_zH3m9HeD_tlLdF5Q0RVYgxEc8s1n8tXntBZbwRkGeNcz2-prVj5N8WqTWtpM42J436s1v2leB6od0YRPoH_XSnwuSzLOh4BGUSTgAAADBC&type=image
+返回结果:
+200	OK
+Connection: keep-alive
+Date: Fri, 03 Mar 2017 00:28:26 GMT
+Content-Type: text/plain
+Content-Length: 118
+{
+    "type": "image", 
+    "media_id": "pxHgyf8oi708pH7sn-xuneDHNhSkViIf1kDisOo0kqQC5Qcc3nob8rkQ6_0K_h8M", 
+    "created_at": 1488500906
+}
+提示:
+Request successful
+
+==》菜单功能
+制作菜单：通过连接将菜单信息发送给微信，见wx_menu.php
+查看菜单：同理，见wx_menu_show.php
+删除菜单：同理，见wx_menu_delete.php
+
+
+var_export(xxx,true);	//此函数可以不打印出来而是传值（xxx,true）为true时传值
+
+例如：：//$city=var_export($arr["weatherinfo"]["city"],true);

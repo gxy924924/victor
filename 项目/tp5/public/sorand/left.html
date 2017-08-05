@@ -1,0 +1,148 @@
+<style>
+	.panel-group{
+		text-align:center;
+	}
+
+.col-md-3{
+	padding-left: 0;
+	padding-right: 5px;
+}
+.col-md-9{
+	padding-left: 5px;
+	padding-right: 0;
+}
+.row{
+	margin-bottom: 5px; 
+	text-align: center;
+}
+.font-gray{
+	color: #666;
+}
+textarea{
+	width: 100%;
+}
+.padding-small{
+	padding: 5px;
+}
+
+.input-group .form-control{
+	background-color: #fff;
+}
+.name_block{
+	margin-bottom:10px;
+	text-align: center;
+}
+
+</style>
+<div class="well name_block"><?php if(!empty($_COOKIE['username'])){ echo "你好，用户-".$_COOKIE['username'];} ?></div>
+<div class="panel-group" id="accordion">
+			<div class="panel panel-default">
+				<div class="panel-heading">	
+					<h4 class="panel-title"  href="#collapseOne" data-toggle="collapse" data-parent="#accordion">
+						<b class="font-gray">预约管理</b>
+					</h4>
+				</div>
+				<div class="panel-collapse collapse <?php if(!empty($_COOKIE['left_collapse'])&&$_COOKIE['left_collapse']=="appointment"){ echo "in";} ?>" id="collapseOne">
+					<div class="panel-body">
+						<div class="row">
+							<a href="{:url('index/appointment/appointment_add')}" class="btn btn-primary" id="appointment_info">新增登记</a>
+						</div>
+						<div class="row">
+							<a href="{$Think.const.URL_PATH}Index/appointment/appointment_info" class="btn btn-primary" id="appointment_info">预约信息</a>
+						</div>
+						<div class="row">
+							<a href="{:url('Index/appointment/show_arrive')}" class="btn btn-primary" id="appointment_info">到达信息</a>
+						</div>
+			
+					</div>
+				</div>
+			</div>
+			
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					
+
+					<h4 class="panel-title"  href="#collapse4" data-toggle="collapse" data-parent="#accordion">
+						<b class="font-gray">商店管理</b></h4>
+					</h4>
+				</div>
+				<div class="panel-collapse collapse" id="collapse4">
+					<div class="panel-body">
+						<div class="row">
+							<a href='{:url("index/shop/add")}' class="btn btn-primary" id="appointment_info">添加商店</a>
+						</div>
+						<div class="row">
+							<a class="btn btn-primary" id="appointment_info" href='{:url("index/shop/index")}'>查看商店</a>
+						</div>
+						<div class="row">
+							<a class="btn btn-primary" id="appointment_info" href='{:url("index/production/add")}'>添加产品</a>
+						</div>
+						<div class="row">
+							<a class="btn btn-primary" id="appointment_info" href='{:url("index/production/index")}'>查看产品</a>
+						</div>
+                                            <div class="row">
+							<a class="btn btn-primary" id="appointment_info" href='{:url("index/production/classify")}'>查看分类</a>
+						</div>
+					</div>
+				</div>
+			</div>
+                         	<div class="panel panel-default">
+				<div class="panel-heading">
+					
+
+					<h4 class="panel-title"  href="#collapse5" data-toggle="collapse" data-parent="#accordion">
+						<b class="font-gray">用户管理</b></h4>
+					</h4>
+				</div>
+				<div class="panel-collapse collapse" id="collapse5">
+					<div class="panel-body">
+						<div class="row">
+							<a href='{:url("index/dealer/one")}' class="btn btn-primary" id="appointment_info">用户管理</a>
+                                                </div> 
+                                                <div class="row">
+							<a href='{:url("index/dealer/order")}' class="btn btn-primary" id="appointment_info">订单管理</a>
+                                                </div>  
+                                               <div class="row">
+							<a href='{:url("index/dealer/commision")}' class="btn btn-primary" id="appointment_info">佣金设置</a>
+                                                </div> 
+                                            
+					</div>
+				</div>        
+				
+			</div>
+            	<div class="panel panel-default">
+				<div class="panel-heading">
+					
+
+					<h4 class="panel-title"  href="#collapse6" data-toggle="collapse" data-parent="#accordion">
+						<b class="font-gray">意见箱</b></h4>
+					</h4>
+				</div>
+				<div class="panel-collapse collapse" id="collapse6">
+					<div class="panel-body">
+						<div class="row">
+							<a href='{:url("index/Opinion/index")}' class="btn btn-primary" id="appointment_info">意见管理</a>
+                                                </div> 
+                                                <div class="row">
+							<a href='{:url("index/tuikuan/index")}' class="btn btn-primary" id="appointment_info">退款处理</a>
+                                                </div> 
+					</div>
+				</div>           
+				
+		</div>
+		</div><!-- panel-group -->
+
+
+		<script type="text/javascript">
+		$('.panel-title').click(function(){
+			val=$(this).attr('href');
+			// alert(val);
+			$('.collapse').collapse('hide');
+			$('#accordionControl').collapse('hide');
+			$(val).collapse();
+		});
+		// $('.collapse').collapse('toggle');
+		
+
+		</script>

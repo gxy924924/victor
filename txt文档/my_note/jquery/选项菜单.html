@@ -1,0 +1,104 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	#main{
+		width:500px;
+		margin:0 auto;
+		border:1px solid #ccc;
+	}
+
+	#topdiv{
+		background-color:#f00;
+		width:100%;
+	}
+
+	ul{
+		list-style:none;
+		padding:0px;
+		margin:0px;
+	}
+
+	li{
+		float:left;
+		background:#ccc;
+		margin-right:20px;
+		width:100px;
+		text-align:center;
+		line-height:30px;
+		font-weight:bold;
+		border-bottom:1px solid #00f;
+		cursor:pointer;
+	}
+	.nav{
+		clear:both;
+	}
+	#underdiv{
+		width:100%;
+		height:320px;
+	}
+	#underdiv div{
+		width:100%;
+		height:100%;
+		background:#ccc; 
+		display:none;
+	}
+	h3{
+		margin:0px;
+	}
+</style>
+
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div id="main">
+		<div id="topdiv">
+			<ul>
+				<li>
+					<span>菜单一</span>
+				</li>
+				<li>
+					<span>菜单二</span>
+				</li>
+				<li>
+					<span>菜单三</span>
+				</li>
+				<div class="nav"></div>
+			</ul>
+		</div>
+		<div id="underdiv">
+			<div>
+				<h3>aaa</h3>
+				<h3>aaa</h3>
+				<h3>aaa</h3>
+			</div>
+			<div>
+				<h3>bbb</h3>
+				<h3>bbb</h3>
+				<h3>bbb</h3>
+
+			</div>
+			<div>
+				<h3>ccc</h3>
+				<h3>ccc</h3>
+				<h3>ccc</h3>
+
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+$("li").mouseenter(function(){
+	var idx=$(this).index("li");
+	$(this).css("border-bottom","1px solid #ccc");
+	$(this).siblings("li").css({"border-bottom":"1px solid #00f"});
+	$("#underdiv").children().eq(idx).css({"display":"block"});
+	$("#underdiv").children().not(":eq("+idx+")").css({"display":"none"});
+});
+
+$("li").eq(0).css("border-bottom","1px solid #ccc")
+$("#underdiv").children().eq(0).css({"display":"block"});
+</script>
+</html>

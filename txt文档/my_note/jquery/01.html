@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+<style type="text/css">
+	#divid{
+		width:500px;
+		height:300px;
+		background:#00f;
+	}
+
+</style>
+	<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div id="divid"></div>
+
+</body>
+<script>
+/*	$("#divid").click(function(){
+		$(this).css({"background":"#f00"});
+	});
+	*/
+	$("#divid").hover(function(){
+			$(this).css({"background":"#f00"});
+		},
+		function(){
+			$(this).css({"background":"#00f"});
+		}
+	);
+
+</script>
+</html>

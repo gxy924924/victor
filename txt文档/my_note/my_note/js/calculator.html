@@ -1,0 +1,168 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+.num{
+	width:50px;
+}
+
+#type{
+	width:50px;
+}
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+//初始化全局变量
+var flag=false;
+var calcutype="";
+var num1="";
+var num2="";
+var ans="";
+var typeflag=false;
+
+//退格
+function back1(){
+var nownum=document.getElementById('text').value
+var nownum2=document.getElementById('text1').value
+if(nownum==0){
+}else
+nownum=nownum.slice(0,nownum.length-1);
+document.getElementById('text').value=nownum;
+nownum2=nownum2.slice(0,nownum2.length-1);
+document.getElementById('text1').value=nownum2;
+//window.alert(typeof(nownum)+nownum);
+}
+//清除
+function clear1(){
+	document.getElementById('text').value=0;
+	document.getElementById('text1').value=0;
+	flag=false;
+	typeflag=false;
+	calcutype="";
+	num1="";
+	num2="";
+	ans="";
+}
+//输入数字
+function numget(num){
+	//window.alert(num);
+	var nownum=document.getElementById('text').value;
+	if(nownum==="0"){
+		document.getElementById('text').value=num;
+	}else{
+		var newnum=nownum+num;
+		document.getElementById('text').value=newnum;
+		//window.alert(newnum);
+	}
+}
+
+function num(num){
+	if(typeflag==true){
+		document.getElementById('text').value="0";
+		numget(num);
+		typeflag=false;
+	}else{
+		numget(num);
+	}
+}
+//小数点处理
+function dot(num){
+	if(flag==false){
+		var nownum=document.getElementById('text').value;
+		var newnum=nownum+num;
+		document.getElementById('text').value=newnum;
+		way('.');
+		//window.alert(flag);
+		flag=true;
+	}else{
+		//window.alert(flag);
+	}
+}
+
+function calcuget(cal){
+	switch (cal){
+	case "+":calcutype="+";break;
+	case "-":calcutype="-";break;
+	case "*":calcutype="*";break;
+	case "/":calcutype="/";break;
+	}
+	document.getElementById('type').value=calcutype;
+	num1=document.getElementById('text').value;
+	typeflag=true;
+}
+
+function calcu(cal){
+	if(num1){
+		getAnswer();
+		calcuget(cal);
+	}else{
+		calcuget(cal);
+	}
+}
+
+function getAnswer(){
+	num2=document.getElementById('text').value;
+	num1=parseFloat(num1);
+	num2=parseFloat(num2);
+	switch (calcutype){
+		case "+":ans=num1+num2;break;
+		case "-":ans=num1-num2;break;
+		case "*":ans=num1*num2;break;
+		case "/":ans=num1/num2;break;
+		default :ans=num1;break
+	}
+	document.getElementById('text').value=ans;
+	num1=ans;
+	way("="+ans);
+}
+function way(e1){
+var e2=document.getElementById('text1').value;
+document.getElementById('text1').value=e2+e1;
+}
+//-->
+</script>
+</head>
+<body > 
+<div >
+<table border="1px">
+<tr>
+<td colspan=4>计算过程<input type="text" id="text1" value=""></td>
+</tr>
+<tr>
+<td colspan=4>计算结果<input type="text" id="text" value=0></td>
+</tr>
+<tr>
+<td><input class="num" type="button" value="clear" onclick="clear1()"></td>
+<td><input class="num" type="button" value="back" onclick="back1()"></td>
+<td colspan=2>计算符号<input type="text" id="type" value=""></td>
+<td></td>
+</tr>
+<tr>
+<td><input type="button" class="num" value="1" onclick="num(1),way(1)"></td>
+<td><input type="button" class="num" value="2" onclick="num(2),way(2)"></td>
+<td><input type="button" class="num" value="3" onclick="num(3),way(3)"></td>
+<td><input type="button" class="num" value="4" onclick="num(4),way(4)"></td>
+</tr>
+<tr>
+<td><input type="button" class="num" value="5" onclick="num(5),way(5)"></td>
+<td><input type="button" class="num" value="6" onclick="num(6),way(6)"></td>
+<td><input type="button" class="num" value="7" onclick="num(7),way(7)"></td>
+<td><input type="button" class="num" value="8" onclick="num(8),way(8)"></td>
+</tr>
+<tr>
+<td><input type="button" class="num" value="9" onclick="num(9),way(9)"></td>
+<td><input type="button" class="num" value="0" onclick="num(0),way(0)"></td>
+<td><input type="button" class="num" value="." onclick="dot('.')"></td>
+<td><input type="button" class="num" value="=" onclick="getAnswer()"></td>
+</tr>
+<tr>
+<td><input type="button" class="num" value="+" onclick="calcu('+'),way('+')"></td>
+<td><input type="button" class="num" value="-" onclick="calcu('-'),way('-')"></td>
+<td><input type="button" class="num" value="*" onclick="calcu('*'),way('*')"></td>
+<td><input type="button" class="num" value="/" onclick="calcu('/'),way('/')"></td>
+</tr>
+
+</table>
+</div>
+</body>
+<html>

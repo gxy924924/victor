@@ -1,0 +1,383 @@
+==>thinkphp
+-》框架
+特征：	1是一堆代码的集合；
+	2一个半成品的应用；
+	3包含了一些优秀的设计模式；
+定义：框架是一堆包含了常量、方法和类等代码的集合，他是一个半成品的应用，只包含了一些项目开发时
+所使用的底层框架，并不包含业务逻辑，框架还包含了一些优秀的设计模式，如：
+单例模式、工厂模式、AR（active Record）模式等。
+
+--》为什么要学习框架
+开发过程可能会遇到问题
+1.代码风格不同，维护困难，可能造成项目周期短；
+2.一处小小的修改，会牵扯出很多地方修改；
+3.后期满足客户需求方面（功能扩展）存在局限性
+
+--》使用框架的好处
+1。使用框架帮我们简单、快捷、高效的开发项目；
+2.可以让我们有更多时间专注于业务逻辑的开发，不需要关注底层架构；
+3.便于处理多人协助开发中遇到的问题；
+
+==》市面上常见的框架
+zend framework：是重量级框架，是php公司出品的官方框架，但是由于官方考虑的功能比较全面，导致比较臃肿，启动慢。
+yii：重量级框架，是美国华人开发的框架，作者叫薛强 英文名（Qiang）,中文称为“易框架”，最大特点是将代码的重用性发挥到了极致，目前yii框架主要在外企用。
+symfony：重量级框架，国外框架。
+leravel：轻量级框架，国外框架。
+Codelgniter:轻量级框架，简称CI框架，代码火焰/火焰代码，一款国外框架。
+Think一款国人开发的框架，目前有中文的社区，中文官网，中文帮助文档等。在国内使用还是比较普遍的。其中有一系列的中文支持，所以比较适合于作为入门级框架学习。
+
+--》mvc
+->什么是mvc
+mvc是一个设计模式，它是强制将用户的输入，输出，逻辑相分离，将整个项目分为三个部分：控制器c，模型m，视图。
+
+--》在编程中所经历的编程阶段
+在整个编程开发的历史中，一共是经历了三个阶段：
+-》第一阶段：混合变成阶段
+通俗的说就是我们常说的“混编模式。”
+特点：将php代码和html代码写在一个文件中
+优点：效率高。
+缺点：不易维护，会造成一个前端人员不得不面对后端的代码，后端人员不得不面对前端代码。
+
+-》第二阶段：模板引擎阶段
+模板引擎典型的如smarty。
+优点：将前端的输出和后端的逻辑代码相分离。
+缺点：效率比第一种低。
+
+-》第三阶段：Mvc设计阶段
+优点：强制用户输入、逻辑、输出相分离。
+缺点：效率比前面2种模式都低。
+
+==》thinkPHP
+2006 开始 叫hsc后改为tp
+
+-》扩展（了解）：关于软件版本的修饰词
+alpha版本：内侧版本，内部测试
+beta版本：公测版本，面向用户有用户去找bug
+rc版本：候选版本，软件在这个阶段就已经不会有太多功能性调整，主要是排错
+r版本：release版本，发行版本，稳定的版本。
+
+
+==》tp文件说明
+index。php：入口文件
+thinkphp文件：tp主要文件
+	common：系统函数目录，里面存放了functions.php（自定义函数库是function.php没有s）
+	application：会自动生成的文件
+	conf：系统配置文件目录
+		convention.php：系统配置文件
+		-》说明：在tp中除了这个文件外还有其他配置文件，但这个文件是系统级别的配置文件，还有一个是应用级别的配置文件，最后还有一个分组级别的配置文件
+			就作用范围上来说：系统》应用》分组
+			就优先级来说：分组》应用》系统
+	lang：语言包
+	library：thinkphp目录的核心目录
+		behavior：行为文件目录
+		org：功能扩展目录
+		think：最核心目录
+			MVC父类：controller.class.php、Model.class.php、View.class.php
+			功能类：image.class.php、page.class.php、upload.class.php、varify.class.php
+			
+		vendor：第三方目录
+	tpl：系统模板目录，里面包含了系统所用的模板
+	thinkPHP.php：项目接口文件，后期开发时需要被项目入口文件引入
+	
+-->部署（重点）
+第一步：创建站点目录
+第二步：配置appache虚拟主机配置文件
+第三步：重启appache
+第四步：修改host文件，将配置文件中声明的2个域名做下绑定（解析）
+-》hosts位置查找方法：运行-》drivers-》etc-》hosts
+		   或：C:\Windows\System32\drivers\etc
+	-》更快捷的方法：运行-》to hosts//要配置才能
+第五步：将代码文件复制到站点目录中去
+在tp压缩包中复制thinkPHP目录和index.php入口文件到站点根目录中：
+
+
+==>5.1自动生成
+application：在网页访问index.php（首次）后会自动生成三个文件
+	common：应用级别的函数库文件和配置文件目录
+	Home:分组目录，平台目录
+		common:分组级别函数库文件目录
+		conf:分组配置文件目录
+		mvc目录：controller、Model，View
+	Runtime:临时文件目录
+
+==》5.2目录安全文件
+在自动生成的文件夹中都有一个空白的html文件，文件名叫做index.html，
+这个文件我们称为目录安全文件。其作用：
+在Appache的配置文件中有option+indexes,默认展示站点目录，
+如果目录中不存在index开头的文件，则会展示目录结构，
+但是有了index。html（目录安全文件）之后就不会展示结构了。
+
+-》一句话就是：防止列出站点的文件结构。
+
+==》5.3文件生成
+当我们首次运行入口文件的时候发现在磁盘中系统给我们生成了一些目录，
+那么这些目录是如何生成的？
+文件夹/文件的生成主要取决于tp的系统流程：见帮助手册
+
+==5.4默认访问
+在部署之后访问会看到一张笑脸，笑脸是怎样生成的？
+目标位置：D:\web\thinkphp\ThinkPHP3.2.2\Application\Home\Controller
+默认分组：Home
+默认控制器：index
+默认方法：index
+上述默认值可在配置文件中找到
+D:\web\thinkphp\ThinkPHP3.2.2\ThinkPHP\Conf\convention.php
+    'DEFAULT_MODULE'        =>  'Home',  // 默认模块
+    'DEFAULT_CONTROLLER'    =>  'Index', // 默认控制器名称
+    'DEFAULT_ACTION'        =>  'index', // 默认操作名称
+这些默认值都可以自行改动
+
+==》三、thinkPHP种控制器
+1.控制器创建
+命名规则：控制名+controller+关键词+.class.php
+例如：商品控制器可以写成GoodsController.class.php
+      用户控制器则写成UsercController.class.php
+
+
+控制器结构:总结：
+第一步：声明当前控制器（类）的命名空间；
+第二步：引入父类控制器（类）；
+第三步：声明控制器（类）并继承父类；
+
+-》说明：命名空间
+1.命名空间是在php5.3版本中引入的一个概念，所以Tp3.2.3要求大于等于php5.3
+2.命名空间本身跟目录没有关系，但是在tp中命名的声明和使用必须跟目录挂钩。
+
+案例：参考上述结构代码的完善三步骤，来完善刚才创建的user控制器。
+具体见位置：D:\web\thinkphp\ThinkPHP3.2.2\Application\Home\Controller\UserController.class.php
+
+在类中编写一个测试方法，名叫test();
+
+访问结果见：http://tp/ThinkPHP3.2.2/index.php?m=Home&c=User&a=test
+
+==》路由形式（重点）
+路由：是指访问项目中具体某个方法的URL地址。
+在thinkPHP中系统提供了4种路由形式
+->普通形式路由
+->Pathinfo形式路由
+->Rewite形式路由
+->兼容形式路由
+->>1.普通形式路由（get形式路由）<<-++++++++++++++++++++++++++++++
+get/post区别（2k/8m(可更改)传输限制）
+路由形式：http://网址/入库文件？m=分组名&c=控制器名&a=方法名&参数名=参数值
+例如：访问Home分组下的User控制器中的test方法，并且传递一个参数，id=1
+http://tp/ThinkPHP3.2.2/index.php?m=Home&c=User&a=test&id=1
+
+问题：URL传递的任何东西都会在URL地址栏中显示出来，既不安全也不好看。
+
+->>2.pathinfo路由形式（默认）<<-++++++++++++++++++++++++++++++
+路由形式：http://网址/入口文件/分组名/控制器名/方法/参数名1/参数值1/参数名2/参数值2
+例如：访问Home分组下的User控制器中的test方法，并且传递一个参数，id=1
+http://tp/ThinkPHP3.2.2/index.php/Home/User/test/1
+
+->>3.rewrite路由形式（重写路由形式）<<-++++++++++++++++++++++++++++++
+路由形式：http://网址/分组名/控制器名/方法/参数名1/参数值1/参数名2/参数值2
+和tp默认的路由形式相比就只是缺少了入口文件
+http://tp/ThinkPHP3.2.2/Home/User/test/1
+
+注意：该路由形式不能直接使用，需要配置完成才能使用。
+配置步骤
+第一步：需要修改Apache配置文件httpd.conf,开启重写模块，去掉前面的#
+#LoadModule rewrite_module modules/mod_rewrite.so
+
+第二步：需要修改虚拟主机的配置文件，相应目录权限
+#    允许重写
+	Allowoverride all  
+
+第三步：修改后，重启appache
+
+第四步：将tp压缩包中的.htaccess文件复制到入口文件的同级目录
+
+这种路由形式需要Appache的支持，而除了Appache软件外服务器软件
+还有nginx、lightd等等，所以第三种路由形式【一般不推荐使用】
+
+->>4.兼容路由形式<<-++++++++++++++++++++++++++++++
+路由形式：http://网址/入口文件?s=/分组名/控制器名/方法/参数名1/参数值1
+问：兼容形式路由有几个参数？
+答：上述路由形式只有1个参数，参数名是s,等于号后的都是s参数的值
+例如：访问Home分组下的User控制器中的test方法，并且传递一个参数，id=10086：
+http://tp/ThinkPHP3.2.2/index.php?s=/Home/User/test/id/10086
+
+5.关于tp中路由形式的配置
+路由形式在tp系统中的配置文件是有体现的，见convention.php
+    'URL_MODEL'             =>  1,       // URL访问模式,可选参数0、1、2、3,代表以下四种模式：
+    // 0 (普通模式); 1 (PATHINFO 模式); 2 (REWRITE  模式); 3 (兼容模式)  默认为PATHINFO 模式
+
+特别说明：路由形式的配置值不影响我们在地址栏中直接输入其它形式的路由访问。
+     该配置项的值影响的是tp系统封装的URL组装函数（U函数）的生成url地址的形式。
+
+==》五、分组
+分组：一般的项目都会根据某个功能的使用对象来区分代码，
+	这个时候放到一起之后会形成一个文件夹，这个文件夹就称为分组。
+	这个分组就是指我们通常所指的平台（前台、后台）。
+
+例如在刚部署好的ThinkPHP系统中Home目录就是一个分组目录。
+后期如果需要使用更多的分组，则需要自己去创建分组。
+
+如何去创建分组？
+
+步骤：参考Home分组的目录结构，重新创建一个新的目录，在其中依照Home中的结构，
+	创建对应的目录即可。
+
+第一步：创建一个分组的目录，目录与Home同级。
+创建一个名为admin的分组目录
+D:\web\thinkphp\ThinkPHP3.2.2\Application\admin
+分组创建好之后，可以在Admin分组中编写一个控制器，然后编写方法进行测试访问：
+编写测试方法：
+D:\web\thinkphp\ThinkPHP3.2.2\Application\Admin\Controller\TestController.class.php
+访问:http://tp/ThinkPHP3.2.2/index.php/Admin/Test/test
+
+如果需要创建多个分组，则考虑以上步骤，反复创建对应的目录结构就行。
+
+==>六、控制器中的跳转
+1.url组装
+url组装就是根据某个规则，来组成一个url地址，这个功能就叫做url组装。
+在thinkPHP中，系统提供了一个封装的函数来处理URl组装，这个方法叫做U方法。
+U方法是系统提供的快速方法，除了U方法这样大写字母的方法之外，还有一些其他的快速方法
+如：A、B、C、D、E、F、G、I、M、R、S.这些方法都定义在系统的函数库中（functions.php）
+D:\web\thinkphp\ThinkPHP3.2.2\ThinkPHP\Common\functions.php
+
+U语法格式：
+    U('url路径'，参数数组)；
+
+->例如：要使用U方法组装出当前控制器下index方法地址，则可以写成U('index');
+	//使用U方法组装出当前控制器下index方法地址
+	public function test1(){
+		echo U('index');
+	}
+结果：/ThinkPHP3.2.2/index.php/Admin/Test/index.html
+	其中index.html只是一个伪静态后缀
+
+->例2：使用U方法组装出另一个控制器下Index中的index方法地址，
+	则可以写成U('Index/index');
+
+->例3：给例2中的u方法传值id=100
+	echo U('Index/index',array('id'=>100));
+
+-->总结出一个通用的格式：
+	U('[分组名/控制器名/]方法名',array('参数名1'=>参数值1，'参数名2'=>参数值2))
+
+可在D:\web\thinkphp\ThinkPHP3.2.2\ThinkPHP\Conf\convention.php中修改
+    'TMPL_TEMPLATE_SUFFIX'  =>  '.html',     // 默认模板文件后缀
+	（修改后缀）
+    'URL_MODEL'             =>  1,       // URL访问模式,可选参数0、1、2、3,代表以下四种模式：
+	 // 0 (普通模式); 1 (PATHINFO 模式); 2 (REWRITE  模式); 3 (兼容模式)  默认为PATHINFO 模式
+	（修改U方法输出url格式）
+
+==》2.系统跳转方法
+在ThinkPHP中系统有2个跳转方法，分别是成功跳转和失败跳转
+成功：
+	$this->success(条转提示，跳转地址，等待时间);
+失败：
+	$this->error(条转提示，跳转地址，等待时间);
+
+    跳转提示参数必须要有，后面的地址和时间可以没有，如果没有指定跳转地址，
+    则跳转到上一页
+
+成功会有:)
+失败会有:(
+
+当前控制器所继承的父类Controller.class.php位置
+D:\web\thinkphp\ThinkPHP3.2.2\ThinkPHP\Library\Think\Controller.class.php
+
+==》3、tp中的视图（重点）
+1.什么是视图
+视图是MVC三大组成部分中的V(view),主要是负责信息的输出和展示。
+2、视图的创建
+创建的位置需要在分组目录下的View目录中。例如Test控制器中的login方法，
+需要有一个模板，则模板文件login.html需要放到View/Test/login.html
+
+如果有多个模板文件，则按照上面的要求进行创建
+
+3视图的展示
+在smarty中展示模板使用的方法是display,在ThinkPHP中同样也是display方法。Display在tp中的语法格式：
+	//展示当前控制器下与当前请求方法名称一致的模板文件（一般使用）
+	$this->display();
+	//展示当前控制器下指定的模板文件
+	$this->display('模板文件名[不带后缀]');
+	//展示指定控制器下指定的模板文件
+	$this->display('View目录下的目录名/模板文件名[不带后缀]');
+--------------------->
+	   //展示模板
+	   //$this->display();
+	   //展示模板(当前控制器下指定的模板文件)
+	   //$this->display('test');
+	   //展示模板(当前控制器下指定的模板文件)
+	   $this->display('Demo/test');
+
+==>4变量的分配（初阶）
+在实际开发的时候不仅仅只是展示模板这么简单，往往还需要展示数据，
+这个时候变量还在控制器的方法中，需要将数据给传递到模板中并且展示，
+这个过程叫做变量分配
+
+在tp中系统封装好了一个变量的分配方法，这个方法叫做assign。具体语法：
+	$this->assign('模板中的变量名',$php中的变量名);
+说明：一般情况下两个参数的变量都是一样的。
+案例：在test控制器中的test方法传递一个变量给test.html展示
+
+	   //定义变量
+	   $var=data('Y-m-d H:i:s',time());
+	   //变量分配
+	   $this->assign('var',$var);
+	   //展示模板
+	   $this->display();
+
+在tp中默认的展示基本变量的方法：
+{$模板中的变量名}
+
+==>5、变量分隔符
+在tp中默认的变量分隔符是{},可以在convention.php文件中修改
+
+    'TMPL_L_DELIM'          =>  '{',            // 模板引擎普通标签开始标记
+    'TMPL_R_DELIM'          =>  '}',            // 模板引擎普通标签结束标记
+
+==>6、模板常量的替换机制
+在实际开发的时候回出现一个这样的问题：在引入图片、css、js文件的时候，
+往往需要些一些比较复杂的路径，所以这个时候我们比较希望有一些特殊的常量将
+很长很复杂的路径简单化，这个时候可以考虑使用模板常量的替换机制。
+
+在ThinkPHP中系统默认给我们提供一下几个常用的模板常量：
+__MODULE__;		表示从域名后面开始到分组名结束的路径
+__CONTROLLER__;		域名-控制器名
+__ACTION__;		域名-方法名
+__PUBLIC__;		站点根目录下Public目录的路由
+__SELF__;		域名-最后（没有参数时，与action一样）
+具体输出：
+/ThinkPHP3.2.2/index.php/Admin
+/ThinkPHP3.2.2/index.php/Admin/Demo
+/ThinkPHP3.2.2/index.php/Admin/Demo/test
+/ThinkPHP3.2.2/Public
+/ThinkPHP3.2.2/index.php/Admin/Demo/test
+
+为什么上述几个常量可以表示上面输出的这些路由呢？
+答：在ThinkPHP中‘模板常量’是通过模板内容替换机制来实现的，并非是常量的定义。
+替换机制可以查看行为文件ContentReplace.Behaviour.class.php
+D:\web\thinkphp\ThinkPHP3.2.2\ThinkPHP\Library\Behavior\ContentReplace.Behaviour.class.php
+其模板常量的核心就是字符串的替换：将字串替换为常量
+
+——》为了后期使用的方便，我们可以在配置文件中定义一个自定义的模板常量，
+说明：在开发的时候，不到万不得已不要去修改系统配置文件。可以将需要修改的配置项
+在分组/引用级别的配置文件中去定义：
+在D:\web\thinkphp\ThinkPHP3.2.2\Application\Admin\Common\Conf\config.php写入
+【此处*错误*应写在Admin\Conf文件中】
+'TMPL_PARSE_STRING' => array(
+		'__ADMIN__' => __ROOT__.'/Public/Admin'
+	)
+【注：此项测试失败，原因--文件位置错误】
+
+==》八、综合案例-实现OA系统的登录页面展示
+控制器：PublicController。class.php
+方法：login
+模板文件：login.html
+
+第一步：创建控制器文件，并且编写结构代码
+
+第二步：编写方法login，展示模板文件login.html
+
+第三部：将模板文件复制到指定位置
+
+第四步：将相应的静态资源文件复制到指定位置
+位置：/public/Admin
+
+第五步：修改模板文件下静态资源文件的引入路径
+

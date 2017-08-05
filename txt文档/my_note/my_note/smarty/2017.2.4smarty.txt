@@ -1,0 +1,238 @@
+==>内容回顾
+1.什么是模板引擎，为什么使用
+使用php代码和html代码分离的技术就称为“模板引擎”技术
+可以使得程序员和美工人员协作开发项目。
+
+2.迷你Smarty模板引擎开发
+assign()	//将外部变量信息声明为类内部属性信息
+display()	//
+compile()	//
+
+3.成品Smarty使用
+	include引入smarty核心类
+	new Smarty
+	assign()
+	display()
+	//配置：
+	//配置模板引擎标记符号：
+	$smarty->left_delimiter="左标记";
+	$smarty->right_delimiter="右标记";
+	//模板目录+编译目录 配置
+	$smarty->setTemplateDir(模板目录名称);
+	$smarty->setCompileDir(编译目录);
+4.三种变量使用
+	1.assign(自定义名称，值)变量信息
+	2.保留变量
+	{$Smarty.get.名称} {$Smarty.cookies.名称}
+	post、session、cookies,request,server,env,now,template
+	3.配置变量
+	美工人员可以自己定义配置变量，并使用之。
+	configs/site.conf
+	名称=值
+	{config_load file="site.conf"} {#名称#}或{$Smarty.config.名称}
+	config/style.conf
+	[year]
+	CL=red
+	WD=200px
+	[yuadan]
+	CL=green
+	WD=300px
+	{config_load file="site.conf" section="year"}
+	{配置文件有“段信息”，必须使用section属性进行引用}
+5。数组元素的访问和遍历。
+	访问数组元素：
+	{$数组【下标】}或{$数组。下标}
+
+	遍历：
+	{foreach $数组 as $k => $v}
+		{$v}//输出数组元素值
+		{$v@iteration} //从1开始的序号
+		{$v@index} //从0开始的序号
+		{$v@first} //判断是否第一个元素，返回bool
+		{$v@last} //判断是否最后一个元素，返回bool
+6.复选框、下拉列表、单选按钮
+	$Smarty->assign("outval",array());
+	$Smarty->assign("seled",string/array());
+
+	{html_checkboxes name="名称"option=值-显示数组
+	selected=被选中的项目 label_ids=true}
+
+	{html_options name="名称"option=值-显示数组 
+	selected=被选中的项目 label_ids=true multiple="multiple"}
+
+	{html_radios name="名称"option=值-显示数组 
+	selected=被选中的项目 label_ids=true}
+
+
+7.smarty与已有模板结合
+	1.复制模板文件到View目录
+	2.复制css/img/js静态资源文件到public目录
+	3.模板文件引入css、img、js文件，其路径相对php入口文件设置
+	4.css样式人间引入img，其路径相对css文件本身设置
+	5.在php里边获得具体变量信息，传递给模板使用
+
+==》二、布局继承的使用
+	为了使得许多页面的头部、脚步/开发维护方便，我们制作一个布局页面，
+	其它具体业务页面来填充具体业务页面。
+	++++++++头部++++++++	//这里是一个布局页面，许多内容要填充到中间
+	--------------------	业务页面中去
+	++++具体业务页面++++
+	--------------------
+	++++++++脚部++++++++
+
+布局继承使用的注意点：
+①布局页面有许多block，子集页面也可以有许多block，他们通过name属性进行关联
+②子集页面处理extends和block其他内容不给显示
+③布局页面的block可以有默认内容，子集页面不实现就直接显示，实现就覆盖。
+④布局页面的block可以彼此嵌套，子集实现可以有针对性实现
+⑤｛$smarty.block.child｝布局可以调用子集的内容
+  ｛$smarty.block.parent｝子集页面可以调用父级页面内容
+
+->布局
+<div>头部信息,购物车</div>
+{block name="main"}{/block}
+<div>脚部信息</div>
+
+-》页面
+{extends file="layout.html"}
+{block name="main"}<div>网站首页面</div>{/block}
+
+2.inclide引入模板
+//引入公共的模板文件
+{inclide file="模板文件名称"}
+例如：
+{include file="top.html"}
+<div>xxxxx</div>
+{include file="foot.html"}
+
+include和excends的选取
+公共部分较少选include
+公共部分较多选excends
+
+==>三、变量调节器（变量修饰器）
+什么是变量调节器：
+在模板中获得的变量信息，有可能不是我们需要的信息（例如时间戳信息，不好读、
+需要将其转换为格式化信息），需要调用其它函数对该信息进行第二次、第三次、四、
+五。。次 修饰才会变为我们想要的结果。smarty本身不支持我们在模板中使用php函数，
+其把函数给封装了一下，这个封装函数就是smarty的变量调节器。
+{$smarty.now}
+{$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
+date("Y-m-d H:i:s",时间戳);
+
+{$title|upper}	//信息转化为大写输出，strtoupper()
+{$title|lower}	//信息转化为小写输出，strtolower()
+
+default		//为变量设置默认值
+escape		//可用于将变量编码或转换成 html
+...更多见手册Chapter 5. 变量修饰器
+
+==》四。缓存
+缓存类型：页面缓存、数据缓存
+->页面缓存：php代码被php模块解释完毕生成的静态内容，放到一个文件里边，
+	该文件被称为页面缓存。
+	（cms(新闻)内容大量使用页面缓存）
+->数据缓存：把mysql数据读取出来放到速度更快的介质（内存、文件）上操作。
+	这样对各方面资源都有节省。
+
+以上两种缓存对系统的数据库、服务器资源都有节省，系统整体性能还有提高，
+提升用户访问体验。
+
+smarty调用display方法获得模板内容
+首先：判断是否有静态缓存文件，如果有直接获取并返回给用户
+其次：没有静态缓存文件，判断是否已经存在对应的“混编文件”如果有直接运行它
+	如果没有，则按部就班，一步步生成“混编文件”；
+
+//开启缓存
+$smarty -> caching=1;
+
+-->2.缓存文件更新的条件
+①删除对应的缓存文件
+②对应的“模板文件”有更新，缓存会自动更新（配置文件、布局文件、包含文件）
+③缓存文件的有效时间过期，缓存会自动更新
+
+display方法执行
+①判断是否开启缓存
+②判断模板文件是否更新（如果跟新，3，4省略）
+③判断缓存文件是否存在（缓存文件时间是否过期）
+④判断混编文件是否存在
+⑤展示模板内容
+⑥开启缓存，进而生成缓存文件
+*/
+
+--》3.catching=1和catching=2的区别
+catching=1	--》缓存文件有效期时间判断，根据smarty对象属性catch_lifetime判断
+catching=2	--》缓存文件有效期时间判断，根据缓存文件自己判断
+
+$smarty->isCatched("文件名");//判断文件是否过期，过期返回false
+
+-->4.单模板多缓存制作
+一个模板生成多个缓存文件
+
+$smarty->display("18.html"，$_GET['page']);
+//在display中加入标记会使得模板生成多个缓存
+
+--》5.局部不缓存
+缓存页面可以把全部页面数据都给缓存起来，其中有些数据不适合缓存，例如：天气信息
+用户名信息等等，这样就需要设置“局部不缓存”
+
+具体操作：
+①{$title nocache}		//单个变量不缓存
+②$smarty->assign(名称，值，true);//单个变量不缓存
+③{nocache}不缓存部分内容 {/nichche}//大量内容不缓存
+
+-->缓存集合
+缓存集合 是单模板多缓存的升级用法
+一个模板可以变着花样地生成许多缓存文件
+
+//display(模板，mark1,mark2,mark3,mark4)
+//对各种mark做排列组合，每种情况都生成缓存文件
+$smarty->display("22.html",$brand."|".$price."|".$network."|".$big);
+
+如：商城的删选条件，分页等，都可以单独缓存
+
+-》缓存删除：
+clearCache（模板名称）；//删除该模板对应的全部缓存
+clearCache（模板，标志）；//删除该模板、指定标志开始的全部缓存文件
+clearAllCache();	//删除全部缓存文件
+clearCache（null,标志）//删除相应标志的缓存文件，不管是哪个模板的
+
+echo $smarty->clearCache(...)	//会返回所删除的缓存文件的数量
+
+$smarty->force_cache =true;	//强制重新生成缓存（每次访问都重新生成缓存）
+
+==》五、smarty集成到已有项目
+
+-》数据库外部导入（数据还原）
+1.在数据库中建立相同的数据库名eshop
+2.在cmd中输入mysql -uroot -proot eshop <eshop.sql
+
+项目目录
+config //配置目录（如：数据库等）
+	config.php
+controller
+core
+model
+public
+View
+index.PHP
+
+-》自动加载机制实现
+function __autoload($class_name){
+	if(is_file('Model/'.$class_name.'.class.php')){
+		include('Model/'.$class_name.'.class.php');
+	}
+}
+spl_autoload_register('__autoload');  //smarter中的加载机制
+
+
+说明：一个项目里边由于实际需要，要存在多个“家在机制”，传统的__autoload() 
+不能满足该需求（php本身语法规则不能存在多个同名的函数），这样就声明许多普通
+函数当做加载机制函数使用，只要把这些函数通过sql_autoload_register注册即可。
+-》sql_autoload_register和__autoload同时存在，只会体现spl_autoload_register
+注册的加载
+
+注意：
+①自动加载机制设置，都通过spl_autoload_register给注册一下
+②在父类控制器的构造方法里边实力换smarty对象，并做具体配置
+
+

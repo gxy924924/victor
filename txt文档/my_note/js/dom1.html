@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+table{border:1px solid red;}
+td{border:1px solid red;}
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function tableDo(e){
+	var table1=document.getElementById("table1");
+	if(e==0){
+		table1.deleteRow(0);//删除第一行
+	}else if(e==1){
+		table1.insertRow(0);
+	}
+}
+
+function testConfirm(){
+	var res=window.confirm("有事吗？");
+	if(res){
+		window.alert("有啥事啊");
+	}else{
+		window.alert("没事找事啊。。");
+	}
+}
+function showTime(){
+	document.getElementById("mytime").innerText=new Date().toLocaleString();
+}
+var i=1;
+function myJiaoZi(){
+	var myimg=document.getElementById("myimg");
+	myimg.src="jpg/"+i+".jpg";
+	i++;
+	if(i==5){i=1;}
+}
+
+setInterval("showTime()",1000);
+
+setInterval("myJiaoZi()",200);
+//-->
+</script>
+</head>
+<body > 
+<div >
+<span id="mytime"></span></br>
+<table id="table1">
+<tr>
+<td>a</td>
+<td>a</td>
+<td>a</td>
+</tr>
+<tr>
+<td><input type="button" onclick="resizeTo(800,600)" value="resizeTo"></td>
+<td><input type="button" onclick="resizeBy(10,10)" value="resizeBy"></td>
+<td></td>
+</tr>
+<tr>
+<td><input type="button" onclick="moveTo(50,50)" value="moveTo"></td>
+<td><input type="button" onclick="moveBy(50,50)" value="moveBy"></td>
+<td>c</td>
+</tr>
+
+</table>
+<input type="button" value="删除一行" onclick="tableDo(0)">
+<input type="button" value="添加一行" onclick="tableDo(1)"></br>
+<input type="button" value="confirm" onclick="testConfirm()">
+</div>
+<img src="jpg/1.jpg" id="myimg">
+</body>
+<html>

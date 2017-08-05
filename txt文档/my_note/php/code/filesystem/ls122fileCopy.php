@@ -1,0 +1,11 @@
+<?php
+
+//copyÎÄ¼þ
+
+if(copy("test.txt","aa.txt")){
+	echo "chengle";
+}else{
+	echo "Ê§°Ü";
+}
+
+?>

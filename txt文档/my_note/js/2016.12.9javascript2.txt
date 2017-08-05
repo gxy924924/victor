@@ -1,0 +1,170 @@
+==>javascript 面向（基于）对象编程
+js激活所有东西都是对象
+js中没有class类，只有原型对象，为了统一，我们这里还叫类
+function 类名/原型对象名(){}
+var 对象名=new 类名/原型对象名()
+window.alert(a.construnctor);//a对象实例的构造函数
+window.alert(typeof a);//a的类型是什么
+var a=1;window.alert(a.construnctor);
+特别说明：js中一切都是对象（类/原型对象-也是对象）
+if(a instanceof Person){}//a是否是person类型
+
+
+==》关于var
+在函数里如果带var表示使用 独立的变量
+在函数外未发现影响，都为全局变量
+
+==》访问对象
+方法一（普通访问）：对象名。属性名
+方法二（动态访问）：对象名[“属性名”]
+a.name=a["na"+"me"]
+
+==>垃圾回收机制（gc机制）
+如果堆地址的引用数为0，就会被回收
+
+js还有主动释放对象内存的方法
+delete a.age;//主动删除对象的属性
+
+==>类：this ->自动赋值
+function Person(){
+	aaa=100;//这时是私有的，访问不到
+	this.name="abc";
+	this.age="30";
+}
+window.Person()
+说明：window.alert《==》alert  //两个是等价的
+如 var a=90; window.a;  this.v;是相同的
+
+
+==>关于this
+谁调用函数，谁就是this，如p.abc的this就是p.v
+注意：this放在类的外部，调用的会变为window
+
+==》对象--成员函数（方法）
+//给对象添加方法有三种方式
+function Person(name,age){
+//初始化属性
+	this.name="";
+	//this.show是一个公开的函数
+	//第一种
+	this.show=function(){
+		documemt.write("");
+	}
+}
+var p1=new Person();
+//第二种
+p1.abc=function test(){
+	document.write("aa");
+}
+p1.abc();
+//第三种
+function test2(){}
+p1.abc2=test2();
+p1.abc2();
+
+==》类共享方法（滞后绑定）
+类名.prototype.shout=function (){}
+说明：用这个方法会让多个对象共享函数代码，提高效率
+
+注：用==会判断对象的地址是否相等
+
+==>object类()
+var p1=new Object();
+p1.name="ss";
+
+->使用prototype可以给类添加方法
+var i=new Number(10);
+Number.prototype.add=function(a){
+	return this+a;
+}
+
+==>闭包（讲封装时讲）
+
+==》成员函数的细节
+1.成员函数的参数可以是多个
+function 函数名(参数1，参数2){
+
+}//有arguments.length方法可用（数组）
+
+2成员函数可以返回值，也可以没有，有的话，最多只有一个
+
+3,js不支持重载，同名方法，js会只认最后一个
+
+
+==》用面向对象思想设计超级马里奥
+游戏分析：
+1.看看如何通过按钮来控制mario的位置
+2.设计相关的对象（Mario x,y..）
+
+要求：1.mario碰到边界给一个提示
+2.mario可以去找另一个物体
+
+问：如何去取css文件中的值---不知道
+
+==》构造函数2
+function Person(fun){
+this.myfun=fun;
+}
+function jisuan(a,b){}
+
+var p1=new Person("jisuan");
+alert(p1.myfun(a,b));//相当于调用了jisuan函数
+
+总结：  1构造方法名和类名相同
+	2主要用来对新对象实例的初始化
+	3创建对象实例时，系统自动调用该对象的构造方法
+
+
+==》另一种对象的创建方法
+如果一个对象比较简单，我们可以直接创建
+var dog={name:"xiaobai",age:8,fun1:function(){}};
+dog.name;
+test.call(dog);==>相当于将test中的this换成dog
+
+==>方法也可以遍历
+for(var key in window){
+	document.write(key+"=>"+window[key]+"</br>");
+}
+
+
+==>三大特征（封装 继承 多态）
+私有属性var age="";
+公开属性this.age="";
+
+私有方法function name(){}
+公开方法this.name=function(){}
+
+在外部Person.prototype.fun=function(){}也不能访问私有属性
+
+==》继承：js中实际上是通过对象冒充，来实现继承，
+function Stu(name,age){this.name=name;this.age=age;}
+function Midstu(name,age){this.stu=Stu;this.stu(name,age);//这里必须有，相当于一个传值通道}
+var midstu=new Midstu("a","b");
+midstu.fun();
+
+注：js可以实现多重继承
+
+==》重载：js不支持重载，但js本身支持可变参数，所以可以看成天然支持重载
+
+
+==》多态：一个引用（类型）在不同情况下的多种状态
+
+==》闭包
+解释：  1闭包和gc是相关联的
+	2闭包实际上是涉及到一个对象的属性，何时被gc回收处理的问题
+	3.怎样才能对象形成一个闭包
+function a(){
+var i=0;
+function b(){
+alert(++i);
+}
+return b;
+}
+var c=a();
+c();
+特点
+这段代码有两个特点：
+1、函数b嵌套在函数a内部；
+2、函数a返回函数b。
+这样在执行完var c=a( )后，变量c实际上是指向了函数b，再执行c( )后就会弹出一个窗口显示i的值（第一次为1）。这段代码其实就创建了一个闭包，为什么？因为函数a外的变量c引用了函数a内的函数b，就是说：
+当函数a的内部函数b被函数a外的一个变量引用的时候，就创建了一个闭包。

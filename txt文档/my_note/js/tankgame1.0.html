@@ -1,0 +1,86 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+#tank{
+height:40px;
+width:40px;
+ background-image: url(tank.gif);
+background-repeat: no-repeat;
+background-position-Y:0;
+position:relative;
+left:0px;
+top:0px;
+
+}
+#field{
+border:1px solid red;
+height:400px;
+width:500px;
+background-color:black;
+
+}
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function MyTank(x,y,direct){
+	this.x=x;
+	this.y=y;
+	this.direct=direct;
+	this.speed=5;
+	this.mode="";
+	$('tank').style.left=this.x;
+	$('tank').style.top=this.y;
+//	$("tank").style.top=this.y;
+	this.tankdirect=function(num){
+		$("tank").style.backgroundPositionY=num;
+	}
+
+
+	this.keymade=function(keynum){
+	//alert(keynum.keyCode);
+		switch(keynum.keyCode){
+			case 65:
+			this.tankdirect('-120px');
+			this.x-=this.speed;
+			break;//a
+			case 83:
+			this.tankdirect('-80px');
+			this.y+=this.speed;
+			break;//s
+			case 68:
+			this.tankdirect('-40px');
+			this.x+=this.speed;
+			break;//d
+			case 87:
+			this.tankdirect('0px');
+			this.y-=this.speed;
+			break;//w
+		}
+		$('tank').style.left=this.x;
+		$('tank').style.top=this.y;
+	}
+
+}
+
+
+	function $(id){
+		return document.getElementById(id);
+	}
+
+//-->
+</script>
+</head>
+<body onkeydown="return tank1.keymade(event)"> 
+<div id="field" value="1">
+<div id="tank" value="1"></div>
+</div>
+<button onclick="tank1.tankdirect('0px')">上</button>
+<button onclick="tank1.tankdirect('-80px')">下</button>
+<button onclick="tank1.tankdirect('-120px')">左</button>
+<button onclick="tank1.tankdirect('-40px')">右</button>
+</body>
+<script>
+var tank1=new MyTank(80,200,'w');
+</script>
+<html>

@@ -1,0 +1,78 @@
+
+
+/*选择器的使用*/
+#id1{
+	background-color:silver;
+	font-size:40px;
+	color:black;
+}
+/*html选择器*/
+body{
+	color:red;
+}
+
+a:link{
+	color:black;
+	text-decoration:none;
+	font-size:24px;
+}
+
+a:hover{
+	text-decoration:underline;
+	font-size:40px;
+	color:red;
+
+}
+a:visted{
+	color:blue;
+
+}
+p.cls1
+{
+	color:blue;
+	font-size:30px;
+}
+p.cls2
+{
+	color:red;
+	font-size:20px;
+}
+*{
+	color:red;
+	/*
+	margin-top:0px;
+	margin-left:20px;*/
+	margin:20px 0px 10px 0px;
+	/*margin 可以写一个值，（上右下左（顺时针））
+	两个值（上下 ，左右）三个值（上，左右，下）*/
+	/*margin:0px;padding:0px;由于浏览器基本设置不同，
+	很多人习惯先清零*/
+}
+/*父子选择器（必须是html认可的函数（不能随便起名字））*/
+#id1 span{
+	color:red;
+	font-style:italic;
+}
+#id1 span span{
+	color:green;
+
+}
+#id2{
+	color:red;
+	font-style:italic;
+}
+
+/*给新闻三再配一个类选择器*/
+.s1{
+	color:black;
+	background-color:pink;
+	font-weight:bold;
+	font-size:16px;
+}
+.clas2{
+	font-style:italic;
+	text-decoration:underline;
+	color:blue;
+	background-color:silver;
+}
+

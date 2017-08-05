@@ -1,0 +1,124 @@
+-->虚拟主机的设置
+
+思考问题
+http://localhost/news.html
+http://www.sohu.com
+http://www.taobao.com.cn
+
+虚拟主机的配置步骤如下：
+
+1.启用  httpd-vhosts.conf
+在httpd.conf 文件中
+#virtual hosts
+include conf/extra/httpd-vhosts.conf
+2.在  httpd-vhosts.conf 中做配置
+<virtualhost *:80>
+  DocumentRoot "d:/www"  注意：是“/”不是“\”
+  DirectoryIndex hello.html
+<Directory />
+options FollowSymLinks
+
+Allowoverride none  允许覆盖：不允许（不允许别人修改我们的页面）
+order allow,deny
+allow from all
+</Directory>
+</virtualhosts>
+
+3.修改 hosts 文件 --》新的知识点(重新审视我们访问一个网页的流程)
+c:/windows/system32/drivers/etc/
+
+思考一个问题？
+此时我们能向apache请求一个php页面吗？
+apache默认情况不能处理，需要配置。会自动下载
+---》如何让apache能处理php
+
+
+--》php开发环境的搭建
+1.在Windows下搭建
+（apache（iis）+php+mysql+phpadmin）=>wamp
+在linux
+linux+apache+mysql+php=>lamp
+
+我们先看看如何在windows安装
+1套件软件
+appserve 是一个泰国人制作，该软件把我们需要的环境软件打包安装
+apache（服务器）+php（php开发）+mysql（数据库）+phpadmin【管理mysql的一个节目操作软件（图形化数据库（web））】
+2自定义安装
+
+建议：安装是安装到同一个文件夹，理由管理（文件夹不要中文）
+安装完一个测试一个
+
+VC6版本是使用Visual Studio 6编译器编译的，如果你的PHP是用Apache来架设的，那你就选择VC6版本。（现在PHP已经没有VC6了）。
+    VC9意思就是该版本PHP是用VisualStudio2008编译的，而VC11则是用VisualStudio2012编译的。这意味着
+    如果你下载的是VC9版本的，就需要先安VisualC++RedistributableforVisualStudio2008SP1，
+    如果你下载的是VC11版本的，就需要先安VisualC++RedistributableforVisualStudio2012.
+Thread Safe是线程安全，执行时会进行线程（Thread）安全检查，以防止有新要求就启动新线程的CGI执行方式而耗尽系统资源。Non Thread Safe是非线程安全，在执行时不进行线程（Thread）安全检查。
+ 　因此，如果是使用ISAPI的方式来运行PHP就必须用ThreadSafe(线程安全)的版本；而用FastCGI模式运行PHP的话就没有必要用线程安全检查了，用None Thread Safe(NTS，非线程安全)的版本能够更好的提高效率。
+1.apache安装
+完后：  http://locahost
+2.下载php核心包（用于php开发）
+官网下载
+
+3如何将 apache和php整合
+LoadModule php5_module "D:/Program Files/php5.6.25/php5apache2_4.dll"
+#用于指定php的ini文件，该文件是对php的一些配置
+phpinidir "D:/Program Files/php5.6.25"
+#这个配置表示，当有一个资源是 *.php *.phtml 时就由php处理
+addtype application/x-httpd-php .php .phtml
+
+注意：要把php.ini-development改成 php.ini 问什么改 ，因为我们的PHP的设置也需要在php。ini修改
+	在php.ini可以指定相应的功能模块
+; 这里我们要指定php的扩展库路径
+; extension_dir = "ext"
+测试看看apache和php是否成功
+写这样一段代码
+<?php
+	phpinfo();
+>
+
+重新启动 http://localhost:8088/test.php
+
+4安装mysql(默认账号、密码root)
+1。测试mysql代码来测试是否成功
+<?php
+
+	$conn=mysql_connect("localhost","root","root");
+	if($conn){
+		echo"连接mysql数据库ok";
+	}else{
+		echo"连接数据库失败";
+	}
+?>
+
+当我们没有对php进行正确配置的时候，会报错
+Fatal error: Call to undefined function mysql_connect() in D:\web\www\temp.php on line 3
+
+2。安装一个phpadmin来看看是否可以使用
+
+把该软件直接解压到htdoc目录，然后可以直接访问
+http://localhost:8088/phpmyadmin/index.php
+到此我们学会了使用套餐软件appserv 来安装，以及使用自定义的方式来搭建自己的php开发环境
+
+现在，我们来在自己搭建的php开发/运行环境上 安装一个 discuz 论坛
+1.准备一个 discuz 论坛代码
+2将其解压到htdoc目录下
+3把 discuz 的upload文件拷贝到 discuz 文件下 ，然后删除 upload文件
+4修改 config.inc.php
+
+// [CH] 以下变量请根据空间商提供的账号参数修改,如有疑问,请联系服务器提供商
+
+	$dbhost = 'localhost';			// 数据库服务器
+	$dbuser = 'root';			// 数据库用户名
+	$dbpw = 'root';				// 数据库密码
+	$dbname = 'discuz';			// 数据库名
+	$pconnect = 0;				// 数据库持久连接 0=关闭, 1=打开
+
+// [CH] 论坛安全设置, 调整以下设置，可以增强论坛的安全性能和防御性能
+
+	$adminemail = 'admin@your.com';		// 系统管理员 Email
+
+	$forumfounders = 'admin';	
+5 http://localhost:8088/discuz/install.php
+
+如果提示 short_open_tag 设为on
+则去按提示php设置 注意有两个short_open_tag可以搜到，分清用哪个

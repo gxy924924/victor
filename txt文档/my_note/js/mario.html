@@ -1,0 +1,190 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<link href="mario.css" type="text/css" rel="stylesheet"/>
+<script language="javascript" type="text/javascript">
+
+	//设计Mario类
+	function Mario(){
+	
+		this.x=0;//mario的左上角x点位置
+		this.y=0;//mario的左上角y点位置
+		this.hight=0;
+		this.width=0;
+		this.key=0;//键盘输入码
+		//移动 0-》上 1-》右 2-》下 3-》左
+		this.marioXY=function(id){
+			var mymario=document.getElementById(id);
+
+			this.x=this.marioPxToNum(mymario.style.left);
+			this.y=this.marioPxToNum(mymario.style.top);
+			this.height=this.marioPxToNum(mymario.style.height);
+			this.width=this.marioPxToNum(mymario.style.width);
+		
+		}
+		this.reset=function(){
+			this.x=0;
+			this.y=0;
+			mymario.style.left="0px";
+			mymario.style.top="0px";
+		}
+		this.move=function(direct){
+			
+			
+			//window.event可以判断用户是通过点击按钮还是通过按键来控制
+			
+
+			switch(direct){
+				case 0:
+					this.changey(-100);//上
+					break;
+				case 1:
+					this.changex(100);//右
+					break;
+				case 2:
+					this.changey(100);//下
+					break;
+				case 3:
+					this.changex(-100);//左
+					break;
+			}
+		}
+		this.keyMove=function(event){
+			if(window.event){
+				//
+				this.key=event.keyCode;
+				//alert(typeof(key)+key);
+			}
+			switch(this.key){
+				case 38:case 87:
+					this.changey(-10);//上
+					break;
+				case 39:case 68:
+					this.changex(10);//右
+					break;
+				case 40:case 83:
+					this.changey(10);//下
+					break;
+				case 37:case 65:
+					this.changex(-10);//左
+					break;
+			}
+		
+		}
+		this.changex=function(x){
+			
+			var mariox=this.x+x;
+			this.borderLeftRight(mariox,mymario);
+		}
+
+
+		this.borderLeftRight=function(mariox,mymario){
+			if(mariox<=0){
+				mymario.style.left="0px";
+				window.alert("到左边了");
+			}else if(mariox+50>=500){
+				mymario.style.left="450px";
+				window.alert("到右边了");
+			}else{
+			mymario.style.left=mariox+"px";
+			//window.alert(left);
+			this.x=mariox;
+			}
+		}
+		this.marioPxToNum=function(px){
+			var num=parseInt(px.substr(0,px.length-2));
+			return num;
+		}
+		this.changey=function(y){
+			
+			var marioy=this.y+y;
+			this.borderTopBottom(marioy,mymario);
+		}
+		this.borderTopBottom=function(marioy,mymario){
+			if(marioy<=0){
+				mymario.style.top="0px";
+				window.alert("到上边了");
+			}else if(marioy+50>=300){
+				mymario.style.top="250px";
+				window.alert("到下边了");
+			}else{
+				mymario.style.top=marioy+"px";
+				this.y=marioy;
+				//window.alert(left);
+			}
+		}
+	}
+
+	
+	var mario=new Mario();
+
+	var m2=new Mario();
+
+
+	function marioTouch(a,b){
+		//return false;
+		var xx=0;
+		var yy=0;
+		if((a.x+a.width)>=b.x&&a.x<=(b.x+b.width)){
+			xx=1;
+			//alert(xx+yy);
+			
+		}
+		if((a.y+a.height)>=b.y&&a.y<=(b.y+b.height)){
+			yy=1;
+			//alert(xx+yy);
+		}
+		if(xx==1&&yy==1){
+			//alert("touch");
+			return true;
+		}
+	}
+
+	function marioTry(event){
+			mario.keyMove(event);
+			mario.move(event);
+		if(marioTouch(mario,m2)){
+			alert("mariotouch");
+			mario.reset();
+		}else{}
+	}
+
+
+function show(mario,m2){
+alert(mario.x+"||"+mario.y+"||"+mario.key);
+alert(m2.x+"||"+m2.y+"||"+m2.key);
+}
+	
+
+
+
+
+</script>
+</head>
+<body onkeydown="return marioTry(event);" onload="mario.marioXY('mymario'),m2.marioXY('m2')">
+<div class="gamediv">
+<img style="height:50px;width:50px;left:30px;top:20px;position:absolute;" src="mario.png" id="mymario">
+<img style="height:50px;width:50px;left:200px;top:100px;position:absolute;" src="mario.png" id="m2">
+</div>
+<div>
+<table class="controlcenter">
+<tr ><td colspan="3" >游戏键盘</td></tr>
+<tr>
+<td><input type="button" value="show" onclick="show(mario,m2)"></td>
+<td><input type="button" value="上" onclick="marioTry(0)"></td>
+<td><input type="button" value="show2" onclick="marioTouch(mario,m2)"></td>
+</tr>
+<tr>
+<td><input type="button" value="左" onclick="marioTry(3)"></td>
+<td>**</td>
+<td><input type="button" value="右" onclick="marioTry(1)" /></td>
+</tr>
+<tr>
+<td>**</td>
+<td><input type="button" value="下" onclick="marioTry(2)"></td>
+<td>**</td>
+</tr>
+</table>
+</div>
+</body>
+<html>

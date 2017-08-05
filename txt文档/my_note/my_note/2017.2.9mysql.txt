@@ -1,0 +1,348 @@
+-----------------------2017/2/9--------------------
+说明：mysql有自己的帮助系统 输入：? 关键词   （可获取相应帮助信息）
+	==>1.1、mysql表复制
+	//复制表结构+复制表数据
+	create table t3 like t1;
+	insert into t3 select * from t1;
+——》。。。。。。
+	mysql> create table t1(			//创建表t1
+    -> id int unsigned not null auto_increment primary key,
+    -> name varchar(30)
+    -> );
+     mysql> desc t1				//t1表结构
+    mysql> insert into t1(name) values("user1");	//写入数据
+    mysql> create table t2 like t1;		//创建t2表并复制t1表的结构
+    mysql> insert into t2 select * from t1;		//复制了表中的内容，
+--------------
+mysql> use test		//测试
+mysql> create table t1(id int);
+Query OK, 0 rows affected (0.90 sec)
+mysql> insert into t2 select * from t1;		//表t2不存在时，t1不能写入不存在的表
+ERROR 1146 (42S02): Table 'test.t2' doesn't exist
+
+mysql> drop table t1;		//删掉后正式开始
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> create table t1(			//创建表t1
+    -> id int unsigned not null auto_increment primary key,
+    -> name varchar(30)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> desc t1			//t1表结构
+    -> ;
++-------+------------------+------+-----+---------+----------------+
+| Field | Type             | Null | Key | Default | Extra          |
++-------+------------------+------+-----+---------+----------------+
+| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30)      | YES  |     | NULL    |                |
++-------+------------------+------+-----+---------+----------------+
+2 rows in set (0.03 sec)
+
+mysql> insert into t1(name) values("user1");	//写入数据
+Query OK, 1 row affected (0.08 sec)
+mysql> insert into t1(name) values("user2");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> create table t2 like t1;		//创建t2表并复制t1表的结构
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc t2;			//t2表的结构与t1表相同
++-------+------------------+------+-----+---------+----------------+
+| Field | Type             | Null | Key | Default | Extra          |
++-------+------------------+------+-----+---------+----------------+
+| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30)      | YES  |     | NULL    |                |
++-------+------------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into t2 select * from t1;		//复制了表中的内容，但要注意此处有风险
+Query OK, 2 rows affected (0.07 sec)		//此处能成功是因为量表结构完全相同
+Records: 2  Duplicates: 0  Warnings: 0		//若是结构不同可能会出错
+
+mysql> insert into t2 select name from t1;	//数据类型不匹配会报错
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+
+	==》1.2、mysql索引
+	1.ALTER TABLE来创建普通索引、UNIQUE索引或PRIMARY KEY索引
+	ALTER TABLE table_name ADD INDEX index_name(column_list)
+	ALTER TABLE table_name ADD UNIQUE(column_list)
+	ALTER TABLE table_name ADD PRIMARY KEY(column_list)
+
+	2.creat index 
+	CREATE INDEX index_name ON table_name (colume_list)
+	CREATE UNIQUE INDEX index_name ON table_name (colume_list)
+
+	3.drop index
+	DROP INDEX index_name ON table_name
+
+	4.alter table table drop
+	ALTER TABLE table_name DROP INDEX index_name
+	ALTER TABLE table_name DROP PRIMARY KEY
+==》。。。。。。。。。。。。。。。。。。。。。。。。
+mysql> create index in_name on t1(name);	//为t1表创建索引 name->in_name
+mysql> show index from t1;		//查看索引
+mysql> drop index in_name on t1;	//删除in_name普通索引
+------------------------------------
+mysql> desc t1;		//t1表状态
++-------+------------------+------+-----+---------+----------------+
+| Field | Type             | Null | Key | Default | Extra          |
++-------+------------------+------+-----+---------+----------------+
+| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30)      | YES  |     | NULL    |                |
++-------+------------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> create index in_name on t1(name);	//为t1表创建索引 name->in_name
+Query OK, 2 rows affected (0.27 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> show index from t1;		//查看索引
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardi
+nality | Sub_part | Packed | Null | Index_type | Comment |
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+| t1    |          0 | PRIMARY  |            1 | id          | A         |
+     2 |     NULL | NULL   |      | BTREE      |         |
+| t1    |          1 | in_name  |            1 | name        | A         |
+     2 |     NULL | NULL   | YES  | BTREE      |         |
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+2 rows in set (0.00 sec)		//一个是id主键索引，一个是name普通索引
+
+mysql> drop index in_name on t1;	//删除in_name普通索引
+Query OK, 2 rows affected (0.26 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> show index from t1;		//查看发现索引已删除
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardi
+nality | Sub_part | Packed | Null | Index_type | Comment |
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+| t1    |          0 | PRIMARY  |            1 | id          | A         |
+     2 |     NULL | NULL   |      | BTREE      |         |
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> create unique index un_name on t1(name);		//创建唯一索引
+Query OK, 2 rows affected (0.26 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> show index from t1;
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardi
+nality | Sub_part | Packed | Null | Index_type | Comment |
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+| t1    |          0 | PRIMARY  |            1 | id          | A         |
+     2 |     NULL | NULL   |      | BTREE      |         |
+| t1    |          0 | un_name  |            1 | name        | A         |
+     2 |     NULL | NULL   | YES  | BTREE      |         |
++-------+------------+----------+--------------+-------------+-----------+------
+-------+----------+--------+------+------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> drop index un_name on t1;	//删除唯一索引
+Query OK, 2 rows affected (0.25 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
++++++++++++++++++++推荐使用ALTER++++++++++++++++++++++++++++++++++++++++++
+mysql> alter table t1 add index in_name(name);		//alter创建索引
+Query OK, 2 rows affected (0.30 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table t1 drop index in_name;		//删除索引
+Query OK, 2 rows affected (0.25 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table t1 drop primary key;			//删除主键索引
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto colum
+n and it must be defined as a key		//删除主键需要将自增去掉
+mysql> alter table t1 modify id int unsigned not null;	//取消自增
+Query OK, 2 rows affected (0.24 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> desc t1;			//自增属性已取消
++-------+------------------+------+-----+---------+-------+
+| Field | Type             | Null | Key | Default | Extra |
++-------+------------------+------+-----+---------+-------+
+| id    | int(10) unsigned | NO   | PRI |         |       |
+| name  | varchar(30)      | YES  |     | NULL    |       |
++-------+------------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table t1 drop primary key;		//主键索引已经删除
+Query OK, 2 rows affected (0.34 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table t1 add unique(name);		//创建唯一索引
+Query OK, 2 rows affected (0.28 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table t1 drop index name;		//删除唯一索引
+Query OK, 2 rows affected (0.33 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table t1 add primary key(id);	//创建主键索引
+Query OK, 2 rows affected (0.25 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table t1 modify id int unsigned not null auto_increment;//给id赋予自增属性
+Query OK, 2 rows affected (0.26 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+-----------------------------------------------
+	==1.3、mysql视图
+	创建视图：
+	create view v_t1 as select * from t1 where id>4 and id<8; 
+						//创建id在4-8之间的视图
+	
+	-》视图：会根据主表自动改变的附表
+	-》视图也是一种表，其查看同表的操作相同 
+		show tables;
+		select * from table_name;
+		select * from table_name where id>4;
+		drop view v_t1;		//删除时必须有view关键字（表是table关键字）
+		mysql> show create view v_t1;		//显示创建视图的方法
+
+---------------------------------------------------
+mysql> insert into t1(name) values("user3"),("user4"),("user5"),("user6"),("user
+7"),("user8"),("user9"),("user10");		//给t1添加数据
+Query OK, 8 rows affected (0.07 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> create view v_t1 as select * from t1 where id>4 and id<8;  //创建id在4-8之间的视图
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from v_t1;		//t1结果如下
++----+-------+
+| id | name  |
++----+-------+
+|  5 | user5 |
+|  6 | user6 |
+|  7 | user7 |
++----+-------+
+3 rows in set (0.07 sec)
+
+mysql> delete from t1 where id=6;	//删除t1表中id=6的这行数据
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from v_t1;	//查看视图，发现其中主表被删除的相应数据也被删除了
++----+-------+
+| id | name  |
++----+-------+
+|  5 | user5 |
+|  7 | user7 |
++----+-------+
+2 rows in set (0.00 sec)
+
+mysql> drop table t1;			//删掉t1表
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select * from v_t1;		//由于删掉了t1表所以t1表的视图失效了
+ERROR 1356 (HY000): View 'test.v_t1' references invalid table(s) or column(s) or
+ function(s) or definer/invoker of view lack rights to use them
+
+mysql> create table t1 like t2;		
+Query OK, 0 rows affected (0.06 sec)
+mysql> insert into t1 select * from t2;		//重建t1表并把t2的内容复制到t1表中
+Query OK, 9 rows affected (0.09 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> select * from v_t1;		//t1表的视图又恢复正常了
++----+-------+
+| id | name  |
++----+-------+
+|  5 | user5 |
+|  7 | user7 |
++----+-------+
+2 rows in set (0.00 sec)
+
+mysql> show create view v_t1;		//显示创建视图的方法
+----------------------------------------+
+| v_t1 | CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFI
+NER VIEW `v_t1` AS select `t1`.`id` AS `id`,`t1`.`name` AS `name` from `t1` wher
+e ((`t1`.`id` > 4) and (`t1`.`id` < 8)) |
++------+------------------------------------------------------------------------
+	==>1.4、mysql内置函数
+	-》字符串函数：
+	CONCAT(string1,string2)		//连接字串
+	LCASE(string2)			//转换成小写
+	UCASE(string2)			//转换成大写
+	LENGTH(string)			//获取string长度
+	LTRIM(string)			//去除前面的空格
+	RTRIM(string)			//去除后面的空格
+	REPEAT(string,count)		//重复count次
+	REPLACE(string)			//在str中用replace_str替换search_str
+	SUBSTRING(string)		//从str的position开始，取length个字符
+	SPACE(string)			//生成count个空格
+--------------------------------------------------
+mysql> select concat("hello","world") as myname;	//连接字串
++------------+
+| myname     |
++------------+
+| helloworld |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select lcase("AAA");		//转成小写
++--------------+
+| lcase("AAA") |
++--------------+
+| aaa          |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select ucase("Aaa");		//转成大写
++--------------+
+| ucase("Aaa") |
++--------------+
+| AAA          |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select length("cccc");		//获取长度
++----------------+
+| length("cccc") |
++----------------+
+|              4 |
++----------------+
+1 row in set (0.04 sec)
+
+mysql> select repeat("a",4);		//重复写入
++---------------+
+| repeat("a",4) |
++---------------+
+| aaaa          |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select replace("abccc","c","d");		//替换
++--------------------------+
+| replace("abccc","c","d") |
++--------------------------+
+| abddd                    |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select substring("abccc",1,2);		//从第一个字符开始截取2个字符
++------------------------+
+| substring("abccc",1,2) |
++------------------------+
+| ab                     |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> select concat(space(50),"space");		//生成空格
++---------------------------------------------------------+
+| concat(space(50),"space")                               |
++---------------------------------------------------------+
+|                                                   space |
++---------------------------------------------------------+
+1 row in set (0.00 sec)

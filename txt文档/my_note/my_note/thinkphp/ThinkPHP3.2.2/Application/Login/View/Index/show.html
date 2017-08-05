@@ -1,0 +1,17 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>show</title>
+</head>
+<body>
+	<extend name="base"/>
+	<block name="b1">
+	<hr>
+	<h1>上传功能</h1>
+		<form action="<{:U('Index/upload')}>" method="post" enctype="multipart/form-data">
+			<input type="file" name="img"></br>
+			<input type="submit" value="提交" id="">
+		</form>
+	</block>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css">
+	#div1{
+		width:300px;
+		height:300px;
+		border:1px dashed #00f;
+		margin: 0 auto;
+		text-align:center;
+	}
+</style>
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<div id="div1">
+	<h1>baidu</h1>
+	<img src="a.png"></br></br>
+		<form type="text" name="" id="">
+			<input type="text">
+			<input type="submit"value="搜索"/>
+		</form>
+	</div>
+</body>
+<script>
+	$(window).load(function(){
+		$("input:text").focus();
+	});
+	$("img").error(function(){
+		alert("图片不在。。。")
+	});
+
+	$("input:text").focus(function(){
+		$(this).css({"border":"3px inset #ccc"});
+	});
+</script>
+</html>

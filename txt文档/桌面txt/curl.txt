@@ -1,0 +1,428 @@
+CURLOPT_AUTOREFERER 当根据Location:重定向时，自动设置header中的Referer:信息。   
+CURLOPT_BINARYTRANSFER 在启用CURLOPT_RETURNTRANSFER的时候，返回原生的（Raw）输出。   
+CURLOPT_COOKIESESSION 启用时curl会仅仅传递一个session cookie，忽略其他的cookie，默认状况下cURL会将所有的cookie返回给服务端。session cookie是指那些用来判断服务器端的session是否有效而存在的cookie。   
+CURLOPT_CRLF 启用时将Unix的换行符转换成回车换行符。   
+CURLOPT_DNS_USE_GLOBAL_CACHE 启用时会启用一个全局的DNS缓存，此项为线程安全的，并且默认启用。   
+CURLOPT_FAILONERROR 显示HTTP状态码，默认行为是忽略编号小于等于400的HTTP信息。   
+CURLOPT_FILETIME 启用时会尝试修改远程文档中的信息。结果信息会通过curl_getinfo()函数的CURLINFO_FILETIME选项返回。 curl_getinfo().   
+CURLOPT_FOLLOWLOCATION 启用时会将服务器服务器返回的"Location: "放在header中递归的返回给服务器，使用CURLOPT_MAXREDIRS可以限定递归返回的数量。   
+CURLOPT_FORBID_REUSE 在完成交互以后强迫断开连接，不能重用。   
+CURLOPT_FRESH_CONNECT 强制获取一个新的连接，替代缓存中的连接。   
+CURLOPT_FTP_USE_EPRT 启用时当FTP下载时，使用EPRT (或 LPRT)命令。设置为FALSE时禁用EPRT和LPRT，使用PORT命令 only.   
+CURLOPT_FTP_USE_EPSV 启用时，在FTP传输过程中回复到PASV模式前首先尝试EPSV命令。设置为FALSE时禁用EPSV命令。   
+CURLOPT_FTPAPPEND 启用时追加写入文件而不是覆盖它。   
+CURLOPT_FTPASCII CURLOPT_TRANSFERTEXT的别名。   
+CURLOPT_FTPLISTONLY 启用时只列出FTP目录的名字。   
+CURLOPT_HEADER 启用时会将头文件的信息作为数据流输出。   
+CURLINFO_HEADER_OUT 启用时追踪句柄的请求字符串。  从 PHP 5.1.3 开始可用。CURLINFO_前缀是故意的(intentional)。  
+CURLOPT_HTTPGET 启用时会设置HTTP的method为GET，因为GET是默认是，所以只在被修改的情况下使用。   
+CURLOPT_HTTPPROXYTUNNEL 启用时会通过HTTP代理来传输。   
+CURLOPT_MUTE 启用时将cURL函数中所有修改过的参数恢复默认值。   
+CURLOPT_NETRC 在连接建立以后，访问~/.netrc文件获取用户名和密码信息连接远程站点。   
+CURLOPT_NOBODY 启用时将不对HTML中的BODY部分进行输出。   
+CURLOPT_NOPROGRESS 启用时关闭curl传输的进度条，此项的默认设置为启用。 
+
+Note: 
+
+PHP自动地设置这个选项为TRUE，这个选项仅仅应当在以调试为目的时被改变。 
+
+
+  
+CURLOPT_NOSIGNAL 启用时忽略所有的curl传递给php进行的信号。在SAPI多线程传输时此项被默认启用。  cURL 7.10时被加入。  
+CURLOPT_POST 启用时会发送一个常规的POST请求，类型为：application/x-www-form-urlencoded，就像表单提交的一样。   
+CURLOPT_PUT 启用时允许HTTP发送文件，必须同时设置CURLOPT_INFILE和CURLOPT_INFILESIZE。   
+CURLOPT_RETURNTRANSFER 将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。   
+CURLOPT_SSL_VERIFYPEER 禁用后cURL将终止从服务端进行验证。使用CURLOPT_CAINFO选项设置证书使用CURLOPT_CAPATH选项设置证书目录 如果CURLOPT_SSL_VERIFYPEER(默认值为2)被启用，CURLOPT_SSL_VERIFYHOST需要被设置成TRUE否则设置为FALSE。  自cURL 7.10开始默认为TRUE。从cURL 7.10开始默认绑定安装。  
+CURLOPT_TRANSFERTEXT 启用后对FTP传输使用ASCII模式。对于LDAP，它检索纯文本信息而非HTML。在Windows系统上，系统不会把STDOUT设置成binary模式。   
+CURLOPT_UNRESTRICTED_AUTH 在使用CURLOPT_FOLLOWLOCATION产生的header中的多个locations中持续追加用户名和密码信息，即使域名已发生改变。   
+CURLOPT_UPLOAD 启用后允许文件上传。   
+CURLOPT_VERBOSE 启用时会汇报所有的信息，存放在STDERR或指定的CURLOPT_STDERR中。  
+CURLOPT_BUFFERSIZE 每次获取的数据中读入缓存的大小，但是不保证这个值每次都会被填满。  在cURL 7.10中被加入。  
+CURLOPT_CLOSEPOLICY 不是CURLCLOSEPOLICY_LEAST_RECENTLY_USED就是CURLCLOSEPOLICY_OLDEST，还存在另外三个CURLCLOSEPOLICY_，但是cURL暂时还不支持。   
+CURLOPT_CONNECTTIMEOUT 在发起连接前等待的时间，如果设置为0，则无限等待。   
+CURLOPT_CONNECTTIMEOUT_MS 尝试连接等待的时间，以毫秒为单位。如果设置为0，则无限等待。  在cURL 7.16.2中被加入。从PHP 5.2.3开始可用。  
+CURLOPT_DNS_CACHE_TIMEOUT 设置在内存中保存DNS信息的时间，默认为120秒。   
+CURLOPT_FTPSSLAUTH FTP验证方式：CURLFTPAUTH_SSL (首先尝试SSL)，CURLFTPAUTH_TLS (首先尝试TLS)或CURLFTPAUTH_DEFAULT (让cURL自动决定)。  在cURL 7.12.2中被加入。  
+CURLOPT_HTTP_VERSION CURL_HTTP_VERSION_NONE (默认值，让cURL自己判断使用哪个版本)，CURL_HTTP_VERSION_1_0 (强制使用 HTTP/1.0)或CURL_HTTP_VERSION_1_1 (强制使用 HTTP/1.1)。   
+CURLOPT_HTTPAUTH 使用的HTTP验证方法，可选的值有：CURLAUTH_BASIC、CURLAUTH_DIGEST、CURLAUTH_GSSNEGOTIATE、CURLAUTH_NTLM、CURLAUTH_ANY和CURLAUTH_ANYSAFE。 
+
+可以使用|位域(或)操作符分隔多个值，cURL让服务器选择一个支持最好的值。 
+
+CURLAUTH_ANY等价于CURLAUTH_BASIC | CURLAUTH_DIGEST | CURLAUTH_GSSNEGOTIATE | CURLAUTH_NTLM. 
+
+CURLAUTH_ANYSAFE等价于CURLAUTH_DIGEST | CURLAUTH_GSSNEGOTIATE | CURLAUTH_NTLM. 
+  
+CURLOPT_INFILESIZE 设定上传文件的大小限制，字节(byte)为单位。   
+CURLOPT_LOW_SPEED_LIMIT 当传输速度小于CURLOPT_LOW_SPEED_LIMIT时(bytes/sec)，PHP会根据CURLOPT_LOW_SPEED_TIME来判断是否因太慢而取消传输。   
+CURLOPT_LOW_SPEED_TIME 当传输速度小于CURLOPT_LOW_SPEED_LIMIT时(bytes/sec)，PHP会根据CURLOPT_LOW_SPEED_TIME来判断是否因太慢而取消传输。   
+CURLOPT_MAXCONNECTS 允许的最大连接数量，超过是会通过CURLOPT_CLOSEPOLICY决定应该停止哪些连接。   
+CURLOPT_MAXREDIRS 指定最多的HTTP重定向的数量，这个选项是和CURLOPT_FOLLOWLOCATION一起使用的。   
+CURLOPT_PORT 用来指定连接端口。（可选项）   
+CURLOPT_PROTOCOLS CURLPROTO_*的位域指。如果被启用，位域值会限定libcurl在传输过程中有哪些可使用的协议。这将允许你在编译libcurl时支持众多协议，但是限制只是用它们中被允许使用的一个子集。默认libcurl将会使用全部它支持的协议。参见CURLOPT_REDIR_PROTOCOLS. 
+
+可用的协议选项为：CURLPROTO_HTTP、CURLPROTO_HTTPS、CURLPROTO_FTP、CURLPROTO_FTPS、CURLPROTO_SCP、CURLPROTO_SFTP、CURLPROTO_TELNET、CURLPROTO_LDAP、CURLPROTO_LDAPS、CURLPROTO_DICT、CURLPROTO_FILE、CURLPROTO_TFTP、CURLPROTO_ALL 
+ 在cURL 7.19.4中被加入。  
+CURLOPT_PROXYAUTH HTTP代理连接的验证方式。使用在CURLOPT_HTTPAUTH中的位域标志来设置相应选项。对于代理验证只有CURLAUTH_BASIC和CURLAUTH_NTLM当前被支持。  在cURL 7.10.7中被加入。  
+CURLOPT_PROXYPORT 代理服务器的端口。端口也可以在CURLOPT_PROXY中进行设置。   
+CURLOPT_PROXYTYPE 不是CURLPROXY_HTTP (默认值) 就是CURLPROXY_SOCKS5。  在cURL 7.10中被加入。  
+CURLOPT_REDIR_PROTOCOLS CURLPROTO_*中的位域值。如果被启用，位域值将会限制传输线程在CURLOPT_FOLLOWLOCATION开启时跟随某个重定向时可使用的协议。这将使你对重定向时限制传输线程使用被允许的协议子集默认libcurl将会允许除FILE和SCP之外的全部协议。这个和7.19.4预发布版本种无条件地跟随所有支持的协议有一些不同。关于协议常量，请参照CURLOPT_PROTOCOLS。  在cURL 7.19.4中被加入。  
+CURLOPT_RESUME_FROM 在恢复传输时传递一个字节偏移量（用来断点续传）。   
+CURLOPT_SSL_VERIFYHOST 1 检查服务器SSL证书中是否存在一个公用名(common name)。译者注：公用名(Common Name)一般来讲就是填写你将要申请SSL证书的域名 (domain)或子域名(sub domain)。2 检查公用名是否存在，并且是否与提供的主机名匹配。   
+CURLOPT_SSLVERSION 使用的SSL版本(2 或 3)。默认情况下PHP会自己检测这个值，尽管有些情况下需要手动地进行设置。   
+CURLOPT_TIMECONDITION 如果在CURLOPT_TIMEVALUE指定的某个时间以后被编辑过，则使用CURL_TIMECOND_IFMODSINCE返回页面，如果没有被修改过，并且CURLOPT_HEADER为true，则返回一个"304 Not Modified"的header， CURLOPT_HEADER为false，则使用CURL_TIMECOND_IFUNMODSINCE，默认值为CURL_TIMECOND_IFUNMODSINCE。   
+CURLOPT_TIMEOUT 设置cURL允许执行的最长秒数。   
+CURLOPT_TIMEOUT_MS 设置cURL允许执行的最长毫秒数。  在cURL 7.16.2中被加入。从PHP 5.2.3起可使用。  
+CURLOPT_TIMEVALUE 设置一个CURLOPT_TIMECONDITION使用的时间戳，在默认状态下使用的是CURL_TIMECOND_IFMODSINCE。   
+
+
+对于下面的这些option的可选参数，value应该被设置一个string类型的值： 
+
+选项 可选value值 备注 
+CURLOPT_CAINFO 一个保存着1个或多个用来让服务端验证的证书的文件名。这个参数仅仅在和CURLOPT_SSL_VERIFYPEER一起使用时才有意义。 .   
+CURLOPT_CAPATH 一个保存着多个CA证书的目录。这个选项是和CURLOPT_SSL_VERIFYPEER一起使用的。   
+CURLOPT_COOKIE 设定HTTP请求中"Cookie: "部分的内容。多个cookie用分号分隔，分号后带一个空格(例如， "fruit=apple; colour=red")。   
+CURLOPT_COOKIEFILE 包含cookie数据的文件名，cookie文件的格式可以是Netscape格式，或者只是纯HTTP头部信息存入文件。   
+CURLOPT_COOKIEJAR 连接结束后保存cookie信息的文件。   
+CURLOPT_CUSTOMREQUEST 使用一个自定义的请求信息来代替"GET"或"HEAD"作为HTTP请求。这对于执行"DELETE" 或者其他更隐蔽的HTTP请求。有效值如"GET"，"POST"，"CONNECT"等等。也就是说，不要在这里输入整个HTTP请求。例如输入"GET /index.html HTTP/1.0\r\n\r\n"是不正确的。 
+
+Note: 
+
+在确定服务器支持这个自定义请求的方法前不要使用。 
+
+
+  
+CURLOPT_EGDSOCKET 类似CURLOPT_RANDOM_FILE，除了一个Entropy Gathering Daemon套接字。   
+CURLOPT_ENCODING HTTP请求头中"Accept-Encoding: "的值。支持的编码有"identity"，"deflate"和"gzip"。如果为空字符串""，请求头会发送所有支持的编码类型。  在cURL 7.10中被加入。  
+CURLOPT_FTPPORT 这个值将被用来获取供FTP"POST"指令所需要的IP地址。"POST"指令告诉远程服务器连接到我们指定的IP地址。这个字符串可以是纯文本的IP地址、主机名、一个网络接口名（UNIX下）或者只是一个'-'来使用默认的IP地址。   
+CURLOPT_INTERFACE 网络发送接口名，可以是一个接口名、IP地址或者是一个主机名。   
+CURLOPT_KRB4LEVEL KRB4 (Kerberos 4) 安全级别。下面的任何值都是有效的(从低到高的顺序)："clear"、"safe"、"confidential"、"private".。如果字符串和这些都不匹配，将使用"private"。这个选项设置为NULL时将禁用KRB4 安全认证。目前KRB4 安全认证只能用于FTP传输。   
+CURLOPT_POSTFIELDS 全部数据使用HTTP协议中的"POST"操作来发送。要发送文件，在文件名前面加上@前缀并使用完整路径。这个参数可以通过urlencoded后的字符串类似'para1=val1&para2=val2&...'或使用一个以字段名为键值，字段数据为值的数组。如果value是一个数组，Content-Type头将会被设置成multipart/form-data。   
+CURLOPT_PROXY HTTP代理通道。   
+CURLOPT_PROXYUSERPWD 一个用来连接到代理的"[username]:[password]"格式的字符串。   
+CURLOPT_RANDOM_FILE 一个被用来生成SSL随机数种子的文件名。   
+CURLOPT_RANGE 以"X-Y"的形式，其中X和Y都是可选项获取数据的范围，以字节计。HTTP传输线程也支持几个这样的重复项中间用逗号分隔如"X-Y,N-M"。   
+CURLOPT_REFERER 在HTTP请求头中"Referer: "的内容。   
+CURLOPT_SSL_CIPHER_LIST 一个SSL的加密算法列表。例如RC4-SHA和TLSv1都是可用的加密列表。   
+CURLOPT_SSLCERT 一个包含PEM格式证书的文件名。   
+CURLOPT_SSLCERTPASSWD 使用CURLOPT_SSLCERT证书需要的密码。   
+CURLOPT_SSLCERTTYPE 证书的类型。支持的格式有"PEM" (默认值), "DER"和"ENG"。  在cURL 7.9.3中被加入。  
+CURLOPT_SSLENGINE 用来在CURLOPT_SSLKEY中指定的SSL私钥的加密引擎变量。   
+CURLOPT_SSLENGINE_DEFAULT 用来做非对称加密操作的变量。   
+CURLOPT_SSLKEY 包含SSL私钥的文件名。   
+CURLOPT_SSLKEYPASSWD 在CURLOPT_SSLKEY中指定了的SSL私钥的密码。 
+
+Note: 
+
+由于这个选项包含了敏感的密码信息，记得保证这个PHP脚本的安全。 
+
+
+  
+CURLOPT_SSLKEYTYPE CURLOPT_SSLKEY中规定的私钥的加密类型，支持的密钥类型为"PEM"(默认值)、"DER"和"ENG"。   
+CURLOPT_URL 需要获取的URL地址，也可以在curl_init()函数中设置。   
+CURLOPT_USERAGENT 在HTTP请求中包含一个"User-Agent: "头的字符串。   
+CURLOPT_USERPWD 传递一个连接中需要的用户名和密码，格式为："[username]:[password]"。   
+
+
+对于下面的这些option的可选参数，value应该被设置一个数组： 
+
+选项 可选value值 备注 
+CURLOPT_HTTP200ALIASES 200响应码数组，数组中的响应吗被认为是正确的响应，否则被认为是错误的。  在cURL 7.10.3中被加入。  
+CURLOPT_HTTPHEADER 一个用来设置HTTP头字段的数组。使用如下的形式的数组进行设置： array('Content-type: text/plain', 'Content-length: 100')   
+CURLOPT_POSTQUOTE 在FTP请求执行完成后，在服务器上执行的一组FTP命令。   
+CURLOPT_QUOTE 一组先于FTP请求的在服务器上执行的FTP命令。   
+
+
+对于下面的这些option的可选参数，value应该被设置一个流资源 （例如使用fopen()）： 
+
+选项 可选value值 
+CURLOPT_FILE 设置输出文件的位置，值是一个资源类型，默认为STDOUT (浏览器)。  
+CURLOPT_INFILE 在上传文件的时候需要读取的文件地址，值是一个资源类型。  
+CURLOPT_STDERR 设置一个错误输出地址，值是一个资源类型，取代默认的STDERR。  
+CURLOPT_WRITEHEADER 设置header部分内容的写入的文件地址，值是一个资源类型。  
+
+
+对于下面的这些option的可选参数，value应该被设置为一个回调函数名： 
+
+选项 可选value值 
+CURLOPT_HEADERFUNCTION 设置一个回调函数，这个函数有两个参数，第一个是cURL的资源句柄，第二个是输出的header数据。header数据的输出必须依赖这个函数，返回已写入的数据大小。  
+CURLOPT_PASSWDFUNCTION 设置一个回调函数，有三个参数，第一个是cURL的资源句柄，第二个是一个密码提示符，第三个参数是密码长度允许的最大值。返回密码的值。  
+CURLOPT_PROGRESSFUNCTION 设置一个回调函数，有三个参数，第一个是cURL的资源句柄，第二个是一个文件描述符资源，第三个是长度。返回包含的数据。  
+CURLOPT_READFUNCTION 拥有两个参数的回调函数，第一个是参数是会话句柄，第二是HTTP响应头信息的字符串。使用此函数，将自行处理返回的数据。返回值为数据大小，以字节计。返回0代表EOF信号。  
+CURLOPT_WRITEFUNCTION 拥有两个参数的回调函数，第一个是参数是会话句柄，第二是HTTP响应头信息的字符串。使用此回调函数，将自行处理响应头信息。响应头信息是整个字符串。设置返回值为精确的已写入字符串长度。发生错误时传输线程终止。  
+
+
+
+
+PHP输出http状态码以及常用状态码
+100-199 用于指定客户端应相应的某些动作。 
+200-299 用于表示请求成功 理解和接受。 
+300-399 用于已经移动的文件并且常被包含在定位头信息中指定新的地址信息。 
+400-499 用于指出客户端的错误。 
+500-599 用于支持服务器错误。
+
+ 
+
+[Informational 1xx]  信息化
+100="Continue" 继续：如果服务器收到头信息中带有100-continue的请求，这是指客户端询问是否可以在后续的请求中发送附件。在这种情况下，服务器用100(SC_CONTINUE)允许客户端继续或用417 (Expectation Failed)告诉客户端不同意接受附件。这个状态码是 HTTP 1.1中新加入的。 
+101="Switching Protocols"  交换协议：服务器理解并愿意遵守客户的要求,通过升级消息头字段,改变在此连接使用的应用协议。
+
+[Successful 2xx]  成功
+>>>200="OK"  成功
+201="Created"  创建：请求已经完成,导致创建一个新的资源。应在定位头信息中给出它的URL。
+202="Accepted"  接受：处理请求已被接受,但处理还未完成。
+203="Non-Authoritative Information"  非授权信息
+>>>204="No Content"  没有内容：服务器已经完成请求,但没有返回任何内容。
+205="Reset Content" 重置内容：该服务器已完成该请求，该用户代理应重置引起该请求的文档视图，用于强迫浏览器清除表单域。这是 HTTP 1.1中新加入的。 
+206="Partial Content" 部分内容：在服务器完成了一个包含Range头信息的局部请求时被发送的
+
+[Redirection 3xx]  重定向
+300="Multiple Choices"  多种选择:表示被请求的文档可以在多个地方找到，并将在返回的文档中列出来。如果服务器有首选设置，首选项将会被列于定位响应头信息中。 
+>>>301="Moved Permanently"  永久移动：所请求的资源被分配一个新的永久性URI并且未来的任何引用这个资源应该使用这个返回的URI,浏览器会自动连接到新的URL。  注意:当自动重定向一个POST请求收到一个301状态码,一些现有的HTTP / 1.0用户代理将错误地改变成一个GET请求
+>>>302="Found"  发现：请求的资源暂时驻留在临时的URI。与301有些类似，只是定位头信息中所给的URL应被理解为临时交换地址而不是永久的。注意：在 HTTP 1.0中，消息是临时移动(Moved Temporarily)的而不是被发现
+303="See Other"  查看其它：对该请求的响应可以在一个不同的URI，应使用该资源的GET方法检索。和 301、302 相似，只是如果最初的请求是POST，那么新文档（在定位头信息中给出）要用 GET 找回。这个状态码是新加入 HTTP 1.1中的。
+>>>304="Not Modified"  没有修改：如果客户有条件执行GET请求,允许访问,但是文件没有被修改,服务器应该回应这个状态码。
+305="Use Proxy"  使用代理：必须通过代理访问所请求的资源的位置字段。新加入 HTTP 1.1中。
+306="(Unused)"  （未使用）306状态代码中使用之前版本的规范,不再使用,代码是保留的
+307="Temporary Redirect" 临时重定向：所请求的资源暂时驻留在一个不同的URI。浏览器处理307状态的规则与302相同。307状态被加入到 HTTP 1.1中是由于许多浏览器在收到302响应时即使是原始消息为POST的情况下仍然执行了错误的转向。只有在收到303响应时才假定浏览器会在POST请求时重定向。添加这个新的状态码的目的很明确：在响应为303时按照GET和POST请求转向；而在307响应时则按照GET请求转向而不是POST请求。
+
+[Client Error 4xx]  客户端错误
+>>>400="Bad Request"  服务器不理解请求的语法。
+>>>401="Unauthorized"  未经授权：请求需要进行用户身份验证，如果该请求已包含授权证书，则401响应表示已拒绝为凭据。这个响应必须包含一个WWW-Authenticate的授权信息头。
+402="Payment Required"  支付所需：这段代码保留以供将来使用。
+>>>403="Forbidden"  禁止：服务器理解的请求,但拒绝履行它。
+>>>404="Not Found"  未找到
+405="Method Not Allowed" 不允许的方法：在请求行中指定的方法是不允许的请求URI标识的资源。指出请求方法(GET, POST, HEAD, PUT, DELETE, 等)对某些特定的资源不允许使用。
+406="Not Acceptable"  不可接受：表示请求资源的MIME类型与客户端中Accept头信息中指定的类型不一致。
+407="Proxy Authentication Required"  代理服务器身份验证：此代码类似于401（未经授权），但表示客户端必须首先对其进行身份验证。
+408="Request Timeout"  请求超时：在服务器准备等待的时间内，客户端没有产生一个请求。新加入 HTTP 1.1中的。 
+409="Conflict"  冲突：由于与资源的当前状态发生冲突，无法完成该请求。该状态通常与PUT请求一同使用，409状态常被用于试图上传版本不正确的文件时。该状态码是新加入 HTTP 1.1中的。 
+>>>410="Gone"  不见了：所请求的资源不再是可用的服务器,也没有转发地址。告诉客户端所请求的文档已经不存在并且没有更新的地址。410状态不同于404，410是在指导文档已被移走的情况下使用，而404则用于未知原因的无法访问。该状态码是新加入 HTTP 1.1中的。
+411="Length Required"  长度必需：服务器拒绝接受请求没有定义内容长度。表示服务器不能处理请求（假设为带有附件的POST请求），除非客户端发送Content-Length头信息指出发送给服务器的数据的大小。该状态是新加入 HTTP 1.1的。 
+412="Precondition Failed"  前提条件失败：在一个或多个请求头字段在服务器上进行测试时，在一个或多个请求头域中给出的前提条件。指出请求头信息中的某些先决条件是错误的。该状态是新加入 HTTP 1.1的。 
+413="Request Entity Too Large"  请求实体太大：告诉客户端现在所请求的文档比服务器现在想要处理的要大。如果服务器认为能够过一段时间处理，则会包含一个Retry-After的响应头信息。该状态是新加入 HTTP 1.1的。 
+414="Request-URI Too Long"  请求URI太长：状态用于在URI过长的情况时。这里所指的“URI”是指URL中主机、域名及端口号之后的内容。新加入 HTTP 1.1的。 
+415="Unsupported Media Type"  不支持的媒体类型：请求所带的附件的格式类型服务器不知道如何处理。该状态是新加入 HTTP 1.1的。 
+416="Requested Range Not Satisfiable"  请求范围不符合：表示客户端包含了一个服务器无法满足的Range头信息的请求。该状态是新加入 HTTP 1.1的。
+417="Expectation Failed"  期望失败：如果服务器得到一个带有100-continue值的Expect请求头信息，这是指客户端正在询问是否可以在后面的请求中发送附件。在这种情况下，服务器也会用该状态(417)告诉浏览器服务器不接收该附件或用100 状态告诉客户端可以继续发送附件。该状态是新加入 HTTP 1.1的。
+
+[Server Error 5xx]  服务器错误
+>>>500="Internal Server Error"  内部服务器错误
+>>>501="Not Implemented"  无法执行：服务器不支持完成请求所需的功能。告诉客户端服务器不支持请求中要求的功能。例如，客户端执行了如PUT这样的服务器并不支持的命令。 
+>>>502="Bad Gateway"  错误的网关：服务器作为网关或代理,从上游服务器收到无效响应在试图满足访问请求。该状态指出接收服务器接收到远端服务器的错误响应。 
+>>>503="Service Unavailable"  服务不可用：服务器目前无法处理请求由于暂时过载或服务器的维护。一些服务器可能希望 简单地拒绝连接。例如，如果某些线程或数据库连接池已经没有空闲则服务器应返回这个头信息。服务器可提供一个Retry-After头信息告诉客户端什么时候可以再试一次。 
+504="Gateway Timeout"  网关超时:它指出接收服务器没有从远端服务器得到及时的响应。该状态是新加入 HTTP 1.1的。 
+505="HTTP Version Not Supported"  HTTP版本不支持:服务器不支持，或者拒绝支持的HTTP协议的版本，是在请求消息中使用。该状态是新加入 HTTP 1.1的。
+
+
+简洁版：
+
+
+成功2XX        成功处理了请求的状态码。
+200                   服务器已成功处理了请求并提供了请求的网页。
+204                   服务器成功处理了请求，但没有返回任何内容。                         
+
+重定向3XX      每次请求中使用重定向不要超过 5 次。
+301                   请求的网页已永久移动到新位置。当URLs发生变化时，使用301代码。搜索引擎索引中保存新的URL。
+302                   请求的网页临时移动到新位置。搜索引擎索引中保存原来的URL。
+304                   如果网页自请求者上次请求后没有更新，则用304代码告诉搜索引擎机器人，可节省带宽和开销。
+
+客户端错误4XX  表示请求可能出错，妨碍了服务器的处理。
+400                   服务器不理解请求的语法。
+403                   服务器拒绝请求。
+404                   服务器找不到请求的网页。服务器上不存在的网页经常会返回此代码。
+410                   请求的资源永久删除后，服务器返回此响应。该代码与 404（未找到）代码相似，
+但在资源以前存在而现在不存在的情况下，有时用来替代404 代码。如果资源已永久删除，应当使用 301 指定资源的新位置。
+
+服务器错误5XX  表示服务器在处理请求时发生内部错误。这些错误可能是服务器本身的错误，而不是请求出错。
+500                   服务器遇到错误，无法完成请求。
+503                   服务器目前无法使用（由于超载或停机维护）。通常，这只是暂时状态。
+
+详细分解：
+2XX  成功
+200  正常；请求已完成。
+201  正常；紧接 POST 命令。
+202  正常；已接受用于处理，但处理尚未完成。
+203  正常；部分信息 — 返回的信息只是一部分。
+204  正常；无响应 — 已接收请求，但不存在要回送的信息。
+
+3XX  重定向
+301  已移动 — 请求的数据具有新的位置且更改是永久的。
+302  已找到 — 请求的数据临时具有不同 URI。
+303  请参阅其它 — 可在另一 URI 下找到对请求的响应，且应使用 GET 方法检索此响应。
+304  未修改 — 未按预期修改文档。
+305  使用代理 — 必须通过位置字段中提供的代理来访问请求的资源。
+306  未使用 — 不再使用；保留此代码以便将来使用。
+
+4XX  客户机中出现的错误
+400  错误请求 — 请求中有语法问题，或不能满足请求。
+401  未授权 — 未授权客户机访问数据。
+402  需要付款 — 表示计费系统已有效。
+403  禁止 — 即使有授权也不需要访问。
+404  找不到 — 服务器找不到给定的资源；文档不存在。
+407  代理认证请求 — 客户机首先必须使用代理认证自身。
+415  介质类型不受支持 — 服务器拒绝服务请求，因为不支持请求实体的格式。
+
+5XX  服务器中出现的错误
+500  内部错误 — 因为意外情况，服务器不能完成请求。
+501  未执行 — 服务器不支持请求的工具。
+502  错误网关 — 服务器接收到来自上游服务器的无效响应。
+503  无法获得服务 — 由于临时过载或维护，服务器无法处理请求。
+504 Gateway Timeout
+作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。
+注意：某些代理服务器在DNS查询超时时会返回400或者500错误
+505 HTTP Version Not Supported
+服务器不支持，或者拒绝支持在请求中使用的 HTTP 版本。这暗示着服务器不能或不愿使用与客户端相同的版本。响应中应当包含一个描述了为何版本不被支持以及服务器支持哪些协议的实体。
+506 Variant Also Negotiates
+由《透明内容协商协议》（RFC 2295）扩展，代表服务器存在内部配置错误：被请求的协商变元资源被配置为在透明内容协商中使用自己，因此在一个协商处理中不是一个合适的重点。
+507 Insufficient Storage
+服务器无法存储完成请求所必须的内容。这个状况被认为是临时的。WebDAV (RFC 4918)
+508 Loop Detected
+服务器发现请求中出现一个无穷循环
+509 Bandwidth Limit Exceeded
+服务器达到带宽限制。这不是一个官方的状态码，但是仍被广泛使用。
+510 Not Extended
+获取资源所需要的策略并没有没满足。（RFC 2774）
+
+
+
+
+
+HTTP协议状态码详解（HTTP Status Code）
+
+使用ASP.NET/PHP/JSP 或者javascript都会用到http的不同状态，一些常见的状态码为： 
+200 – 服务器成功返回网页 404 – 请求的网页不存在 503 – 服务不可用 
+1xx（临时响应） 
+表示临时响应并需要请求者继续执行操作的状态代码。
+
+代码   说明 
+100   （继续） 请求者应当继续提出请求。 服务器返回此代码表示已收到请求的第一部分，正在等待其余部分。  
+101   （切换协议） 请求者已要求服务器切换协议，服务器已确认并准备切换。
+
+2xx （成功） 
+表示成功处理了请求的状态代码。
+
+代码   说明 
+200   （成功）  服务器已成功处理了请求。 通常，这表示服务器提供了请求的网页。 
+201   （已创建）  请求成功并且服务器创建了新的资源。 
+202   （已接受）  服务器已接受请求，但尚未处理。 
+203   （非授权信息）  服务器已成功处理了请求，但返回的信息可能来自另一来源。 
+204   （无内容）  服务器成功处理了请求，但没有返回任何内容。 
+205   （重置内容） 服务器成功处理了请求，但没有返回任何内容。 
+206   （部分内容）  服务器成功处理了部分 GET 请求。
+
+3xx （重定向） 
+表示要完成请求，需要进一步操作。 通常，这些状态代码用来重定向。
+
+代码   说明 
+300   （多种选择）  针对请求，服务器可执行多种操作。 服务器可根据请求者 (user agent) 选择一项操作，或提供操作列表供请求者选择。 
+301   （永久移动）  请求的网页已永久移动到新位置。 服务器返回此响应（对 GET 或 HEAD 请求的响应）时，会自动将请求者转到新位置。 
+302   （临时移动）  服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。 
+303   （查看其他位置） 请求者应当对不同的位置使用单独的 GET 请求来检索响应时，服务器返回此代码。 
+304   （未修改） 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。 
+305   （使用代理） 请求者只能使用代理访问请求的网页。 如果服务器返回此响应，还表示请求者应使用代理。 
+307   （临时重定向）  服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。
+
+4xx（请求错误） 
+这些状态代码表示请求可能出错，妨碍了服务器的处理。
+
+代码   说明 
+400   （错误请求） 服务器不理解请求的语法。 
+401   （未授权） 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应。 
+403   （禁止） 服务器拒绝请求。 
+404   （未找到） 服务器找不到请求的网页。 
+405   （方法禁用） 禁用请求中指定的方法。 
+406   （不接受） 无法使用请求的内容特性响应请求的网页。 
+407   （需要代理授权） 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理。 
+408   （请求超时）  服务器等候请求时发生超时。 
+409   （冲突）  服务器在完成请求时发生冲突。 服务器必须在响应中包含有关冲突的信息。 
+410   （已删除）  如果请求的资源已永久删除，服务器就会返回此响应。 
+411   （需要有效长度） 服务器不接受不含有效内容长度标头字段的请求。 
+412   （未满足前提条件） 服务器未满足请求者在请求中设置的其中一个前提条件。 
+413   （请求实体过大） 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力。 
+414   （请求的 URI 过长） 请求的 URI（通常为网址）过长，服务器无法处理。 
+415   （不支持的媒体类型） 请求的格式不受请求页面的支持。 
+416   （请求范围不符合要求） 如果页面无法提供请求的范围，则服务器会返回此状态代码。 
+417   （未满足期望值） 服务器未满足”期望”请求标头字段的要求。
+
+5xx（服务器错误） 
+这些状态代码表示服务器在尝试处理请求时发生内部错误。 这些错误可能是服务器本身的错误，而不是请求出错。
+
+代码   说明 
+500   （服务器内部错误）  服务器遇到错误，无法完成请求。 
+501   （尚未实施） 服务器不具备完成请求的功能。 例如，服务器无法识别请求方法时可能会返回此代码。 
+502   （错误网关） 服务器作为网关或代理，从上游服务器收到无效响应。 
+503   （服务不可用） 服务器目前无法使用（由于超载或停机维护）。 通常，这只是暂时状态。 
+504   （网关超时）  服务器作为网关或代理，但是没有及时从上游服务器收到请求。 
+505   （HTTP 版本不受支持） 服务器不支持请求中所用的 HTTP 协议版本。
+
+ 
+
+RFC 6585 最近刚刚发布，该文档描述了 4 个新的 HTTP 状态码。
+
+HTTP 协议还在变化？是的，HTTP 协议一直在演变，新的状态码对于开发 REST 服务或者说是基于 HTTP 的服务非常有用，下面我们为你详细介绍这四个新的状态码以及是否应该使用。
+
+428 Precondition Required (要求先决条件)
+
+先决条件是客户端发送 HTTP 请求时，如果想要请求能成功必须满足一些预设的条件。
+
+一个好的例子就是 If-None-Match 头，经常在 GET 请求中使用，如果指定了 If-None-Match ，那么客户端只在响应中的 ETag 改变后才会重新接收回应。
+
+先决条件的另外一个例子就是 If-Match 头，这个一般用在 PUT 请求上用于指示只更新没被改变的资源，这在多个客户端使用 HTTP 服务时用来防止彼此间不会覆盖相同内容。
+
+当服务器端使用 428 Precondition Required 状态码时，表示客户端必须发送上述的请求头才能执行请求，这个方法为服务器提供一种有效的方法来阻止 'lost update' 问题。
+
+429 Too Many Requests (太多请求)
+
+当你需要限制客户端请求某个服务数量时，该状态码就很有用，也就是请求速度限制。
+
+在此之前，有一些类似的状态码，例如 '509 Bandwidth Limit Exceeded'. Twitter 使用 420 （这不是HTTP定义的状态码）
+
+如果你希望限制客户端对服务的请求数，可使用 429 状态码，同时包含一个 Retry-After 响应头用于告诉客户端多长时间后可以再次请求服务。
+
+431 Request Header Fields Too Large (请求头字段太大)
+
+某些情况下，客户端发送 HTTP 请求头会变得很大，那么服务器可发送 431 Request Header Fields Too Large 来指明该问题。
+
+我不太清楚为什么没有 430 状态码，而是直接从 429 跳到 431，我尝试搜索但没有结果。唯一的猜测是 430 Forbidden 跟 403 Forbidden 太像了，为了避免混淆才这么做的，天知道！
+
+511 Network Authentication Required (要求网络认证)
+
+对我来说这个状态码很有趣，如果你在开发一个 HTTP 服务器，你不一定需要处理该状态码，但如果你在编写 HTTP 客户端，那这个状态码就非常重要。
+
+如果你频繁使用笔记本和智能手机，你可能会注意到大量的公用 WIFI 服务要求你必须接受一些协议或者必须登录后才能使用。
+
+这是通过拦截HTTP流量，当用户试图访问网络返回一个重定向和登录，这很讨厌，但是实际情况就是这样的。
+
+使用这些“拦截”客户端，会有一些讨厌的副作用。在 RFC 中有提到这两个的例子：
+
+如果你在登录WIFI前访问某个网站，网络设备将会拦截首个请求，这些设备往往也有自己的网站图标 ‘favicon.ico'。登录后您会发现，有一段时间内你访问的网站图标一直是WIFI登录网站的图标。
+如果客户端使用HTTP请求来查找文档（可能是JSON），网络将会响应一个登录页，这样你的客户端就会解析错误并导致客户端运行异常，在现实中这种问题非常常见。
+因此 511 状态码的提出就是为了解决这个问题。
+
+如果你正在编写 HTTP 的客户端，你最好还是检查 511 状态码以确认是否需要认证后才能访问。
+
+英文原文
+
+欢迎大家关注微信号opendotnet，微信公众号名称：dotNET跨平台。扫下面的二维码或者收藏下面的二维码关注吧（长按下面的二维码图片、并选择识别图中的二维码）
+
+
+
+
+
+Host: www.google.com
+User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:54.0) Gecko/20100101 Firefox/54.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Cookie: NID=107=w5UAWVhDk0jCIiml6nQyeiLGn33Exkg_9H3yNqUVjfRRKH2A51nXuG8Fk-4sUVZy7mA09yNLiUtkcAFNlJ2z-D61NGARkCljg8XcuoqIp6mB_VW4iM3ZxYthw0AHTDTLpz2dRaPHeH7dOH3Q3Wo53lcPOAnGbyVSKw; OGPC=5061451-3:5061821-1:; OGP=-5061451:-5061821:
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+"Connection: keep-alive",
+"Upgrade-Insecure-Requests:1"
+
+"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", 
+
+"Accept-Encoding: gzip, deflate, br",
+
+str_replace('\/', "/", $string);

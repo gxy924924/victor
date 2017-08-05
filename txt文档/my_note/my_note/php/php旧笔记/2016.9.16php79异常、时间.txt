@@ -1,0 +1,54 @@
+==>php异常处理/错误处理=====
+fopen(“文件名”，“处理方式”)		//打开文件
+file_exists("路径")			//验证文件是否存在
+
+===》自定义错误处理
+在php中有不同错误级别
+function my_error($errno,$errmes){
+	echo "<font size='5' color='red'>$errno</font><br/>";
+	echo "错误信息：$errmes";
+	exit();
+}
+
+//改写set_error_handler处理器
+set_error_handler("类名（随便写）",E_WARNING);
+
+===》错误触发器trigger_error
+if（条件）{
+trigger_error("输入年龄错误")；
+}
+注意：此函数只在E_USER组下有效
+
+==》错误日志
+//保存错误日志（错误信息（\r\n换行（文件中专用)），保存方式，保存位置）
+error_log($err_info."\r\n",3,"myerr.txt");
+
+==>显示时间
+<?php
+//返回自从 Unix 纪元（格林威治时间 1970 年 1 月 1 日 00:00:00）到当前时间的秒数。
+echo time();
+//设置时区
+date_default_timezone_set('Asia/Shanghai');
+//date — 格式化一个本地时间／日期
+echo date("Y年m月d日 G:i:s");
+?>
+
+==》异常处理try/catch/Exception
+1基本语法
+try{
+//可能出错误或现异常的代码
+}catch(Exception $e){
+//对异常处理
+//1.自己处理
+//2.自己不处理，将其抛出
+}
+思考一个问题
+怎样可以去有效的控制多条异常
+结论：1通过异常处理机制，可以有效的控制错误，可以再开发中大量使用
+	2在捕获一个异常后,try()块里的后续代码不会继续执行
+	3.如果一个异常发生，但是你没有catch捕获，则提示一个Uncatched提示
+	4.catch一个异常时，你可以处理也可以不处理，不处理就可以
+throw new Exception("信息");
+	5.可以自定义异常类class Exception2 extends Exception{}
+	6使用多个catch 代码可以捕获不同种类的异常(从自己定义的不同异常处理)
+		catch（myexception1 $e1）{}catch（myexception2 $e1）{}

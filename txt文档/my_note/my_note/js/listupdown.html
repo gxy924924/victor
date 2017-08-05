@@ -1,0 +1,45 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+#mylist{
+
+
+}
+#test{
+border:1px solid black;
+width:15px;
+
+}
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function test1(){
+	
+	var toplist=document.getElementById("test");
+	var mylist=document.getElementById("mylist");
+	if(toplist.innerText=="-"){
+		mylist.style.display="none";
+		toplist.innerText="+";
+	}else if(toplist.innerText=="+"){
+		mylist.style.display="block";
+		toplist.innerText="-";
+	}
+
+}
+//-->
+</script>
+</head>
+<body > 
+<div class="">
+<span id="test" onclick="test1()">-</span>mylist
+<ul id="mylist">
+<li>a</li>
+<li>s</li>
+<li>x</li>
+<li>c</li>
+</ul>
+</div>
+</body>
+<html>

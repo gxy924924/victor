@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+	<style>
+		.float-right{
+			position: relative;
+			float:right;
+			top:-5px;
+		}
+		.dropdown{
+			float: right;
+		}
+		.level-block{
+			width:250px;
+		}
+	</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+			<h4>
+				用户信息 
+				<a class="btn btn-primary float-right" href="{:url('Index/user/add_user')}">添加用户</a>
+			</h4>
+				
+				
+			</div>
+			<table class="table table-bordered table-striped table">
+				<tr>
+					<th>id</th>
+					<th>名称</th>
+					<th class="level-block">权限等级</th>
+					<th>修改密码</th>
+					<th>删除</th>
+				</tr>
+				<?php foreach($userinfo as $v):?>
+				<tr>
+					<td>{$v['id']}</td>
+					<td>{$v['username']}</td>
+					<td>{$v['auth_level']}
+
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    更改权限等级
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+						 <?php $flag=1; foreach($level as $val):
+						 	
+						 	if($val['id']==$v['auth_level']){
+						 		$auth_name=$val['title'];
+						 		$flag=0;
+						 	}
+						 	?>
+						 		
+						 		<?php if($val['id']>=$_SESSION['auth_level']): ?>
+						    <li>
+						    <a href='{:url("index/user/update_level")}?id={$v["id"]}&lv={$val["id"]}'>L{$val['id']}-{$val['title']}</a>
+						    </li>
+							<?php endif; ?>
+						<?php endforeach;
+							if($flag){
+								$auth_name="";
+							}
+						?>
+
+
+						  </ul>
+						</div>
+						<?php if($flag):?>
+							-<b style="color:red;">错误的权限等级，请更换</b>
+						<?php else:?>
+							-{$auth_name}
+						<?php endif;?>
+						
+					
+					</td>
+					<td><a href="{:url('index/user/update_user')}?id={$v['id']}" class="btn btn-warning btn-sm">修改</a></td>
+					<td><a href="{:url('index/user/delete_user')}?id={$v['id']}" class="btn btn-danger btn-sm" onclick="return confirm_del();">删除</a></td>
+				</tr>
+				<?php endforeach;?>
+			</table>
+		</div>
+	</div>	
+	
+</body>
+<script>
+// alert("aa");
+		function confirm_del(){
+			return confirm("确定删除？");
+		}
+		// $('#user_del').click(function(){
+		// 	alert("shan");
+		// 	// 
+		// });
+	</script>
+</html>
+

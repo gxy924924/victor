@@ -1,0 +1,110 @@
+==>ajax是什么
+1.ajax（asynchronous javascript and xml）异步的 JavaScript和 xml
+2.是7种技术的综合，它包含了七个技术（javascript xml xhtml dom xmlhttprequest css）
+  ajax是一个粘合剂
+3.ajax是一个与服务端语言无关的技术，即可以使用在（php/java ee/ net 网站/asp）
+4.ajax可以给客户端返回三种格式数据（文本格式，xml、json格式）
+5.无刷新数据交换技术有以下：flash、java、applet、框架、iframe、ajax
+
+说明：php中<?php?>后面的这个"?>"是可以不写的，当这个文件是个工具类（被别的文件包的）
+时，不写比较好。
+
+==>经典案例
+1.使用ajax完成用户名验证
+->使用get方式发出请求，如果提交的用户名不变化，浏览器将不会真的发请求，而是缓存数据，
+
+解决方法：
+方法1-url后带一个总是变化的参数，比如当前时间 new var Date()
+方法2-在服务器回送结果时禁用缓存
+	//这两句话很重要，第一句告诉浏览器返回的数据是xml格式
+	header("Content-Type:text/xml;charset=utf-8");
+	//告诉浏览器不要缓存数据
+	header("Cache-Control:no-cache");
+
+==>ajax如何处理返回格式是xml
+var mes=myXmlHttpRequest.responseXML.getElementsByTagName("mes");
+//取出mes节点值
+//alert(mes.length);
+var mes_val=mes[0].childNodes[0].nodeValue;
+//alert(mes_val);
+usertell.innerText=mes_val;
+
+==>json格式（javaScript Object Notation ）
+-》json是js的原生格式，因此这种数据很稳定，描述能力很强，建议大家使用
+在js中处理json数据不需要任何特殊的API或工具包
+1.json数据格式如下：
+var dog={"name":"xiaoming","age":"8"};{"属性名":"属性值"，。。。}
+
+关于json 在js执行时，的固定写法
+var mes_obj=eval("("+mes+")");//这是固定写法
+
+那是因为eval()相当于一个执行环境，当你不加括号的时候，
+mes会被认为是一条复合语句。运行的时候就会逐个字符的解析。
+但是加上括号的时候，jsonstr1就当做一个表达式去运算。
+从括号开始就被当做了对象进行识别。
+
+==>json数据格式扩展
+json返回多组数据：
+$info="[{"":"","":""},{"":"","":""}]";
+xmlhttprequest对象接收到json数据后，应当这样处理
+var reses=eval("("+xmlHttpRequest.responseText+")");
+reses[i].属性名;
+
+--》在扩展：
+$info="{"a":[{"bb":"xx","cc":"xx"}]}";
+var reses=eval("("+xmlHttpRequest.responseText+")");
+reses.a[i].属性名;
+
+小结：
+1.json优缺点：
+	优点：1.比xml更灵巧，2不需要从服务器端发送特定类型的首部信息
+	缺点：1.结构过于严谨，2代码不易读，3.eval存在风险
+2.当一个ajax请求到服务器，服务器可以根据需求返回三种数据，应当用哪种？
+	-》如果没有特别要求：json首选
+	-》如果不需要与其他应用共享：html片段
+	-》如果数据要重用：json
+	-》如果远程应用（未知）要用：xml（xml是世界语-最通用的格式）
+
+==>ajax省市联动案例
+
+==>黄金价格波动案例
+
+作业：省市联动数据库，用户管理系统smarty模板
+
+
+==》使用ajax与服务器通信的步骤
+1.创建一个XMLHttpRequest对象
+2.创建url，data通过XMLHttpRequest.send()
+3.服务器接收ajax的请求，做相应的处理(),然后返回结果（echo 语句）
+4.客户端通过XMLHttpRequest属性 responseText，responseXML取得数据，完成局部刷新。
+
+===>聊天室
+思路：
+1.创建数据库
+create database chat;
+create table messages(
+id int unsigned primary key auto_increment,
+sender varchar(64) not null,
+getter varchar(64) not null,
+content varchar(3600) not null,
+sendTime datetime not null,
+isGet tinyint default 0)
+)
+
+mysql> create table message(id int unsigned primary key auto_increment,sender va
+rchar(64) not null,getter varchar(64) not null,content varchar(3600) not null,se
+ndTime datetime not null,isGet tinyint default 0)
+
+聊天室说明：
+1.有可能会在传值时出现乱码，这时可以用encode来进行编码在发送
+2.字符前后出现空格可使用php的trim函数方法来将空格去掉
+
+==>php嵌入js的方法
+//这里有新的知识，js中如何嵌入php
+var data="con="+$('con').value+"&getter=<?php echo $username; ?>";
+
+
+错误报告：
+1.2017.1.18 将myxmlHttpRequest写成myXmlHttpRequest系统一直报错不存在方法
+2.2017.1.19 传递ajax的xml数据时，总传不到，发现是php中require的文件中包含了另外的header头
+3.在mysql查询时字串一定要带引号‘否则报错

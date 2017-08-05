@@ -1,0 +1,217 @@
+﻿html 的缺点
+1.标签是规定好的，用户不能自定义
+2.html 文件的显示的样式和数据是绑定在一起，数据没有复用
+3.html标签是没有含义的
+4.。。。xhtml,xml
+
+==>为什么要学习xml，在什么地方使用xml
+
+1可以作为程序间通讯的标准（ajax text xml json）
+
+2可以作为配置文件（php中 用的很多）
+
+配置文件
+<dbinfo>
+<host>123.11.11.23</host>
+<user>shunping</user>
+<type>mysql</type>
+<password>root</password>
+</dbinfo>
+
+3可以当小型数据库
+如果我们有这样的需求，有些数据，放在数据库的代价太高，这样可以考虑直接存成文件
+
+===》xml语法
+文档声明
+元素
+属性
+注释
+CDATA区、特殊字符
+处理指令（processing instruction ）
+
+<班级>
+<stu>
+<name>孙悟空</name>
+<sex>男</sex>
+<age>136000</age>
+</stu>
+<stu>
+<name>白骨精</name>
+<sex>女</sex>
+<age>800</age>
+</stu>
+</班级>
+
+注：如果标签下没有内容可简写<aa></aa>---><aa/>
+php解析时有可能会把换行符解析
+xml区分大小写
+
+==》xml中属性使用需要注意的地方
+
+基本语法
+<标签 属性名=“属性值” 属性名=“属性值”>
+内容
+</标签>
+
+1.xml中有5个预定义的实体引用
+&lt;  <
+&gt;  >
+&amp   &
+&apos;  '
+&quot;  "
+
+2.不要在同一个标签中有相同的属性名
+
+3.注释的语法： <!--注释-->
+
+4.CDATA节：可以保存特殊符号内容（屏蔽特殊字符）
+<介绍><![CDATA[$#%&!#*<>|<>\]]></介绍>
+
+面试题：请问如何使用xml文件来传递、保存一个图片
+答：使用程序先读入内存，然后保存到xml的CDATA节中
+
+xml中的处理指令PI（processing instruction）了解即可通常不用（）
+
+5.xml与css关联
+<!--xml也可以使用css来修饰，使用pi-->
+<?xml-stylesheet type="text/css" href="classes.css"?>
+
+
+==》dtd 文件约束
+dtd的主要用处是约束xml文件，也可以去约束html xhtml。。。。
+
+要求：看懂，会使用即可（根据别人的dtd能写相应的xml即可）
+-->外部dtd
+<!DOCTYPE 根元素名 SYSTEM "dtd路径"/>
+-->内部dtd [
+<!DOCTYPE 根元素名 
+<!ELEMENT 班级 (stu+)>
+<!ELEMENT stu>
+]/>
+--》内外部结合dtd
+。。
+
+
+--》在默认情况下，浏览器不去检测，我们需要自己写代码测试（这里有js）
+//创建一个xml解析器
+var xmldoc=new ActiveXobject("Microsoft.XMLDOM");
+	//开启校验功能
+	xmldoc.validateOnPares=true;
+	//指定对哪个xml文件校验
+	xmldoc.load("classes3.xml");
+	//如果有错误信息，则输出
+	document.write("错误信息="+xmldoc.parseError.reason+"<br/>");
+	document.write("错误行号="+xmldoc.parseError.line+"<br/>");
+
+
+==》在浏览器引入一个公开的dtd文件
+<!DOCTYPE 文档根节点 PUBLIC "DTD名称""DTD文件的URL"/>
+
+==》dtd的元素说明
+<!ELEMENT 元素名称（name） 元素类型（content）>
+元素类型（content）：	
+EMPTY 该元素不能包含元素和文本
+			
+ANY 该元素可以包含任何在dtd定义的元素内容
+			
+(#PCDATA) 可以包含数据，但是不能包含任何子元素其它类型
+
+注：书写时#PCDATA要用小括号()包起来
+
+==》元素修饰符
++ 	有1-n个元素
+*	有0-n个元素
+|	在列出对象中选一个（男人|女人）
+？	对象出现0-1次
+，	对象必须按照指定的顺序出现（啊，是，符）
+
+==》元素属性列表说明
+基本语法
+<!ATTLIST 元素名字
+属性名 属性类型 属性的特点
+属性名 属性类型 属性的特点
+>
+
+属性类型有：
+	CDATA	【表示属性值可以是字符或数字】
+	ID	【属性值是唯一的，字母开头】
+	IDREF/IDREFS	【ID引用】[要有相应的id才能引用]
+	Enumerated	value	【枚举】
+	ENTITY/ENTITIES		【实体】
+属性的特点
+	#REQUIRED	【该属性必须有】
+	#IMPLIED	【该属性可以有也可以没有】
+	#FIXED	value	【该属性是固定值】
+	DEDAULT value	【默认值】
+
+
+<学生 住址="111" 学号="r001" 大佬="r001 r002" 婚姻状态="单身" 国籍="中国">
+
+<!ATTLIST 学生
+	住址 CDATA #IMPLIED
+	学号 ID #REQUIRED
+	大佬 IDREFS #REQUIRED
+	婚姻状态 (单身|结婚|离婚) #REQUIRED
+	国籍 CDATA #FIXED "中国"
+>
+
+
+==》实体定义
+分为两种：
+1.引用实体：在dtd文件中的东西会被xml文件引用
+<!--定义一个引用实体，建议放在前面-->
+<!ENTITY intro "这是一个介绍">
+
+<介绍>&intro;</介绍>
+
+
+2.参数实体：在dtd文件中的东西会被dtd自己引用
+
+<!--定义一个参数实体，建议放在前面-->
+<!ENTITY % sName "名字">
+
+<!ELEMENT 学生 (%sName;,年龄,介绍)>
+
+
+==>初步使用zend studio 工具来开发xml dtd
+使用zend studio 可以快速开发我们的文件
+
+
+==>使用php技术对xml文件进行操心
+常用的三种技术
+1.php dom
+2.php 结合xpath操作xml
+3.SimpleXml
+
+==》说明Dom
+dom（document object model）文档-对象-模型，核心思想是把一个xml文件看成一个对象模型，然后通过对象的方式来操作xml文件
+
+
+==》快速入门案例
+做：对classes.xml 班级信息进行增删改查（c[create] r[read] u[update] d[delete]）
+
+围绕classes.xml进行crud操作
+
+
+=>xpath
+使用XPath有什么好处？
+问题？
+我们可不可以跨层取点
+从案例我们可以得出结论--phpdom技术可以跨层取出，但是不能保持层次关系，这时我们就需要XPath
+
+xpath的设计核心思想，
+
+可以通过
+
+
+==>simpleXml
+该技术的核心思想是：以面向对象的方式来操作xml文件
+
+
+
+说明：
+simplexml可以有三种形式来装载xml文件：
+1.直接装载文件
+2.装载dom对象
+3.装载string（该string要求按照xml文件的标准写）
+

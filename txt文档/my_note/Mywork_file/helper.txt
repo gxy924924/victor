@@ -1,0 +1,21 @@
+
+说明：于2.19发现tp框架的最初部分放到服务器端，取数据库出错，将文件重写，自制简单的MVC框架，重制作项目
+	2.21将MVC框架自动加载功能搞明白，构建项目MVC
+
+mysqli帮助
+$mysql=new sqlHelper();
+$mysql->settable($table);		//选择表
+$mysql->where()->select();		//查
+$mysql->where()->find()			//查单行
+$mysql->page($page,$rows)		//分页查表（）
+$mysql->add(数组)			//增（数组键值必须是表头）
+$mysql->gettitle()			//获取表头（过滤id）
+$mysql->delete()			//删
+$mysql->where()->update()		//改
+$mysql->getlastsql()			//获取最后查询语句
+
+
+editplus
+ctrl + shift + I			删除缩进
+
+

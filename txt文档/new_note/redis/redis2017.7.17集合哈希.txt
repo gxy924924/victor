@@ -1,0 +1,289 @@
+2017.7.17 redis 
+
+
+127.0.0.1:6379> sadd jihe xigua yingtao
+(integer) 2
+127.0.0.1:6379> smembers jihe
+1) "xigua"
+2) "yingtao"
+
+127.0.0.1:6379> srandmember jihe
+"yingtao"
+127.0.0.1:6379> srandmember jihe
+"xigua"
+
+127.0.0.1:6379> spop jihe
+"boluo"
+127.0.0.1:6379> spop jihe
+"yingtao"
+127.0.0.1:6379> spop jihe
+"taozi"
+127.0.0.1:6379> SMEMBERS jihe
+1) "pingguo"
+2) "xihongshi"
+3) "xigua"
+
+
+127.0.0.1:6379> scard jihe
+(integer) 3
+127.0.0.1:6379> sismember jihe xigua
+(integer) 1
+127.0.0.1:6379> sismember jihe xigu
+(integer) 0
+
+
+127.0.0.1:6379>  sadd ming math chanese wuli huaxue
+(integer) 4
+127.0.0.1:6379> sadd hong zhengzhi dili math sixiamgpingde
+(integer) 4
+127.0.0.1:6379> sinter ming hong
+1) "math"
+127.0.0.1:6379> suinon ming hong
+(error) ERR unknown command 'suinon'
+127.0.0.1:6379> sunion ming hong
+1) "wuli"
+2) "chanese"
+3) "huaxue"
+4) "sixiamgpingde"
+5) "dili"
+6) "zhengzhi"
+7) "math"
+127.0.0.1:6379> sdiff ming hong
+1) "huaxue"
+2) "chanese"
+3) "wuli"
+127.0.0.1:6379> sdiff hong ming
+1) "sixiamgpingde"
+2) "dili"
+3) "zhengzhi"
+
+
+127.0.0.1:6379> zadd class 15 xiaoming 22 xiaohong
+(integer) 2
+127.0.0.1:6379> zcard class
+(integer) 2
+127.0.0.1:6379> zadd class 17 lili 18 lucy 19 hmm
+(integer) 3
+127.0.0.1:6379> zcard class
+(integer) 5
+
+
+127.0.0.1:6379> zrank class lili
+(integer) 1
+127.0.0.1:6379> zrevrank class lili
+(integer) 3
+
+127.0.0.1:6379> zrange class 0 2
+1) "xiaoming"
+2) "lili"
+3) "lucy"
+127.0.0.1:6379> zrange class 0 2 withscores
+1) "xiaoming"
+2) "15"
+3) "lili"
+4) "17"
+5) "lucy"
+6) "18"
+
+
+127.0.0.1:6379> hset book name qijian
+(integer) 1
+127.0.0.1:6379> hset book auth liangyusheng
+(integer) 1
+127.0.0.1:6379> hget book auth
+"liangyusheng"
+127.0.0.1:6379> hget book name
+"qijian"
+
+127.0.0.1:6379> hgetall book
+1) "name"
+2) "qijian"
+3) "auth"
+4) "liangyusheng"
+127.0.0.1:6379> hmget book name auth
+1) "qijian"
+2) "liangyusheng"
+
+127.0.0.1:6379> hlen book
+(integer) 2
+127.0.0.1:6379> hkeys book
+1) "name"
+2) "auth"
+127.0.0.1:6379> hvals book
+1) "qijian"
+2) "liangyusheng"
+127.0.0.1:6379> hdel book auth
+(integer) 1
+127.0.0.1:6379>
+127.0.0.1:6379> hgetall book
+1) "name"
+2) "qijian"
+
+
+127.0.0.1:6379[2]> keys *
+1) "b"
+2) "a"
+127.0.0.1:6379[2]> flushdb
+OK
+127.0.0.1:6379[2]> keys *
+(empty list or set)
+
+
+127.0.0.1:6379> scan 0 match k*
+1) "5"
+2) (empty list or set)
+127.0.0.1:6379> scan 0 match n*
+1) "5"
+2) 1) "name"
+127.0.0.1:6379> scan 0
+1) "5"
+2)  1) "name"
+    2) "class"
+    3) "char"
+    4) "book"
+    5) "age"
+    6) "hong"
+    7) "jihe"
+    8) "clsss"
+    9) "stus"
+   10) "str"
+127.0.0.1:6379> scan 5
+1) "0"
+2) 1) "author"
+   2) "num"
+   3) "page"
+   4) "ming"
+   5) "nobody"
+
+
+127.0.0.1:6379> multi
+OK
+127.0.0.1:6379> set user:7:ticket 1
+QUEUED
+127.0.0.1:6379> decr num
+QUEUED
+127.0.0.1:6379> exec
+1) OK
+2) (integer) 99
+127.0.0.1:6379> discard
+(error) ERR DISCARD without MULTI
+
+127.0.0.1:6379> watch num
+OK
+127.0.0.1:6379> multi
+OK
+127.0.0.1:6379> set user:9:ticket 1
+QUEUED
+127.0.0.1:6379> decr num
+QUEUED
+127.0.0.1:6379> exec
+(nil)
+
+
+127.0.0.1:6379> set book:5:title php(bible)
+OK
+127.0.0.1:6379> set book:6:title ruby(shizhan)
+OK
+127.0.0.1:6379> set book:7:title mysql(yunwei)
+OK
+127.0.0.1:6379> set book:7:title ruby(fuwuqi)
+OK
+127.0.0.1:6379>
+127.0.0.1:6379> sadd php 5
+(integer) 1
+127.0.0.1:6379> sadd web 5
+(integer) 1
+127.0.0.1:6379> sadd web 6
+(integer) 1
+127.0.0.1:6379> sadd ruby 6
+(integer) 1
+127.0.0.1:6379> sadd database 7
+(integer) 1
+127.0.0.1:6379> sadd ruby 8
+(integer) 1
+127.0.0.1:6379> sadd server 8
+(integer) 1
+127.0.0.1:6379> smembers web
+1) "5"
+2) "6"
+127.0.0.1:6379> sinter web php
+1) "5"
+127.0.0.1:6379> sdiff web php
+1) "6"
+
+
+
+
+
+集合（set）：：类似于链表但是无序的，其中的值也是唯一的
+
+->sadd jihe xigua yingtao 		//集合添加信息
+
+->smembers jihe 				//集合查看
+
+->srandmember jihe  			//随机抽取集合
+
+->spop jihe 					//随机删除集合
+
+->scard jihe						//查看集合中数量
+
+->sismember jihe xigu 			//集合中是否存在
+
+->sinter ming hong 				//交集
+
+->sunion ming hong				//并集
+
+->sdiff ming hong 				//差集 ming-hong(小明有小红却没有的)
+
+
+有序集合（order set）：：集合本身无序，redis给其加入序列
+
+->zadd class 15 xiaoming 22 xiaohong  		//有序集合添加信息
+
+->zcard class 								//查看有序集合数量
+
+->zrank class lili							//正序排列集合查询名次
+
+->zrevrank class lili						//倒序查名次
+
+->zrange class 0 2 [withscores] 			//按名次（正序） 查询多个【可带序列数值】
+
+哈希数组：：
+
+->hset book name qijian 		//设定哈希数组键名与键值
+
+->hget book auth 				//获取相应健民的键值
+
+->hgetall book  				//获取全部键名和键值
+
+->hmget book name auth 			//获取多个键名的键值
+
+->hlen book 					//查看键的个数
+
+->hkeys book 					//获取所有键名
+
+->hvals book 					//获取所有键值
+
+->hdel book auth 				//删除键
+
+*****全局命令：：：
+
+->flushdb  						//清空当前数据库单元所有数据
+
+->flushall  					//清空所有数据库单元所有数据
+
+->keys *  						//查看所有键
+
+->scan 0 [match k*] 				//扫描以游标为0匹配k开头的键
+
+事务：：
+
+-> multi  				//开启事务
+
+->exec 					//执行事务
+
+->discard 					//回滚
+
+->watch num 			//观察者模式观察num（如果num改变则不执行事务）（乐观观察）
+
+:::::lesson:13 over

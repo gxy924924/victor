@@ -1,0 +1,15 @@
+<html>
+ <head>
+  <title>fieldset</title>
+ </head>
+ <body>
+ <fieldset width="400px">
+<legend>ÉóºË×´Ì¬</legend>
+<form>
+<input type="radio" name="state">ÒÑÉóºË
+<input type="radio" name="state">Î´ÉóºË
+<input type="radio" name="state">È«²¿
+</form>
+</fieldset>
+ </body>
+</html>

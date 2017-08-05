@@ -1,0 +1,40 @@
+﻿==>mysqli 的增强 批量执行
+批量执行 dml语句
+基本使用：
+$sqls="insert into ...;";
+$sqls.="insert into ...;";
+mysqli：：multi_query($sqls);
+
+-->批量执行 可以混合使用insert update delete,但是最好不要使用select。
+
+==》批量执行 dql 语句
+它的作用是可以一次性取回多个结果集
+
+==》mysql的事务（transaction）处理
+看一个实际情况
+
+有一张银行账号表
+create table account(id int primary key,balance float);
+
+现在有一段php程序，要把1号账号10元钱，转到2号账号
+如果一号减少了钱，但2号没有加上，则出了大问题。。。
+
+这时我们就需要一种方法来控制两句sql语句，这种方法就是事物
+
+==》事物
+$mysqli->autocommit(false);
+$mysqli->rollback();
+$mysqli->commit();
+
+==》在mysql控制台也可以使用事物来操作
+
+start transaction; (开始事物)
+savepoint a;      (（需要先开启事物）设置保存点)
+rollback to a；   （（需要先开启事物）返回保存点a）
+rollback;         (（需要先开启事物）返回之前状态)
+
+事物特性：
+原子性：事物操作要么都发生，要么什么都不发生
+一致性：事物必须从一个一致性状态变换到另一个一致性状态（php中提交前与提交后状态是单独的）
+隔离性：多个用户访问时，每一个用户的事物单独开启
+持久性：一旦提交，不可恢复

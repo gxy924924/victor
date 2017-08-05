@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+	<style>
+		.btn-top{
+			margin-right: 10px;
+			margin-left: 10px;
+			position: relative;
+			top:-5px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 20px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}
+		.left-th{
+			width:100px;
+		}
+		.adder{
+			height: 100px;
+		}
+		.margin-left-small{
+			margin-left: 70px;
+		}
+		th{
+			width:100px;
+		}
+		hr{
+			border-color:#888;
+		}
+	</style>
+<body>
+	
+{include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+
+			<div class="panel panel-info">
+				<div class="panel-heading">
+				时间轴
+				</div>
+				<div class="panel-body">
+
+				<?php foreach ($g_info as $key => $value):?>
+					<div class="col-sm-3">
+						<div class="well">
+							{$value['appointment_style']}<br/>
+							{$value['item']}<br/>
+							
+							{$value['add_time']}<br/>
+							<a href="{:url('index/appointment/show_detail')}?ap_id={$value['id']}">详细</a>
+						</div>
+					</div>
+					
+					
+				<?php endforeach; ?>
+				</div>
+				
+			</div>
+
+		<div class="panel panel-info">
+		<div class="panel-heading">
+				客户信息
+		</div>
+		
+			<table class="table table-bordered table-striped">
+				<?php if($tel_access['tel_info']=='1'):?>
+					<tr>
+						<th class="left-th">id</th><td>{$info[0]['id']}</td>
+					</tr>
+					<tr>
+						<th class="left-th">g_id</th><td>{$info[0]['guest_id']}</td>
+					</tr>
+				<?php endif;?>
+				
+				<tr>
+					<th>姓名</th><td>{$info[0]['name']}</td>
+				</tr>
+				<tr>
+					<th>性别</th><td>{$info[0]['sex']}</td>
+				</tr>
+				<tr>
+					<th>年龄</th><td>{$info[0]['age']}</td>
+				</tr>
+				<tr>
+					<th>是否到达</th><td><?php echo $info[0]['appointment_go']?'已到':'未到'?></td>
+				</tr>
+				<?php if($tel_access['tel_info']=='1'):?>
+				<tr>
+					<th>电话</th><td>{$info[0]['tel']}</td>
+				</tr>
+				<tr>
+					<th>微信</th><td>{$info[0]['weixin']}</td>
+				</tr>
+				<?php endif;?>
+				<tr>
+					<th>预约方式</th><td>{$info[0]['appointment_type']}</td>
+				</tr>
+				<tr>
+					<th>预约类型</th><td>{$info[0]['appointment_style']}</td>
+				</tr>
+				<tr>
+					<th>预约项目</th><td>{$info[0]['item']}</td>
+				</tr>
+				<tr>
+					<th>定金</th><td>{$info[0]['bargain_money']}</td>
+				</tr>
+				<tr>
+					<th>价格</th><td>{$info[0]['price']}</td>
+				</tr>
+				<tr>
+					<th>添加时间</th><td>{$info[0]['add_time']}</td>
+				</tr>
+				<tr>
+					<th>预约时间</th>
+
+					<td>
+						<?php if($info[0]['appointment_time']=='0000-00-00 00:00:00'){ echo "未确定时间"; }else{
+						echo $info[0]['appointment_time'];} ?>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>位置</th><td>{$info[0]['position']}</td>
+				</tr>
+				
+			<?php if($tel_access['tel_info']=='1'):?>
+				<tr>
+					<th>店铺</th><td>{$info[0]['shop']}</td>
+				</tr>
+			<?php endif;?>
+				
+
+			<?php if(count($detail)):?>
+				<?php if($tel_access['tel_info']=='1'):?>
+				<tr>
+					<th>QQ</th><td>{$detail[0]['qq']}</td>
+				</tr>
+				<?php endif;?>
+				<tr>
+					<th>导师</th><td>{$detail[0]['tutor']}</td>
+				</tr>
+				<tr>
+					<th>到店消费金额</th><td>{$detail[0]['ture_cost']}</td>
+				</tr>
+
+			<?php endif;?>
+				<tr>
+					<th class="adder">补充信息</th><td>{$info[0]['adder_info']}</td>
+				</tr>
+			</table>	
+		
+		</div><!-- panel -->
+
+		
+		<?php foreach ($after_sale as $key => $val):?>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				售后({$key+1}次/共{$info[0]['after_sale']}次)
+				<a href='{:url("index/appointment/after_sale_add")}?after_id={$val["id"]}&ap_id={$_GET["ap_id"]}' class="btn btn-sm btn-warning pull-right btn-top" >修改</a>
+				<a href='{:url("index/appointment/after_sale_delete")}?id={$val["id"]}&ap_id={$_GET["ap_id"]}&after_sale={$info[0]["after_sale"]-1}' class="btn btn-sm btn-danger pull-right btn-top" onclick="return my_confirm(1);">删除</a>
+			</div>
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th>类型</th>
+					<td>{$val['type']}</td>
+				</tr>
+				<tr>
+					<th>售后价格</th>
+					<td>{$val['after_price']}</td>
+				</tr>
+				<tr>
+					<th>添加时间</th>
+					<td>{$val['add_af_time']}</td>
+				</tr>
+				<tr>
+					<th>预约时间</th>
+					<td>
+						<?php if($val['appo_af_time']=='0000-00-00 00:00:00'){ echo "未确定时间"; }else{
+						echo $val['appo_af_time'];} ?>
+					</td>
+				</tr>
+				<tr>
+					<th>到达时间</th>
+					<td>
+						<?php if($val['arrive_time']=='0000-00-00 00:00:00') :?> 
+							<font class="margin-left-small">客户未到达 </font>
+							<a class="btn btn-sm btn-primary pull-right" href="{:url('index/appointment/after_sale_arrive')}?after_id={$val['id']}&ap_id={$_GET['ap_id']}"  onclick="return my_confirm(2);">确认到达</a>
+						<?php else: echo $val['appo_af_time'];  ?>	
+						
+						<?php endif; ?>
+					</td>
+				</tr>
+				<tr class="adder">
+					<th>描述</th>
+					<td>{$val['info']}</td>
+				</tr>
+			</table>
+			</div>
+		<?php endforeach ?>
+		
+			
+		</div><!-- col-md-9 -->
+	
+</div>	
+<script>
+function my_confirm(num){
+	if(num==1){
+		return confirm("确定删除？");
+	}
+	if(num==2){
+		return confirm("确定到达？");
+	}
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,124 @@
+==>javascript 内部类
+js本身有一些可以直接使用类，就是内部类。
+array,boolean,date,math,number,string,regExp(正则),function,events
+8种内部类
+
+==》内部类分类
+从使用的方式来看，分为静态类和动态类。
+
+静态类 使用 类名。属性|方法；
+动态类 使用 var 对象=new 动态类（）； 对象。属性|方法；
+//静态类
+window.alert(Math.abs(-12));
+//动态类
+var nowdate=new Date();
+window.alert(nowdate.toLocaleString());
+
+==》Math（静态类）
+Math是静态类，Math 对象用于执行数学任务，提供常用的数学函数。
+
+==》Date (动态类)
+var nowHour=date.getHours();//返回 Date 对象的小时 (0 ~ 23)。
+var nowMinute=date.getMinutes();//返回 Date 对象的分钟 (0 ~ 59)。
+document.write(date.toLocaleString()+"</br>");//可根据本地时间把 Date 对象转换为字符串，并返回结果。
+document.write(date.getYear()+" "+date.getMonth()+" ");
+
+==》string （静态类）
+var str="abcd1234";
+var str2="abc def oop";
+var arr=str2.split(" ");把字符串分割为字符串数组。
+
+var str3="abcdef";
+document.write(str3.substr(0,3));//abc  从起始索引号提取字符串中指定数目的字符。
+document.write(str3.substring(1,3));//提取字符串中两个指定的索引号之间的字符。
+
+document.write(str3.charAt(3));//返回在指定位置的字符。
+
+document.write("</br>indexOf="+str3.indexOf("bc",1));//检索字符串。(字串，开始检索的位置)
+
+
+==》array （动态类）
+var myarr=new Array();//js中array必须先定义，否则，报错
+array2=new Array(1,1,2,3,4,"xx");//创建方法2
+myarr[5]="";//如果未创建中间元素，系统会自动认为中间是空串
+myarr["ab"]=1;//如果数组序号为字串，length将不能识别出这个数组
+//myarr.pop();//删除并返回数组的最后一个元素 ->出栈=》相当于删除
+//myarr.push(1);//向数组的末尾添加一个或更多元素，并返回新的长度。
+
+注意：不要跳过下标放值
+
+
+==》boolean(动态类)
+Boolean 对象表示两个值："true" 或 "false"。
+
+
+==》number （动态类/可当静态使用）
+//number
+a=890.2345
+//alert(typeof(a)+a);
+//alert(typeof(a.toString())+a);
+alert(typeof(b=a.toString(2))+b);//以2进制显示
+alert(typeof(b=a.toFixed(2))+b);//toFixed() 方法可把 Number 四舍五入为指定小数位数的数字。
+
+==》JavaScript 全局对象
+eval()；//计算 JavaScript 字符串，并把它作为脚本代码来执行。
+encodeURI();//把字符串编码为 URI。
+decodeURI();//解码某个编码的 URI。
+isNaN();//解析一个字符串并返回一个整数。
+
+==>js事件驱动编程 四类事件-(鼠标事件、键盘事件、html事件、其它事件)
+事件驱动：用鼠标或键盘触发事件处理程序
+事件源：1.html元素（按钮文本。。）
+	2.浏览器窗口
+	3.其它
+事件对象：该对象含有事件信息
+事件处理程序：事件交给谁处理（一个事件可以交给多个函数处理）
+
+鼠标事件：
+
+入门案例
+案例1：监听鼠标的点击位置，并输出鼠标点击的x，y
+
+==》js访问外部css样式
+内部css
+var div1=document.getElementById('div1');
+div1.style.backgroundColor="black";
+
+在外部css数据是存储在类中
+var ocssRules=document.styleSheets[0].rules;
+	//alert(ocssRules);【这里表示文件中第一个规则】
+	var style1=ocssRules[0];
+	if(aaa.value=="黑色"){
+		style1.style.backgroundColor="black";
+	}else if(aaa.value=="红色"){
+		style1.style.backgroundColor="red";
+	}
+
+//一个事务可以同时调2个方法
+<input type="button" value="黑色" onclick="test5(this),test4(this)">
+
+//输入框事务
+<input type="text" onfocus="test6()"  />
+function test5(e){
+	window.alert('输入框被选中');
+
+}
+==>window有三个事件：
+onload：页面打开（初始化）
+onbeforeunload：关闭页面之前
+onunload：关闭页面后
+
+==》右键点击不出菜单
+<body oncontextmenu=" return test10()"> 
+function test10(){
+	window.alert('不允许弹出菜单');
+	return false;
+}
+
+==》不允许选择页面文本（禁止复制ctrl+c）
+<body onselectstart="return test11()"> 
+function test11(){
+	window.alert('不允选择');
+	return false;
+}
+

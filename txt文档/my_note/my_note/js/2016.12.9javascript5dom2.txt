@@ -1,0 +1,72 @@
+==》document对象
+定义：document对象代表的整个html文档，因此可以去访问到文档中的各个对象（元素）
+（1）write
+这个是向文档输出文本或是js代码
+（2）writeln
+这个是向文档输出文本或是js代码，与write不一样的地方时，writeln是换行输出
+
+比如 document.writeln("hello");document.writeln("ok");
+hello
+ok
+但是对浏览器看，输出效果没有区别
+
+（3）getElementById()
+a.规定html文档中id号要唯一，如果不唯一，则只取第一个元素
+b.id号不要以数字打头，可能会出错
+
+（4）getElementsByName()返回带有指定名称的对象[集合]。
+有多选框<input type="checkbox" name="hobby"...>
+要看那些被选中就要用getElementsByName()
+var hobby=getElementsByName("hobby")
+alert(hobby.length)//有几个元素
+hobby[i].value//相应元素的值
+
+（5）document.getElementsByTagName("input");//input标签名的对象的集合
+var obj=document.getElementsByTagName("input")
+obj[i].value//取第i个值
+
+
+==》如何动态创建html元素
+var me=document.createElement("input");//希望创建到html元素标签名
+me.type="text";//赋予属性
+document.body.appendChild(me);//添加到body中，也可类似添加到div中
+document.body.removeChild(me);//移除
+说明：删除一个元素必须要先获得这个元素的父元素
+document.getElementById("id").parentNode;//获取父元素
+
+==>对dom的加强-》Node
+在dom编程中，一个html文档被当做dom 树对待，dom会把所有的html元素，映射成Node节点，于是你就可以使用Node节点（对象）的属性方法。
+
+==>document补充
+--》.fgcolor
+->.bgcolor
+
+==>innerText<--->innerHtml区别
+
+==》body事件补充
+onscroll当滚动元素滚动元素的滚动条时运行脚本（见h5事件）
+document.body.scrollTop/document.body.scrollLeft
+
+==>form
+length:返回大小
+item(index):指定取出forms对象集合的第几个form对象
+
+可以通过allforms[第几个表单].表单名（name）.value获取表单
+《==》等价于allforms[0].item(1).表单名（name）.value
+
+==>表单提交验证
+在表单提交验证时，可以
+<form action="" onsubmit="函数">
+也可以：<input type="submit" onclick="函数">
+
+==》select对象
+add：向下拉框加入一个选项
+
+==》img事件
+onload:在图片正常加载时会触发
+onerror:在图片加载失败时触发
+
+==》all(取出所有节点)
+document.all.(nodeType/nodeName/length..)
+
+作业：坦克大战，贪食蛇

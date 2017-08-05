@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+
+<style type="text/css"></style>
+
+<script src="./jquery-1.4.2/jquery.js"></script>
+</head>
+<body>
+	<form action="" id="formid">
+		<select name="" id="s1" size="10">
+			<option value="">苹果</option>
+			<option value="">西瓜</option>
+			<option value="">南瓜</option>
+			<option value="">桃子</option>
+			<option value="">橘子</option>
+		</select>
+	</form>
+
+	<div id="div18">
+		<h1 class="abc">aaaaaa</h1>
+		<h1 class="ppp">aaaaaa</h1>
+		<h1 class="abc">aaaaaa</h1>
+	</div>
+	
+	<div id="div20">
+		<h1>bbbb</h1>
+		<h1>bbbb</h1>
+		<h1>bbbb</h1>
+	</div>
+	
+	<div id="div38">
+		<h1>ccccc</h1>
+		<h1>ccccc</h1>
+		<h1>ccccc</h1>
+	</div>
+</body>
+<script>
+
+var num=1;
+$("#s1>option:eq("+num+")").attr("selected",1);
+var id=20;
+$("#div"+id).children("h1").eq(0).css("color","blue");
+
+//hasClass
+$("#div18 h1").each(function(){
+	if($(this).hasClass("abc")){
+		$(this).css("color","red");
+	}
+});
+
+//filter
+$(".ppp").css("color","yellow");
+
+
+</script>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+	<style>
+		.btn{
+			margin-left: 50px;
+			margin-right: 50px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 20px;
+		}
+		.input-group{
+			margin-top: 30px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}
+		.left-th{
+			width:50px;
+		}	
+	</style>
+<body>
+	
+{include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-info">
+	<div class="panel-heading">
+				客户信息
+		</div>
+		
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th class="left-th">id</th><td>{$info[0]['id']}</td>
+				</tr>
+				<tr>
+					<th>姓名</th><td>{$info[0]['name']}</td>
+				</tr>
+				<tr>
+					<th>性别</th><td>{$info[0]['sex']}</td>
+				</tr>
+				<tr>
+					<th>电话</th><td>{$info[0]['tel']}</td>
+				</tr>
+				<tr>
+					<th>预约时间</th><td>{$info[0]['appointment_time']}</td>
+				</tr>
+			</table>	
+		
+		<div class="panel-heading">
+			添加详细内容
+		</div>
+		<div class="panel panel-body">
+			<form action="{:url('index/appointment/add_detail_do')}" method="post" id="useradd">
+				<div class="input-group">
+					<span class="input-group-addon">微信</span>
+					<input type="text" class="form-control" name="weixin">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">QQ</span>
+					<input type="text" class="form-control" name="qq">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">店铺</span>
+					<input type="text" class="form-control" name="shop">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">导师</span>
+					<input type="text" class="form-control" name="tutor">
+				</div>
+				<input type="hidden" value="{$info[0]['id']}" name="appo_id">
+				<div class="btn-control">
+					<button class="btn btn-primary" type="submit" ">提交</button>
+					<button class="btn btn-default" type="reset">重填</button>
+				</div>
+			</form>
+		</div>
+	</div>
+			
+		</div><!-- col-md-9 -->
+
+	
+</div>	
+<script>
+
+</script>
+</body>
+</html>
+

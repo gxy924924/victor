@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<style type="text/css">
+td{width:60px}
+
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+var row=0;
+function test1(){
+	var a=$("caiSelect").value;
+	//alert(a.constructor);
+	a=Number(a);//将字符串转为数字
+	var b=guess();//随机数
+	var ans=cai(a,b);//输赢
+	//alert(ans);
+	var table="mytable"
+	check(table,a,0,1);
+	check(table,b,1,1);
+	table="addtable";
+	row++;
+	newTableLine(table,row,3);//增加table中一行（表，行，td数）
+	writeInTable1(table,ans,0,row);
+	check(table,a,1,row);
+	check(table,b,2,row);
+	//alert(a+"--"+b);
+	//cai(a,b);
+}
+//随机数1-3获取,1石头，2剪子，3布
+function guess(){
+	var gnum=Math.random()*3;//随机数
+	return Math.ceil(gnum);//向上舍入
+}
+//对比获得结果
+function cai(a,b){
+	if(a==b){
+		return "平";
+	}else if(a==1&&b==2){
+		return "赢";
+	}else if(a==2&&b==3){
+		return "赢";
+	}else if(a==3&&b==1){
+		return "赢";
+	}else{
+		return "输";
+	}
+}
+//将出拳值传入
+function check(table,x,n,row){
+	//alert(x);
+	switch(x){
+		case 1:writeInTable1(table,"石头",n,row);break;
+		case 2:writeInTable1(table,"剪子",n,row);break;
+		case 3:writeInTable1(table,"布",n,row);break;
+	}
+}
+//写入mytable表中
+function writeInTable1(table,check,cell,row){
+	//alert("xx");
+	$(table).rows[row].cells[cell].innerHTML=check;
+	//alert(check+".."+cell);
+}
+function newTableLine(table,row,cnum){
+	var x=document.getElementById(table).insertRow(row);
+	for (var i=0;i<cnum ;i++ ){
+		x.insertCell(i);
+	}
+
+}
+function $(id){
+	return document.getElementById(id);
+}
+//-->
+</script>
+</head>
+<body > 
+
+<select id="caiSelect">
+<option  value=1>石头</option>
+<option  value=2>剪子</option>
+<option  value=3>布</option>
+</select>
+<button type="button"  onclick="test1()">ok</button>
+
+<table border="1px" id="mytable">
+<tr>
+<td>我</td>
+<td>电脑</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</table>
+
+<table border="1px" id="addtable">
+<tr>
+<td>第几轮</td>
+<td>我</td>
+<td>电脑</td>
+</tr>
+</table>
+
+</body>
+<html>

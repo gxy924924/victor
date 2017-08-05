@@ -1,0 +1,112 @@
+2017.3.22
+上次复习：
+1.分页(pagination)
+2.标签(label)
+3.徽章(badge)
+4.大屏幕（jumbotron）
+5.页面标题(page-header)
+6.缩略图(thumbnail)-->定制内容
+7.警告框(alert)
+8.进度条(progress)
+9.媒体对象(media)
+10.列表组(list-group)
+11.面板(panel)--table--list-group
+12.well墙
+-----------------------------------------	
+==》javaScript插件：
+1.模态框(modal)
+2.下拉菜单
+3.标签页
+4.工具提示
+5.弹出框
+6.警告框
+7.按钮
+8.折叠
+9.轮播
+---------------------------------------------------
+模态框：
+modal(模式)--||--model(模型)--module（模块）
+button.btn[data-toggle='modal' data-target='#mymodal']
+.modal fade[id="mymodal"]
+	.modal-dialog
+		.modal-header
+		.modal-body
+		.modal-footer
+
+模态框大小：
+.model-lg
+.model-sm
+
+淡入淡出效果：
+.tab-pane fade in
+
+js调用模态框：
+$('#myModal').modal(options)
+
+标签页：
+ul.nav nav-tabs
+	li>a[href="#id" data-toggle="tab"](active)
+.tab-content
+	.tab-pane[id="id"](active)
+
+
+工具提示：tooltip(纯html不好用，故使用jquery)
+button.btn 
+
+$('.btn').tooltip({
+		'title':'111',			//标题
+		'placement':'bottom',	//位置
+		'trigger':'click'		//触发方式
+	});
+
+弹出框：
+button.btn (pop)
+
+$('.pop').popover({
+		'html':true,
+		'title':'111',
+		'content':'111111<br/>2222</br>3333'
+		'placement':'bottom',
+		'trigger':'hover'
+	})
+
+警告框：
+.alert 
+	span.close{x}
+$(".close").alert('close');
+
+按钮：
+-》状态：
+button.btn[id="loading-btn" data-loading-text="loading..."](需要写入js)
+-》状态切换：
+button.btn[data-toggle="button"]
+->checkbox(radio)按钮
+.btn-group[data-toggle="button"]
+	label.btn
+		input[type='checkbox(radio)']
+
+-=>js:方法
+$().button('toggle')
+Toggles push state. Gives the button the appearance that it has been activated.
+$().button('reset')
+重置按钮状态 - 将按钮上的文本还原回原始的内容。
+$().button(string)
+Swaps text to any data defined text state.
+
+$('#loading-btn').click(function(){
+		$(this).button('loading');
+		setTimeout(function(){
+			$('#loading-btn').button('reset');
+		},900);
+	});
+
+折叠：
+.panel-group[id="accordion"]
+	.panel panel-default
+		.panel-heading
+			h4.panel-title
+				a[href="#collapseOne" data-toggle="collapse" data-parent="#accordion"]
+		.panel-collapse collapse in['id="collapseOne"']
+			.panel-body 
+
+轮播：

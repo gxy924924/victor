@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html"charset="utf-8">
+<style>
+</style>
+</head>
+<body>
+	<h2>复选框应用</h2>
+	爱好：</br>
+	{html_checkboxes name="hobby" options=$outval label_ids=true selected=$seled separator="</br>" labels=false }</br>
+<!--	<input type="checkbox" name="hobby[]" value="a">篮球</br>
+	<input type="checkbox" name="hobby[]" value="b">排球</br>
+	<input type="checkbox" name="hobby[]" value="c">棒球</br>
+	<input type="checkbox" name="hobby[]" value="d">看书</br>
+	-->
+	<h2>下拉列表应用</h2>
+	{html_options name="city" options=$area selected=$seled multiple="multiple"}
+</body>
+</html>

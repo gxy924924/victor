@@ -1,0 +1,210 @@
+2017.7.15 redis 
+
+使用：
+root@ubuntu:/usr/local/redis# ./bin/redis-cli
+127.0.0.1:6379> ping
+PONG
+127.0.0.1:6379> set/name lili
+(error) ERR unknown command 'set/name'
+127.0.0.1:6379> set name lili
+OK
+127.0.0.1:6379> get name
+"lili"
+
+
+删除：
+127.0.0.1:6379> del name
+(integer) 0
+127.0.0.1:6379> del xm age
+(integer) 1
+
+说明：redis分仓库 不同仓库是不相互通的
+127.0.0.1:6379> set age 11
+OK
+127.0.0.1:6379> get age
+"11"
+127.0.0.1:6379> select 1
+OK
+127.0.0.1:6379[1]> get age
+(nil)
+127.0.0.1:6379[1]> select 0
+OK
+127.0.0.1:6379> get age
+"11"
+
+按键名查看：
+127.0.0.1:6379> set name lili
+OK
+127.0.0.1:6379> set num 11
+OK
+127.0.0.1:6379> set nobody xx
+OK
+127.0.0.1:6379> keys n*
+1) "name"
+2) "num"
+3) "nobody"
+
+
+127.0.0.1:6379> randomkey //随机查看键
+"num"
+127.0.0.1:6379> randomkey
+"nobody"
+
+127.0.0.1:6379> exists name  //查看键是否存在
+(integer) 1
+127.0.0.1:6379> exists key
+(integer) 0
+
+127.0.0.1:6379> type name  //查看键的数据类型
+string
+
+127.0.0.1:6379> expire name 10 //设置键有效期
+(integer) 1
+127.0.0.1:6379> get name
+"lili"
+127.0.0.1:6379> get name
+(nil)
+
+
+127.0.0.1:6379> set name aa ex 20  //生成键时就设置有效期
+OK
+127.0.0.1:6379> ttl name		//查看键有效期
+(integer) 15
+127.0.0.1:6379> get name
+"aa"
+127.0.0.1:6379> ttl name
+(integer) 10
+127.0.0.1:6379> persist name
+(integer) 1
+127.0.0.1:6379> ttl name	//如果键有效期为-1即为键不自动失效
+(integer) -1
+
+
+127.0.0.1:6379> mset name tl8b author jinyong page 1000
+OK
+127.0.0.1:6379> mget name author page
+1) "tl8b"
+2) "jinyong"
+3) "1000"
+
+
+127.0.0.1:6379> get str
+"123x56789"
+127.0.0.1:6379> setrange str 3 6
+(integer) 9
+127.0.0.1:6379> get str
+
+
+
+127.0.0.1:6379> getrange str 2 8
+"3656789"
+
+
+127.0.0.1:6379> append str xxx
+(integer) 12
+127.0.0.1:6379> get str
+"123656789xxx"
+
+
+127.0.0.1:6379> incr age
+(integer) 12
+127.0.0.1:6379> incr age
+(integer) 13
+127.0.0.1:6379> decr age
+(integer) 12
+
+
+127.0.0.1:6379> set char A
+OK
+127.0.0.1:6379> get char
+"A"
+127.0.0.1:6379> setbit char 2 1
+(integer) 0
+127.0.0.1:6379> get char
+"a"
+
+
+127.0.0.1:6379> lpush stus lily
+(integer) 1
+127.0.0.1:6379> lpush stus lucy
+(integer) 2
+127.0.0.1:6379> rpush stus hmm
+(integer) 3
+127.0.0.1:6379> lrange stus 0 2
+1) "lucy"
+2) "lily"
+3) "hmm"
+
+127.0.0.1:6379> lpop stus
+"lucy"
+127.0.0.1:6379> lrange stus 0 2
+1) "lily"
+2) "hmm"
+127.0.0.1:6379> rpop stus
+"hmm"
+127.0.0.1:6379> lrange stus 0 -1
+1) "lily"
+
+127.0.0.1:6379> lrem stus 1 a
+(integer) 1
+
+127.0.0.1:6379> lindex stus 3
+"d"
+
+127.0.0.1:6379> llen stus
+(integer) 7
+
+
+命令说明：
+->set name ex 秒数 px 毫秒数 [nx]/[xx]  //nx:不存在  xx：存在（相当于设定替换条件）
+
+->mset name tianlongbabu author jinyong page 456  //多重设键值 键名 键值 键名 键值 键名 键值 
+
+->del name  //删除
+
+->expire name 10 //设置键有效期(失效会删除)
+
+->ttl name		//查看键有效期
+
+->exists name  //查看键是否存在
+
+->type name  //查看键的数据类型
+
+->randomkey //随机查看键
+
+->mget  name author page //多重查看
+
+->setrange str 3 6  //字符串中字符更改（将第3个字符改为6）
+
+-> getrange str 2 8   //字符串部分查询（从str[2]查到str[8]）
+
+->append str xxx   //追加
+
+->incr age //age=age+1
+
+-> decr age  	//age=age-1
+
+->setbit char 2 1   //设置char 字符的二进制数的位数从左往右数，并将其替换为1
+
+->lpush stus lily   //链表从左边附加
+
+->rpush stus lily   //链表从右边附加
+
+->lrange stus 0 -1   //查看链表 从左边第几个到第几个 -1表示右边第一个
+
+->lpop stus          //从左边删除一个链表
+
+->rpop stus  		//从右边删除一个链表
+
+->lrem stus 1 a    //链表中从左边删除一个a（-1表示从右边删一个）
+
+->lindex stus 3 	//从链表中拿出第三个值
+
+->llen stus 		//查询链表长度
+
+
+例子：假设有一亿个用户在用一个软件，要看签到一周中谁全部签到：：：
+答：每天做一个超大数进行位运算，位在第几个就是几号用户，一周就有7条数据，将其进行位运算-与，这样全为1则结果为1，则全部签到
+
+
+:::::lesson:6 

@@ -1,0 +1,24 @@
+body{
+	border:1px solid red;
+	width:300px;
+	height:500px;
+	/*如何让body'自动居中*/
+	margin:0 auto;
+}
+.div1{
+	width:49px;
+	height:47px;
+	border:1px solid blue;
+	margin:5px 0 0 5px;
+	/*padding-top:5px;*/
+}
+.div1 .img1{
+	margin:5px 0 0 5px
+}
+.div2{
+	width:49px;
+	height:47px;
+	border:1px solid blue;
+	margin:5px 0 0 5px;
+	padding-top:5px;
+}

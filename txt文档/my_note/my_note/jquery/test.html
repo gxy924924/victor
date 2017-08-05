@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>index</title>
+<style type="text/css">
+	#divid{
+		width:500px;
+		height:300px;
+		background:#00f;
+	}
+
+</style>
+<script>
+	function test(){
+		var obj=new Object();
+		obj.eat=function(){
+			alert(1);
+		}
+		obj.say=function(){
+			alert(2);
+		}
+		return obj;
+	}
+alert(test());//此函数返回[object Object] 将obj返回
+test().eat();//此时会调用obj的eat函数
+</script>
+</head>
+<body>
+	<div id="divid"></div>
+
+</body>
+</html>
