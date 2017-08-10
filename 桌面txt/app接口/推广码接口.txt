@@ -1,0 +1,39 @@
+//显示用户的推广码
+www.sorand.cn/index.php/api/coupons/show_spread
+
+	post:	id		=>	用户id 
+    
+	info:	spread_code	=>	推广码
+		friend		|id		=>
+				|openid		=>
+				|username	=>用户名
+				|headimgurl	=>用户头像
+
+
+//校验是否已填推广码
+www.sorand.cn/index.php/api/coupons/spread_check
+
+	post:	id	=>	用户id 
+    
+	info:	0（未填写推广码）
+
+
+//填写推广码
+www.sorand.cn/index.php/api/coupons/input_spread
+
+	post:	id		=>	用户id
+		spread_code	=>	推广码
+
+	info:	1(成功)
+
+//获取优惠券
+http://www.sorand.cn/index.php/api/coupons/get_coupons
+	post:	id		=>	用户id
+
+	info: 	"id":1803, 	=>券id
+		"pid":1, 	=>券码包id
+		"time":"不限时间",  	=>时间限制
+		"price_premise":50, 	=>优惠价格条件
+		"discount":50, 		=>折扣额度
+		"shop":0, 		=>商店限制
+		"item":0 		=>项目限制

@@ -1,0 +1,241 @@
+超级有用的git reset --hard和git revert命令 (2011-06-13 10:58:34)转载▼
+标签： 杂谈	
+很多时候，git新手容易误操作，比如，在levelIISZ-1.4.dev分支下，运行了git pull idc cpp-1.0的结果，这样做麻烦很大，经常导致maven项目格式不正确，这个时候，可以用git reset --hard 去撤销这次修改
+但是这样做也有问题，可能之前本地的，没有提交的修改，都消失了。可以尝试git revert命令
+
+reset是指将当前head的内容重置，不会留任何痕迹。
+Sets the current head to the specified commit and optionally resets the index and working tree to match. 
+ git reset --hard HEAD~3
+会将最新的3次提交全部重置，就像没有提交过一样。
+根据--soft --mixed --hard，会对working tree和index和HEAD进行重置。
+revert是撤销某次提交，但是这次撤销也会作为一次提交进行保存(这样就不会丢失原来修改过，但是没有提交的内容？)。
+//////////////////////////////////////////////////////////////////////////////////
+非常好的一篇文章
+http://alpha-blog.wanglianghome.org/2010/07/30/git-partial-rollback/
+如何使用git回退部分修改
+
+人总有犯错误的时候，如果发现不小心把私货提交到公共代码库，改如何挽回呢？
+
+例如如下代码库：
+
+$ mkdir git-partial-revert
+$ cd git-partial-revert
+$ echo "hello a" >a.txt
+$ echo "hello b" >b.txt
+$ git init
+Initialized empty Git repository in /home/liang/project/git/git-partial-revert/.git/
+$ git add *.txt
+$ git commit -m "initial version"
+[master (root-commit) b5e1a24] initial version
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+ create mode 100644 a.txt
+ create mode 100644 b.txt
+$ git log
+commit b5e1a24fc65202977b903435750dd9fb5e0d04d0
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:20:38 2010 +0800
+
+ initial version
+
+以下是一次错误的修改。
+
+$ echo "hello a from b" >>a.txt
+$ echo "hello b from a" >>b.txt
+$ git commit -a -m "hello a from b"
+[master df3144e] hello a from b
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+$ git push origin master
+$ git log
+commit df3144e3168f6ec189ed0b2b57908d8d4e862fe5
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:22:51 2010 +0800
+
+ hello a from b
+
+commit b5e1a24fc65202977b903435750dd9fb5e0d04d0
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:20:38 2010 +0800
+
+ initial version
+
+错误在于只应该提交对于a.txt的修改，b.txt的修改是私货，应该留在本地，以后提交。
+
+第一种方法：纯手工修改。取决于要修改的内容多少，这可能是最简单也可能是最笨的方法。
+
+如果错误发生在最新的commit里面，可以使用git reset修改。如下：
+
+$ git reset b5e1a24f -- b.txt
+Unstaged changes after reset:
+M       b.txt
+$ cat b.txt
+hello b
+hello b from a
+$ git log
+commit df3144e3168f6ec189ed0b2b57908d8d4e862fe5
+Author: Liang Wang <lwang1@marvell.com>
+Date:   Fri Jul 30 13:22:51 2010 +0800
+
+ hello a from b
+
+commit b5e1a24fc65202977b903435750dd9fb5e0d04d0
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:20:38 2010 +0800
+
+ initial version
+$ git diff
+diff --git a/b.txt b/b.txt
+index b1bdbca..ab47375 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1 +1,2 @@
+ hello b
++hello b from a
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#       modified:   b.txt
+#
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   b.txt
+#
+$ git diff --cached
+diff --git a/b.txt b/b.txt
+index ab47375..b1bdbca 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1,2 +1 @@
+ hello b
+-hello b from a
+$ git commit -m "revert change in b"
+[master d49f9f2] revert change in b
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+$ git push origin master
+$ git status
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   b.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git diff
+diff --git a/b.txt b/b.txt
+index b1bdbca..ab47375 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1 +1,2 @@
+ hello b
++hello b from a
+$ git log --stat
+commit d49f9f2531ed9106ea53006bd698bbcdd54698e9
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:34:43 2010 +0800
+
+ revert change in b
+
+ b.txt |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+commit df3144e3168f6ec189ed0b2b57908d8d4e862fe5
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:22:51 2010 +0800
+
+ hello a from b
+
+ a.txt |    1 +
+ b.txt |    1 +
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+
+commit b5e1a24fc65202977b903435750dd9fb5e0d04d0
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:20:38 2010 +0800
+
+ initial version
+
+ a.txt |    1 +
+ b.txt |    1 +
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+
+这时b的修改就从公共代码库上拿掉了，但是还保留在本地。
+
+或者也可以使用git revert。下面操作的缺点是没有保留对于b.txt的修改。如何保留修改留给读者作为习题 :-)
+
+$ git revert -n df3144e31
+Finished one revert.
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#       modified:   a.txt
+#       modified:   b.txt
+#
+$ git diff --cached
+diff --git a/a.txt b/a.txt
+index 2c5e468..74614c9 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1 @@
+ hello a
+-hello a from b
+diff --git a/b.txt b/b.txt
+index ab47375..b1bdbca 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1,2 +1 @@
+ hello b
+-hello b from a
+$ git reset HEAD a.txt
+Unstaged changes after reset:
+M       a.txt
+$ cat a.txt
+hello a
+$ git checkout -- a.txt
+$ cat a.txt
+hello a
+hello a from b
+$ cat b.txt
+hello b
+$ git commit -m "revert change in b"
+[master 5f6a2e1] revert change in b
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+$ git log --stat
+commit 5f6a2e16bfd59281d0150e3644aa1485dd6c0078
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 14:17:44 2010 +0800
+
+ revert change in b
+
+ b.txt |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+commit df3144e3168f6ec189ed0b2b57908d8d4e862fe5
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:22:51 2010 +0800
+
+ hello a from b
+
+ a.txt |    1 +
+ b.txt |    1 +
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+
+commit b5e1a24fc65202977b903435750dd9fb5e0d04d0
+Author: Liang Wang <a@b.c>
+Date:   Fri Jul 30 13:20:38 2010 +0800
+
+ initial version
+
+ a.txt |    1 +
+ b.txt |    1 +
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+
+如果错误的修改已经不是最新的commit，则只能使用git revert。
+/////////////////////////////////////////////////////////////////////////////
+我们teamleader的总结，很不错的！！！
+http://guibin.iteye.com/blog/1014369

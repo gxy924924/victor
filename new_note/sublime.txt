@@ -1,0 +1,82 @@
+2017.6.15
+
+ctrl+shift+p ：进入管理
+
+输入：syntax php 切换语法php
+
+----------------------------------------------------------
+sublime 格式化
+1、首先通过以下路径打开用户按键绑定文件：
+
+Preferences → Key Bindings – User
+
+2、然后在其中添加以下代码（如果你有需要的话，其中的快捷键组合是可以自己定义的）：
+
+{"keys": ["ctrl+shift+r"], "command": "reindent" , "args":
+{"single_line": false}}
+
+在这儿请注意每组快捷键组合包含着一个中括号里面，通过大括号定义一组快捷键，然后通过英文逗号进行分隔，具体可参考下图：
+
+
+本文到这儿就结束了吗？不，下面说下如果SublimeText自带的格式化代码不适合用在你所使用的语言（比如SQL、Ruby等）的话，你可以通过插件的方式进行配置，具体请看下述操作：
+
+1、以下内容基于已经你已经在你的SublimeText中安装了package control（教程在本站有）；
+
+2、通过快捷键组合ctrl+shift+P唤出命令面板
+
+3、在面板中输入“install package”后回车
+
+4、接着输入“format”（即格式化的意思），在弹出的列表中找到对应你所想要进行格式化操作的语言，具体看图：
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+	public function __construct(){
+		$this->mysqli=new MYSQLI($this->host,$this->username,$this->password,$this->db);
+		if($this->mysqli->connect_error){
+			die("连接失败".$this->mysqli->connect_error);
+		}
+		$this->mysqli->query("set names utf8");
+		//$this->sql="select * from $this->table";
+	}
+
+
+
+
+
+	//array $info[key]=value
+	function set_in_sql($info,$table){
+		$key_val="";
+		$val_info="";
+		foreach ($info as $key => $value) {
+			if(empty($key_val)){
+				$key_val='"'.$key.'"';
+				$val_info='"'.$value.'"';
+			}else{
+				$key_val.=",".$key;
+				$val_info.=',"'.$value.'"';
+			}
+		}
+		return $info=$this->mysqli->query("insert into ".$table."(".$keyval.") values(".$val_info.")");
+
+	}
+
+	function find($info,$table){
+
+		return $info=$this->mysqli->query("select * from ".$table." where ".$info." limit 1");
+	}
+
+
+
+
+----------------------------------------------------------

@@ -1,0 +1,56 @@
+phython
+
+anaconda (这里的Python安装套件十分方便)
+https://www.continuum.io/downloads
+
+pip
+
+pip install requests
+
+pip install beautifulsoup4
+
+
+pip install jupyter
+
+jupyter notebook
+
+
+
+----------------------
+进入notebook后
+
+files->new->python3
+
+help:keybord shortcuts 快捷键
+
+使用Python 抓取信息
+
+
+import requests
+res=requests.get('url');//url是网址
+res.encoding='utf-8'
+print(res.text)
+
+---------------这里是实例---------------------
+import requests
+res=requests.get('https://www.hao123.com/');
+res.encoding='utf-8'
+print(res.text)
+------------------------------
+
+from bs4 import Beautifulsoup
+html_example="...html sanple"
+soup=BeautifulSoup(html_sample)
+print(soup.text)
+
+
+---------------这里是实例---------------------
+import requests
+res=requests.get('url');//url是网址
+res.encoding='utf-8'
+html_example=res.text
+
+from bs4 import Beautifulsoup
+soup=BeautifulSoup(html_sample)
+print(soup.text)
+------------------------------

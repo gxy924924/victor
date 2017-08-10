@@ -1,0 +1,7 @@
+Keyword Ideas.(.*)?.usd.*    $1
+
+.*[\n]Seed Keywords.(.*)?.usd.*    $1
+
+
+
+http://testkey.com/keyword/keyword.php

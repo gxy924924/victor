@@ -1,0 +1,26 @@
+//文章列表
+http://www.sorand.cn/index.php/api/notification/show_title
+
+	post:	sort_id		=>	分类id （1-行业咨询 2-纹绣知识）
+    
+	info:	[{"id":2,		//文章id 也是文章内容（下个接口的p_id）
+			"title":"bb", 	//文章标题
+			"sort_id":1, 	//
+			"img_url": 		//图片url
+			"20170808/f036221824a849a4c8e9d0359f5ca40e.png",
+						//全路径如下
+						//http://tp5.com/public/uploads/20170808/f036221824a849a4c8e9d0359f5ca40e.png
+			"add_time":"2017-08-08 17:32:29"}, 		//文章时间
+
+//文章内容
+http://www.sorand.cn/index.php/api/notification/show_title
+	
+	post:	p_id		=>	文章id 
+
+	info:	[0]->	[{"p_id":2,
+					"content":"asdfsadfasdf\r\nasdfasdf\r\nasdfasfd\r\nasdfasdfasdf", //文章内容
+					"img_url":"20170808/6b4c707265e8492afccd6a1c2ad9e088.png", 	 	//文章路径
+					"add_time":"2017-08-08 17:53:54"
+			[1]-> ......
+			............
+

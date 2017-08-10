@@ -1,0 +1,40 @@
+kkkk
+
+192.168.121.129
+192.168.49.5
+
+192.168.121.130
+
+
+service httpd restart
+
+/etc/sysconfig/network-scripts/ifcfg-eth0
+
+test
+test
+
+su ÇÐ»»ÓÃ»§
+
+gwf
+
+
+
+°Ë×¦Óã
+gxyget924924
+get1234567
+
+
+^(.*)\?$
+
+		¹Ø¼ü×Ö£º
+		<select  name="keyword"> 
+		<?php foreach($keyword_info as $val): ?>
+			<?php if(!empty($_GET['keyword'])&&$_GET['keyword']==$val['keyword']): ?>
+				<option value="<?=$val['keyword']?>" selected=selected><?=$val['keyword']?></option>
+			<?php else:?>
+				<option value="<?=$val['keyword']?>"><?=$val['keyword']?></option>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</select><br/>
+
+https://pvp.qq.com/cp/a20170623hero/index_qq_wx_1.htm?sShareStr=f4bf5AytE9HcruTLbewaWcL4IdVR_SLA_jmq406j2kpEDxQ7utWHILUGU2f_SLA_tk3by_SLA_HdEyhIfM3YSUPPKKwIgYK4pa0lvnxRReyncmGH&S=f4bf5AytE9HcruTLbewaWcL4IdVR_SLA_jmq406j2kpEDxQ7utWHILUGU2f_SLA_tk3by_SLA_HdEyhIfM3YSUPPKKwIgYK4pa0lvnxRReyncmGH#

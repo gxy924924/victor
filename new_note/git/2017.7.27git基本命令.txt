@@ -1,0 +1,140 @@
+linux 基本命令
+添加用户 useradd -d /目录 -m 用户名
+删除 	userdel -r 用户名
+目录及以下选择管理员 chown -R user:user /file...
+git 免密
+ ssh-keygen -t rsa -C "vic@563960012"
+ssh-copy-id git@192.168.121.130
+（ ssh-copy-id -i ~/.ssh/id_rsa.pub git@192.168.121.130）
+
+
+2017.7.27 git 基本命令
+1.转到目标目录 cd xxxxxx
+2.git init 初始化文件目录
+3.git status 查看目录状态
+
+
+git  有4种状态
+	untracked 未被追踪
+	modified 工作区修改了某个文件但还未添加到暂存区
+	Staged 表示把工作区修改的文件添加到了暂存区但是没有提交到版本库
+	committed 表示数据被安全的存储在本地库中
+
+git 3层结构
+	working directory 工作区   
+	staging index 暂存区
+	git directory（Repository）版本库
+
+
+git add .    // 后面添加.表示添加全部文件
+git commit -m 'b版本描述' 	// 提交（首次提交）
+git status  //查看状态
+
+git config --global user.name Hayden //设置用户
+git.config --list  	//设置列表
+
+修改后。。
+git add .... 或 git commit -a 
+
+git checkout -- (filename)  //恢复工作区的文件（相当于下载）
+
+git reset changes after reset //撤销，恢复
+
+git reset 版本号 文件名  //将暂存区中的文件恢复到这个版本号的版本
+git checkout -- 文件名  //析出
+
+git branch   //查看当前分支 后面写分支名代表添加分支
+git checkout 分支名  //切换到分支
+git branch -d 分支名 //删除分支
+git branch -m dev fix //将dev分支更名为fix分支
+git checkout -b 分支名 //强行（没有就创建）切换分支
+
+git log  //查看历史版本
+git merge 分支名 //合并分支（当前分支与目标分支）
+
+git diff //比较工作区和暂存区的差别
+		版本号1 版本号2	//通过比较两个版本号的文件，查出差异
+		分支名 //当前版本与目标分支版本做对比
+
+git stash  //返回上一次的状态并将本次的状态存到版本库
+
+git stash list //显示回退保存的版本
+
+忽略文件：让git忽略它，不将它上传，
+	：创建.gitignore 文件 在其中写入要忽略的文件名
+		如：index.*
+			.gitignore 在这个文件中写入这个文件本身也是可以的
+	如果之前有以index.开头的文件则依然会提交，这时写入(假设文件是index.html)
+		：git rm index.html  --cached
+	这时忽略就会生效
+
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git
+$ git init
+Initialized empty Git repository in D:/phpStudy/WWW/git/.git/
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git status
+On branch master
+
+Initial commit
+
+nothing to commit (create/copy files and use "git add" to track)
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        test.php
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git add .
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ ls -a
+./  ../  .git/  test.php
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git status -s
+A  test.php
+
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git diff --cached
+diff --git a/test.php b/test.php
+new file mode 100644
+index 0000000..4efdc86
+--- /dev/null
++++ b/test.php
+@@ -0,0 +1,3 @@
++<?php
++echo "test1";
++ ?>
+\ No newline at end of file
+
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git config --global user.name 'vic'
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git config --global user.email 563960012@qq.com
+
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (fix)
+$ git stash
+Saved working directory and index state WIP on fix: 26bc50e first commit
+HEAD is now at 26bc50e first commit
+
+Administrator@PCZC1FGXARAM6AS MINGW32 /d/phpStudy/WWW/git (master)
+$ git stash list
+stash@{0}: WIP on fix: 26bc50e first commit
+
+ git push git@192.168.121.130:gitolite-admin.git master
+

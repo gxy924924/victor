@@ -1,0 +1,42 @@
+2017.7.14 redis  安装与启动
+
+安装-》配置-》启动-》链接
+
+安装：：
+1.下载 redis-3.2.9（最新）
+2.放入 一个文件中，解压  tar zxf redis-3.2.9.tar.gz
+3.make 编译文件
+4.make PREFiX=/usr/local/redis install  //之后可以去此目录下查看文件
+
+配置使用：：
+直接.bin//bin/redis-server 这样虽然运行了，但是一按ctrl+c 会退出
+1. cp /home/test/redis-3.2.9/redis.conf .    (将此目录下的文件导入当前目录，，注意后面有个 -> . <-)
+
+更改redis.conf 文件中的 daemonize no->yes  //将其改为以守护进程启动
+
+启动 ：----------->
+ ./bin/redis-server ./redis.conf 	
+查看进程：
+ ps aux|grep redis
+
+结果：
+root     27589  0.0  0.4  26640  2500 ?        Ssl  19:34   0:00 ./bin/redis-server 127.0.0.1:6379
+root     27594  0.0  0.1   6892   816 pts/1    S+   19:34   0:00 grep --color=auto redis
+
+
+日志：	aof，记录的语句
+		rdb，记录数据
+
+
+使用：----------->
+root@ubuntu:/usr/local/redis# ./bin/redis-cli
+127.0.0.1:6379> ping
+PONG
+127.0.0.1:6379> set/name lili
+(error) ERR unknown command 'set/name'
+127.0.0.1:6379> set name lili
+OK
+127.0.0.1:6379> get name
+"lili"
+
+

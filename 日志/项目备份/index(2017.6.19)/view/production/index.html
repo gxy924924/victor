@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+             <table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>产品名称</th>
+					<th>价格</th>
+					<th>优惠</th>
+					<th>最后的价格</th>
+                                        <th>图片</th>
+                                        <th>操作功能</th>
+					
+				</tr>
+				{volist name="appo_info" id='v'}
+				<tr>
+					<td>{$v['id']}</td>
+					<td>{$v['production']}</td>
+					<td>{$v['money']}</td>
+					<td>{$v['discount']}</td>
+					<td>{$v['price']}</td>
+					<td>
+                                            <img src="/public/{$v['f_img']}" style='width:100px;' alt="" />
+                                          
+					<td>
+                                       	
+				        <span class="text-explode"></span>
+                                        <a href="{:url('index/production/productionEdit')}?id={$v['id']}" >编辑</a>
+                                         <span class="text-explode">|</span>
+                                        <a  href="{:url('index/production/producitonDelete')}?id={$v['id']}"  class="del">删除</a>
+					</td>
+				</tr>
+				{/volist}
+			</table>
+        <script>
+            $(".del").click(function(){ 
+               return  confirm('确定删除');
+               }) 
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+2017.7.34 redis php  安装
+安装配置步骤如下：
+
+1.root@ubuntu:/tmp# git clone -b php7 https://github.com/phpredis/phpredis.git
+
+2.root@ubuntu:/tmp# mv phpredis/ /etc/
+
+3.root@ubuntu:/tmp#  cd /etc/phpredis
+
+4.root@ubuntu://etc/phpredis# phpize
+
+5.root@ubuntu://etc/phpredis# ./configure
+
+6. root@ubuntu://etc/phpredis#make && make install
+
+7.root@ubuntu://etc/phpredis#vi /etc/php/7.0/fpm/conf.d/redis.ini  中 写入（extension=/etc/phpredis/modules/redis.so）退出保存
+
+8.root@ubuntu://etc/phpredis#vi /etc/php/7.0/apache2/php.ini 中写入 （extension=/etc/phpredis/modules/redis.so）
+extension=/etc/phpredis-php7/modules/redis.so
+
+
+9. 重启apache2 /etc/init.d/apache2 restart
+
+./redis-serverredis.conf开启redis后台服务。
+如果你修改redis.conf中的任何配置，需要关闭redis-server进程后，再./redis-serverredis.conf重新开启redis后台服务。
+
+在phpinfo 查查看是否成功
+
+
+
+
+
+:::::lesson:14 over

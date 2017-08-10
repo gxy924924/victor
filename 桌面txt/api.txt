@@ -1,0 +1,6 @@
+//»ñÈ¡GoogleËÑË÷ÒýÇæÍ¼Æ¬
+
+
+https://www.google.com/search?hl=en&biw=1920&bih=360&site=imghp&tbm=isch&sa=1&q={keyword}&gs_l=img.3...18301.19143.0.19415.5.5.0.0.0.0.321.321.3-1.1.0....0...1.1.64.img..4.1.320...0j0i67k1.j3IF0f1wxW0&bav=on.2,or.&fp=bb91cfabd5cf8e26&dpr=1&tch=1&ech=1&psi=WdNIWYOeCsu1-AGc37eQBA.1497944929585.3
+
+

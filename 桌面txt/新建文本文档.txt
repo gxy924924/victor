@@ -1,0 +1,60 @@
+本地：192.168.1.182
+玛瑞娅半永久预约系统
+
+https://github.com/gxy924924/victor.git
+
+git test
+/home/test.git
+
+
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+
+
+[group gitosis-admin]
+members = root@ubuntu
+writable = gitosis-admin
+
+The key fingerprint is:
+SHA256:+pS371bvCiDYrquUPZeUlAillZCnQt6VK6u29v7VQkc root@ubuntu
+
+
+
+ftp::
+106.14.163.159:10021
+sorand
+j4Jyz8557673aZwn
+2017/6/5 14:10:43
+
+数据库用户名：sorand
+数据库名：sorand
+数据库密码：aTAruVbQEqWdGsVW
+
+
+http://106.14.163.159/ppmad/
+
+
+
+
+总 2017/7/24 13:53:35
+http://50.93.198.34:8888/index.php          admin           poKdwnqj99
+
+总 2017/7/24 14:33:08
+https://www.expireddomains.net/deleted-com-domains/?o=dmoz&r=d
+
+总 2017/7/24 14:33:46
+https://adwords.google.com/KeywordPlanner
+
+
+ gxy924924@gmail.com 
+
+
+https://www.expireddomains.net/login/
+gxy924924
+
+
+
+https://ubersuggest.io/
+2017/7/25 14:00:05
+李总 2017/7/25 14:00:05
+192.0.19.58             qiyue               a123654

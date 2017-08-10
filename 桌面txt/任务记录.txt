@@ -1,0 +1,35 @@
+
+
+<li>(([.\n]*).*)*teid=8054
+
+
+<li>([.\n]*).*([.\n]*).*l02.png(.*)([.\n]*).*([.\n]*).*([.\n]*).*([.\n]*).*</li>$
+
+
+ HTTP.*([.\n]*)[\S]* 
+
+^<script.*7a78600ff4979aa92b.*</script>$
+
+SSL certificate problem: unable to get local issuer certificate
+
+https://www.sklep-presto.pl/data/gfx/pictures/large/4/7/23474_6.jpg
+
+
+"183.62.71.242:3128"
+183.131.19.233:3128
+183.62.196.10:3128
+
+http://testkey.com/image/k-lining+shoes/n-20/r-1
+
+
+mysql> show variables where variable_name like 'character\_set\_%' or variable_name like 'collation%';
+
+我很多天没有登录过，今天突然发现被封异常，希望尽快恢复
+
+谁有凯活动的李白印记，送我个呗，我也可以拿凯和百里玄策的印记换
+
+
+
+Notice: Uninitialized string offset: 0 in D:\phpStudy\WWW\moban2219\base_fun.php on line 65
+
+PATH_INFO
