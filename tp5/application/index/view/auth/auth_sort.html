@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+	<style>
+		.btn{
+			margin-left: 50px;
+			margin-right: 50px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 10px;
+		}
+		.input-group{
+			margin-top: 20px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}
+		th{
+			text-align: center;
+		}
+		.drop_width{
+			width: 100px;
+		}
+		.dropdown{
+			float:right;
+			position: relative;
+			top:-5px;
+		}
+		.control{
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container text-center">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4>
+					分类权限设置（当前：{$sort['sort_name']}）
+					<div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					    分类选择（当前：{$sort['sort_name']}）
+					    <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+					  <?php foreach($auth as $v): ?>
+					  	<li><a href='?group_id={$v["group_id"]}&sort_id={$v["id"]}&sort_name={$v["sort_name"]}'>{$v['sort_name']}</a></li>
+					  <?php endforeach; ?>
+					   
+
+					    <li role="separator" class="divider"></li>
+					  </ul>
+					</div>
+				</h4>
+			</div>
+			<div class="panel panel-body">
+
+			
+				<table class="table">
+					<tr>
+						<th>id</th><th>目录名</th><th>目录位置</th><th>分组</th>
+						<th>
+							是否给权限
+							<input type="checkbox" id="che">全选
+						</th>
+					</tr>
+					<form action="{:url('index/auth/update_auth_sort')}?sort_id={$sort['id']}&group_id={$_GET['group_id']}" method="post">
+				<?php foreach($url as $k=>$v):?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['title']}</td>
+						<td>{$v['request_uri']}</td>
+						<td>{$v['group_name']}</td>
+						<td>
+						<!-- <input type="hidden" value="0" name="id_{$v['id']}"> -->
+						<?php if(empty($rule['id_'.$v['id']])){ $rule['id_'.$v['id']]=0; } ?>
+						<?php if($rule['id_'.$v['id']]==1): ?>
+								<input type="checkbox" value="1" name="id_{$v['id']}" class="checkb" checked="checked">
+							<?php else:?>
+								<input type="checkbox" value="1" name="id_{$v['id']}" class="checkb">
+							<?php endif; ?>
+						</td>
+					</tr>
+				<?php endforeach;?>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<button type="submit" class="btn btn-warning">确定</button>
+						</td>
+					</tr>
+				
+					</form>
+				</table>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4>
+					权限分类添加
+				</h4>
+			</div>
+			<div class="panel panel-body">
+				<form action="{:url('index/auth/add_sort')}" method="post">
+					<div class="input-group">
+						<span class="input-group-addon">权限分类</span>
+						<input type="text" class="form-control" name="sort_name"  placeholder="分类说明-如：预约(全部)，预约（增、查）">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">选择组</span>
+						<select name="group" class="form-control">
+						<?php foreach($group as $val):?>
+						<option value="{$val['id']}-{$val['group_name']}">{$val['id']}-{$val['group_name']}</option>
+
+						<?php endforeach;?>
+						</select>
+					</div>
+					
+					<div class="btn-control">
+						<button class="btn btn-primary" type="submit" id="submit">提交</button>
+						<button class="btn btn-default" type="reset">重填</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="panel panel-info">
+			<div class="panel-heading">
+			<h4>
+				权限分类管理
+			</h4>
+			</div>
+			<div class="panel panel-body">
+				<table class="table">
+					<tr>
+						<th>id</th><th>组名</th><th class="control">管理</th>
+					</tr>
+				<?php foreach($auth as $v):?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['sort_name']}</td>
+						
+
+						<td>
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    操作
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+							    <li><a href='{:url("index/auth/update_sort")}?id={$v["id"]}'>修改</a></li>
+							    <li><a href='{:url("index/auth/delete_sort")}?id={$v["id"]}' onclick="return check()">删除</a></li>
+
+							    <li role="separator" class="divider"></li>
+							  </ul>
+							</div>
+						</td>
+
+							
+					</tr>
+				<?php endforeach;?>
+				</table>
+			</div>
+		</div>
+
+
+		
+	</div>	
+	<script>
+	function check(){
+		return confirm("确认删除？");
+	}
+
+	i=0;
+	$("#che").click(function(){
+		// alert(i);
+
+		if(i==1){
+			i=0;
+			$(".checkb").prop("checked",false);
+		}else{
+			i=1;
+			$(".checkb").prop("checked",true);
+		}
+
+		
+		// alert("aa");
+	});
+	</script>
+</body>
+</html>
+

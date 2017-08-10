@@ -1,0 +1,28 @@
+<!-- a标签的链接，设置为对应的下载链接；点击打开的动作，在click事件中注册 -->  
+<a href="https://itunes.apple.com/us/app/maria/id1253351759?mt=8" id="openApp" ></a>
+<a href="maria://" id="appurl"></a>
+<a id="appOpen" onclick="checkapp()"></a>
+<script type="text/javascript">
+    function checkapp(){  
+        // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为  
+        // 否则打开a标签的href链接  
+        // var ifr = document.createElement('iframe');  
+        // ifr.src = 'maria://'; 
+        document.getElementById('appurl').click();
+        // ifr.src = 'http://www.hao123.com';
+        var info=confirm("您未安装maria，请先安装");
+        
+        if(info){
+            document.getElementById('openApp').click();
+        }else{
+        
+        }
+        // ifr.style.display = 'none';  
+        // document.body.appendChild(ifr);  
+        // window.setTimeout(function(){  
+        //     // document.body.removeChild(ifr); 
+        //     document.getElementById('openApp').click();
+        // },3000)  
+    };
+    window.onload=document.getElementById('appOpen').click();
+</script> 

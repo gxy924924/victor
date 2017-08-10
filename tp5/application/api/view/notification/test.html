@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>coupons test</title>
+</head>
+<body>
+<h2>查看通知1</h2>
+<form action="{:url('api/notification/user_watch')}" method="post">
+	用户id：<input type="text" name="user_id">
+	<input type="submit" name="提交">
+</form>
+<h2>查看通知内容</h2>
+<form action="{:url('api/notification/notification_watch')}" method="post">
+	用户id：<input type="text" name="user_id">
+	check:<input type="text" name="check">
+	<input type="submit" name="提交">
+</form>
+</body>
+</html>

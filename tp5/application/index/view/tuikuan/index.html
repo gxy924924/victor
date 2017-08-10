@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+           	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+             
+		<div class="col-md-9">
+             <table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+				
+                         
+					<th>订金</th>
+					<th>项目</th>
+                                        <th>预约类型</th>
+                                        <th>预约店铺名</th>
+					<th>预约地址</th>
+                                        <th>预约时间</th>
+                                        <th>预约电话</th>
+                                        <th>预约项目的图片</th>
+				        <th>操作功能</th>
+				</tr>
+				{volist name="list" id='v'}
+				<tr>
+                                        <td>{$v['id']}</td>
+				
+                                     
+					<td>{$v['money']}</td>
+					<td>{$v['body']}</td>
+                                        <td>{$v['type']}</td>
+				
+					<td>{$v['shopname']}</td>
+                                        <td>{$v['shopposition']}</td>
+					<td>{$v['appointmenttime']}</td>
+					<td>{$v['appointmentphone']}</td>
+					<td>
+                                            <img src="/public/{$v['f_img']}" style='width:100px;' alt="" />
+                                          
+					<td>
+                                       	
+				        <span class="text-explode"></span>
+                                        <a href="{:url('index/tuikuan/agree')}?id={$v['id']}" >同意</a>
+                                         <span class="text-explode">|</span>
+                                        <a  href="{:url('index/tuikuan/disagree')}?id={$v['id']}"  class="del">不同意</a>
+					</td>
+				</tr>
+				{/volist}
+			</table>
+            </div>
+                </div>
+              
+               
+
+    </body>
+</html>

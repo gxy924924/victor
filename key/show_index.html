@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script src="./jquery.min.js">	</script>
+	<title><?php echo empty($keyword)?"key":$keyword;?></title>
+	<style>
+	img{
+		width: 300px;
+		height: 200px;
+	}
+	</style>
+</head>
+<body>
+
+	<?php  
+	if(!empty($before_info)){
+			echo $before_info;
+		} ?>	
+	<form action="image_show.php" method="get">
+		<!-- 语言：<input type="text" name="language" value="en"><br/> -->
+		
+		关键字：
+		<select  name="keyword"> 
+		<?php foreach($keyword_info as $val): ?>
+			<option value="<?=$val['keyword']?>"><?=$val['keyword']?></option>
+		<?php endforeach; ?>
+		</select><br/>
+
+
+		开始页数：<input type="text" name="start_limit" value="<?php echo empty($_GET['start_limit'])?1:$_GET['start_limit'];?>"><br/>
+		每页数量：<input type="text" name="page_num" value="<?php echo empty($_GET['page_num'])?10:$_GET['page_num'];?>"><br/>
+		<input type="submit" name="" value="提交">
+
+	</form>
+	<?php if(!empty($_GET['keyword'])) echo "关键字：".$_GET['keyword']; ?><br/><br/>
+	<?php 
+		if(!empty($keyword_url_info[0])):
+		foreach ($keyword_url_info as $key => $value):
+	?>
+		<img src="<?=$value['url']?>" alt="<?=$value['keyword']?>"></br>
+		<!-- <?=$value['url']?></br> -->
+
+	<?php 
+		endforeach; 
+		endif;
+	?>
+</body>
+<script>
+
+</script>
+</html>

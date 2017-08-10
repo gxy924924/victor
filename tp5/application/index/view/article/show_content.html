@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	#arti{
+		border:1px solid #ccc;
+		background-color: #ccc;
+	}
+	pre{
+		width:320px;
+		height:568px;
+	}
+	h3{
+		margin:0;
+		padding:10px;
+	}
+	textarea{
+		height:200px;
+	}
+	.img-size{
+		max-width: 300px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					<h4>文章
+						<a href="{:url('index/article/show_article')}" class="pull-right">上一页</a>
+					 </h4> 
+
+				</div>
+				<div class="panel-body text-left ">
+<pre class="phone-supposed" width=320px >
+<h3>{$at_title['title']}</h3>
+<font class="pull-right">{$at_title['add_time']}</font>
+<?php foreach ($at_content as $key => $val): ?>
+{$val['content']}<br/>
+<?php if (!empty($val['img_url'])): ?>
+<img src="/public/uploads/{$val['img_url']}" class="img-size">
+<?php endif; ?>
+<a href="{:url('index/article/show_update_content')}?add_time={$val['add_time']}&p_id={$val['p_id']}" class="pull-right">修改本段</a>
+<a href="{:url('index/article/del_content')}?add_time={$val['add_time']}&p_id={$val['p_id']}" class="pull-right"  onclick="return my_confirm(1);" >删除本段</a>
+<?php endforeach; ?>
+</pre>
+				
+				
+
+				</div>
+
+				<div class="panel-heading">
+					<h4>添加文章</h4>
+				</div>
+				<div class="panel-body">
+					<form action="{:url('index/article/add_content')}" enctype="multipart/form-data" method="post">
+						段落内容 <textarea name="content"></textarea>	<br/>
+						<input type="hidden" name="p_id" value="{$_GET['p_id']}">
+						选择本段后的图片：<input type="file" name="img">
+
+						<input type="submit" name="提交">
+					</form>
+				</div>
+				
+			
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+		function my_confirm(num){
+			if(num==1){
+				return confirm("确定删除？");
+			}
+			
+		}
+
+	</script>
+
+</body>
+</html>
+

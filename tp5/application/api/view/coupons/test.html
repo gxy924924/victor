@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>coupons test</title>
+</head>
+<body>
+<h2>显示推广码</h2>
+<form action="{:url('api/coupons/show_spread')}" method="post">
+	用户id：<input type="text" name="id">
+	<input type="submit" name="提交">
+</form>
+<h2>校验是否已填推广码</h2>
+<form action="{:url('api/coupons/spread_check')}" method="post">
+	用户id：<input type="text" name="id">
+	<input type="submit" name="提交">
+</form>
+<h2>填写推广码</h2>
+<form action="{:url('api/coupons/input_spread')}" method="post">
+	用户id：<input type="text" name="id">
+	邀请码：<input type="text" name="spread_code">
+	<input type="submit" name="提交">
+</form>
+<h2>查看优惠券</h2>
+<form action="{:url('api/coupons/get_coupons')}" method="post">
+	用户id：<input type="text" name="id">
+	<input type="submit" name="提交">
+</form>
+<h2>查看通知1</h2>
+<form action="{:url('api/notification/user_watch')}" method="post">
+	用户id：<input type="text" name="user_id">
+	<input type="submit" name="提交">
+</form>
+<h2>收藏查看</h2>
+<form action="{:url('api/collect/collect')}" method="post">
+	u_id：<input type="text" name="uid">
+	<input type="submit" name="提交">
+</form>
+</body>
+</html>

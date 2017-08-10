@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+		border:1px solid #ccc;
+		height: 200px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	.img-size{
+		max-width: 200px;
+	}
+	textarea{
+		height:200px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+
+				<div class="panel-heading">
+					<h4>修改文章段落
+					<a href="{:url('index/article/show_content')}?p_id={$_GET['p_id']}" class="pull-right">上一页</a>
+					</h4>
+				</div>
+				<div class="panel-body">
+					<form action="{:url('index/article/update_content')}?add_time={$_GET['add_time']}&p_id={$_GET['p_id']}" enctype="multipart/form-data" method="post">
+						段落内容 <textarea name="content">{$at_content['content']}</textarea>	<br/>
+						<input type="hidden" name="p_id" value="{$_GET['p_id']}">
+						<br/>
+						原图片
+						<img src="/public/uploads/{$at_content['img_url']}" class="img-size">
+						<br/>
+						替换本段后的图片：<input type="file" name="img">
+
+						<input type="submit" name="提交">
+					</form>
+				</div>
+				
+			
+			</div>
+
+		</div>
+	</div>
+
+
+		<script>
+
+		</script>
+
+</body>
+</html>
+

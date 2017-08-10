@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+   <head>
+	{include file="public/sorand/title.html"}
+  </head>
+    <body>
+      	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+                  	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>阿里大于短信发送测试</strong>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal sms-form" method="post" action="">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">接收手机号</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="mobile" value="">
+						<p class="help-block">点击发送短信，您将收到：“验证码123456。”</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-success">发送短信</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="panel-footer">&nbsp;</div>
+	</div>
+                    
+                </div>       
+               
+        </div> 
+ 
+    </body>
+</html>

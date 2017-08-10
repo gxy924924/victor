@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script src="./jquery.min.js">	</script>
+	<title><?php echo empty($_GET['keyword'])?"key":$_GET['keyword'];?></title>
+	<style>
+	img{
+		width: 300px;
+		height: 200px;
+	}
+	</style>
+</head>
+<body>
+<h2>显示刷出的图片</h2>
+
+	<form action="" method="post">
+		<!-- 语言：<input type="text" name="language" value="en"><br/> -->
+		
+		<input type="hidden"  name="keyword" value="<?=empty($_GET['keyword'])?'':$_GET['keyword']; ?>">
+
+<?php if(!empty($image_count)): ?>
+		页码：当前/总共（<?php echo empty($_POST['page'])?1:$_POST['page']; ?>/<?=$image_count?>）
+		<br/>
+		换页：
+
+	<select name='page'>
+		<?php for ($i=0; $i <$image_count ; $i++):?>
+			<?php if(!empty($_POST['page'])&&$_POST['page']==$i+1): ?>
+				<option value="<?=$i+1?>" selected=selected><?=$i+1?></option>
+			<?php else:?>
+				<option value="<?=$i+1?>"><?=$i+1?></option>
+			<?php endif; ?>
+		<?php endfor; ?>
+	</select>
+<?php endif; ?>
+		<input type="submit" name="" value="提交">
+	</form>
+	<?php if(!empty($_GET['keyword'])) echo "关键字：".$_GET['keyword']; ?><br/><br/>
+	<?php 
+		if(!empty($image_url[0])):
+		foreach ($image_url as $key => $value):
+	?>
+		<img src="<?=$value['url']?>" alt="<?=$_GET['keyword']?>"></br>
+		<!-- <?=$value['url']?></br> -->
+
+	<?php 
+		endforeach; 
+		endif;
+	?>
+</body>
+<script>
+
+</script>
+</html>

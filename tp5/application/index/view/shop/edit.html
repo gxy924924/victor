@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+                   	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+                 <form action=""  method="post" id="add_new_form">
+         {volist name='arr' id="vo"}             
+      	<div class="modal-body">
+    		<div class="input-group">
+			  <span class="input-group-addon">店铺名称：</span>
+			  <input type="text" class="form-control" value="{$vo['shopname']}" name="shopname">
+			</div>
+		<div class="input-group">
+                    <?php $city=explode("-",$arr[0]['position'])?>
+		       <span class="input-group-addon">地址：</span>
+                        <select name="city_provice" class="form-control" id="province">
+				<option value="">-请选择(省)-</option>
+				{volist name="addr" id="v"}
+
+			        <?php if($city[0]==$v['name']):?>
+				<option value="{$v['id']}-{$v['name']}" selected="selected">{$v['name']}</option>
+				<?php else:?>
+				<option value="{$v['id']}-{$v['name']}">{$v['name']}</option>
+				<?php endif;?>
+			        <option value="{$v['id']}-{$v['name']}">{$v['name']}</option>
+				{/volist}
+			</select>
+			  <select name="city_city" class="form-control" id="city">
+			  	<option value="">-请先选择省-</option>
+			  </select>
+			  <select name="city_county" class="form-control" id="county">
+			  	<option value="">-请先选择省-</option>
+			  </select>
+                       <input type="text" class="form-control"  value="{$a}" name="addr">
+		</div>
+		<div class="input-group">
+		       <span class="input-group-addon">电话：</span>
+		       <input type="text" class="form-control"  value="{$vo['tel']}" name="tel">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">QQ：</span>
+		       <input type="text" class="form-control"    value="{$vo['qq']}" name="qq">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">微信：</span>
+		       <input type="text" class="form-control"   value="{$vo['weixin']}"  name="weixin">
+		</div>
+          <div class="input-group">
+		       <span class="input-group-addon">项目：
+                           <input type="button" id="btn1" value="全选"> 
+                           
+                       </span>
+                     
+               
+                {volist name="list" id="v"}
+                <font></font>
+                <?php $flag=0; ?>
+                <font></font>
+                {volist name="b" id="d"}
+				<font></font>
+                <?php if($v['production']==$d) { $flag=1;} ?>
+                <font></font>
+                {/volist}
+               	<span>
+	                <input class="list-check-box"  name="checkbox[]"  value='{$v.id}-{$v.production}' type='checkbox' <?php if($flag):?> checked="checked" <?php endif ?>/>{$v.production}
+                </span>
+                 {/volist}
+	    </div>
+      	</div>
+       <div class="modal-footer">
+      	<button type="submit" class="btn btn-primary" id="add_new_submit">确认</button>
+      </div>
+	  <input type="hidden" value='{$city_get_url}' id="city_get_url">
+             {/volist}
+    </form>
+                      </div> 
+                 </div>
+        <!-- 省市县编码隐藏 -->
+<?php $city_num=explode("-",$arr[0]['position_num']);?>
+<input type="hidden" id="hid_prov_id" value="{$city_num[0]}">
+<input type="hidden" id="hid_city_id" value="{$city_num[1]}">
+<input type="hidden" id="hid_county_id" value="<?php echo empty($city_num[2])?0:$city_num[2];?>">
+<!-- 省市县隐藏 -->
+<input type="hidden" id="city_city" value="{$city[1]}">
+        <script>
+	$(document).ready(function(){
+		$("#province").change();
+		$("#city").change();
+	});
+	
+	
+	$("#province").change(function(){
+
+		$("#city").empty();
+		$("#city").append("<option value=''>-请选择(市)-</option>");
+		$("#county").empty();
+		$("#county").append("<option value=''>请再选择市</option>");
+		var id=$("#province").val();
+		var prov_id=$("#hid_prov_id").val();
+		var city_id=$("#hid_city_id").val();
+		// alert(city_id);
+		if (prov_id!=0) {
+			id=prov_id;
+			$("#hid_prov_id").val(0);
+		}
+
+		// alert($("#hid_province_id").val());
+		var url=$("#city_get_url").val();
+		// alert(url);
+		$.get(url,{"id":id},function(data){
+		
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				if(city_id==obj[i]['id']){
+					var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+"  selected='selected'>"+obj[i]['name']+"</option>";
+				}
+				$("#city").append(append_val);
+			};
+		},"json");
+	});
+
+	$("#city").change(function(){
+		$("#county").empty();
+		$("#county").append("<option value=''>-请选择(县)-</option>");
+		var id=$("#city").val();
+		var url=$("#city_get_url").val();
+		var city_id=$("#hid_city_id").val();
+		var county_id=$("#hid_county_id").val();
+		if (city_id!=0) {
+			id=city_id;
+			$("#hid_city_id").val(0);
+		}
+		$.get(url,{"id":id},function(data){
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				if(county_id==obj[i]['id']){
+					var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+"  selected='selected'>"+obj[i]['name']+"</option>";
+				}
+				$("#county").append(append_val);
+			};
+		},"json");
+	});
+        
+    jQuery(function($){ 
+           //全选 
+           $("#btn1").click(function(){ 
+          $("input[name='checkbox[]']").attr("checked","true"); 
+             })
+         })
+ </script>
+    </body>
+</html>

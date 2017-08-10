@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+ <head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+        {include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+        <div><a href="{:url('index/dealer/adduser')}">添加用户</a></div>
+        <div> 
+         <table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>用户</th>
+					<th>电话</th>
+					<th>qq</th>
+					<th>微信</th>
+                                     
+					<th>操作功能</th>
+				</tr>
+                              {volist  name="appo_info"  id="v"}
+		
+				<tr>
+					<td>{$v['id']}</td>
+                                        <td>{$v['username']}</td>
+                                        <td>{$v['tel']}</td>
+                                        <td>{$v['qq']}</td>
+                                        <td>{$v['weixin']}</td>
+                                     
+				<td>
+				        <span class="text-explode"></span>
+                                        <a href="{:url('index/dealer/edit')}?id={$v['id']}" >编辑</a>
+                                         <span class="text-explode">|</span>
+                                        <a  href="{:url('index/dealer/del')}?id={$v['id']}"  class="del">删除</a>
+                                         <span class="text-explode">|</span>
+                                         <a  href="{:url('index/dealer/details')}?id={$v['id']}"  class="del">详情</a>
+                                         <span class="text-explode">|</span>
+                                         <a  href="{:url('index/coupons/show_spread')}?id={$v['id']}"  class="del">推广码</a>
+				</td>	
+				</tr>
+				{/volist}
+			</table>
+            </div>
+        	</div>
+      	</div>
+      
+    </body>
+</html>

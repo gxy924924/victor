@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+	
+	<link href="./Public/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="./Public/bootstrap/js/jquery.min.js">	</script>
+	<script src="./Public/bootstrap/js/bootstrap.min.js">	</script>
+	<script src="./Public/bootstrap/js/holder.js">	</script>
+	<style>
+		#mytitle{
+			height: 60px;
+		}
+		.bottom{
+			border: 1px solid #ccc;
+			padding-top:10px;
+			padding-bottom: 10px; 
+		}
+	</style><title>快乐之鱼的个人网站</title>
+	<style>
+		body{
+		}
+		#mytitle{
+			height: 55px;
+		}
+		.container{
+			/*border: 1px solid #ccc;*/
+		}
+		.carousel{
+			width: 1170px;
+		}
+
+		#mycarousel1,.carousel{
+			height: auto;
+		}
+		#mycarousel1{
+			padding: 0px;
+			margin-bottom: 10px;
+		}
+		.thumbnail{
+			margin-bottom: 0px;
+		}
+		.col-md-6{
+			padding-right:0px;
+			padding-left: 0px;
+			
+		}
+		.row1{
+			margin-left:0px; 
+			border: 1px solid #ccc;
+		}
+		.row{
+			padding: 0;
+			/*border: 1px solid #000;*/
+		}
+		.bottom{
+			border: 1px solid #ccc;
+			padding-top:10px;
+			padding-bottom: 10px; 
+		}
+		.well{
+			margin-bottom: 10px;
+		}
+		.panel-heading{
+		}
+		.panel-heading h4{
+			margin: 0;
+		}
+		.badge{
+			opacity: 0.5;
+		}
+		@media screen and (max-width: 1170px){
+			.carousel{
+				width: auto;
+			}
+		}
+	</style>
+</head>
+<body >
+		<div class="container" id="mytitle">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-header">
+				<button  class="navbar-toggle" data-toggle="collapse" data-target='#myheader' id="top_navbarbtn">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div style="margin-left:15px;">
+					<p class="navbar-text">
+					
+											<a href="/my_weixin/index.php?m=Index&c=Index&v=index" class="navbar-link">快乐之鱼的个人网站</a>
+					</p>
+				</div>
+			</div>
+			<div class="collapse navbar-collapse text-right" id='myheader' >
+				<ul class="nav navbar-nav">
+					<li class="text-center"><a href="/my_weixin/index.php?m=weixin&c=Index&v=index">微信开发</a></li>
+					<li class="text-center"><a href="/my_weixin/index.php?m=Index&c=List&v=index">List</a></li>
+					<li class="text-center"><a data-toggle="modal" data-target="#mymodal">标题</a></li>
+					<li class="text-center"><a href="/my_weixin/index.php?m=Index&c=Image&v=index">图片管理</a></li>
+				</ul>
+				<form action="/my_weixin/index.php?m=Index&c=List&v=list_show" method="post" class="navbar-form">
+					<div class="form-group">
+						<input type="text" name="search" class="form-control" placeholder="AA空格AA-多重条件">
+						<input type="submit" class="btn btn-primary form-control" value="search">
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="modal fade bs-example-modal-lg" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>
+							类型查询
+							<button class="close pull-right" data-dismiss='modal'>&times;</button>
+						</h4>
+						
+					</div>
+					<div class="modal-body">
+						<div>
+							<ul class='list-group'>
+								<li class='list-group-item'>
+									<a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=0'>
+										&nbsp&nbsp&nbsp所有内容
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div><ul class='list-group'><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=1'>&nbsp&nbsp&nbsptop</a></li><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=3'>&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp33</a></li><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=9'>&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp44</a></li><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=5'>&nbsp&nbsp&nbsp学习天地</a></li><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=6'>&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspphp</a></li><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=7'>&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp微信</a></li><li class='list-group-item'><a class='btn btn_primary' href='/my_weixin/index.php?m=Index&c=List&v=list_show&type_id=8'>&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsphtml</a></li></ul></div>					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" data-dismiss="modal">返回</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		
+	$("#top_navbarbtn").click(function(){
+			// alert("aaa");
+			$("#myheader").toggle();
+		})
+	</script>
+	<div class="container" id="mycarousel1">
+		<div class="carousel slide" id="mycarousel" data-ride="carousel">
+			<ul class="carousel-indicators">
+				<li class="active" data-target="#mycarousel" data-slide-to="0"></li>
+				<li class="" data-target="#mycarousel" data-slide-to="1"></li>
+				<li class="" data-target="#mycarousel" data-slide-to="2"></li>
+			</ul>
+
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<img class="thumbnail" src="./Public/image/1.jpg" alt="">
+					<div class="carousel-caption">
+						first
+					</div>
+				</div>
+				<div class="item">
+					<img class="thumbnail" src="./Public/image/2.jpg" alt="">
+					<div class="carousel-caption">
+						second
+					</div>
+				</div>
+				<div class="item">
+					<img class="thumbnail" src="./Public/image/3.jpg" alt="">
+					<div class="carousel-caption">
+						third
+					</div>
+				</div>
+			</div>
+
+			<a href="#mycarousel" class="left carousel-control" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" ></span>
+			</a>
+			<a href="#mycarousel" class="right carousel-control" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			</a>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4>php</h4>
+					</div>
+					<div class="list-group">
+													<a href="/my_weixin/index.php?m=Index&c=List&v=article_show&id=15" class="list-group-item">php基础知识<span class="badge">2017-05-09 12:06:34</span></a>
+																			<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+													<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+													<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+													<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+											</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4>微信</h4>
+					</div>
+					<div class="list-group">
+													<a href="/my_weixin/index.php?m=Index&c=List&v=article_show&id=14" class="list-group-item">使用新浪云应用验证微信token<span class="badge">2017-05-09 12:05:25</span></a>
+																			<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+													<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+													<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+													<a href="" class="list-group-item">暂无内容<span class="badge">year-mounth-date</span></a>
+											</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container text-center bottom">
+		制作人：vic</br>
+		备案号：晋ICP备17003345号
+		<a href="/my_weixin/index.php?m=Index&c=Index&v=get_qrcode"><img src="/my_weixin/index.php?m=Index&c=Index&v=get_qrcode" alt=""></a>
+		<img src="./Public/image/wx_2d_code.jpg" alt="">
+	</div>	
+</body>
+<script>
+	$(".carousel").carousel();
+</script>
+</html>

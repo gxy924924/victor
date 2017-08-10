@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	#arti{
+		border:1px solid #ccc;
+		background-color: #ccc;
+	}
+
+	h3{
+		margin:0;
+		padding:10px;
+	}
+	textarea{
+		height:200px;
+	}
+	.img-size{
+		max-width: 300px;
+	}
+	.phone-supposed{
+		width:320px;
+		height:500px;
+		padding: 0px;
+		border:0;
+		background-color: #eee;
+		border: 1px solid #ccc;
+	}
+	.col-xs-6{
+		margin: 0px;
+	}
+	.pro{
+		border: 1px solid #ccc;
+		/*height: 100px;*/
+	}
+	.max-width{
+		max-width:120px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					<h4>编辑热点项目</h4> 
+
+				</div>
+				<div class="panel-body text-left ">
+					<div class="col-sm-6">
+
+						<div class="phone-supposed" width=320px >
+							<?php foreach ($hot as $key => $val): ?>
+								<div class="col-xs-6 text-center">
+									<div class="pro">
+									<?php if (empty($val['img_url'])): ?>
+
+									<?php else: ?>
+										<img src="/public/uploads/{$val['img_url']}" class="max-width">
+									<?php endif ?>
+										
+										<!-- <a href="{:url('index/article/show_update_hot_production')}?id={$val['id']}&act=add" class="pull-right ">添加</a><br/> -->
+										<a href="{:url('index/article/show_update_hot_production')}?id={$val['id']}&act=update" class="pull-right">编辑</a>
+									</div>
+									<font class="">{$val['title']}</font>
+								</div>
+							<?php endforeach ?>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div>
+							热点-{$_GET['id']}||{$_GET['act']}
+							<?php 
+							if ($_GET['act']=="update") {
+								$url=url('index/article/update_hot_production')."?id=".$_GET['id'];
+							}elseif($_GET['act']=="add"){
+								$url=url('index/article/add_hot_production');
+							}
+
+							?>
+							<form action="{$url}" enctype="multipart/form-data" method="post">
+								文章标题 <input type="text" name="title" value="{$hot_pro['title']}">	<br/><br/>
+								production:
+								<select name="p_id">
+								<?php foreach ($production as $key => $val): ?>
+										<option value="{$val['id']}" <?php if($hot_pro['p_id']==$val['id']) echo "selected"; ?> >{$val['production']}</option>
+								<?php endforeach ?>
+								</select><br/><br/>
+								选择标题图片：<input type="file" name="img"><br/>
+								<input type="submit" name="提交">
+								<br/>
+								<br/>
+								当前图片：
+								<img src="/public/uploads/{$hot_pro['img_url']}" class="max-width">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!-- panel -->
+		</div><!-- col-md-9 -->
+	</div><!-- container -->
+
+
+	<script>
+		function my_confirm(num){
+			if(num==1){
+				return confirm("确定删除？");
+			}
+			
+		}
+
+	</script>
+
+</body>
+</html>
+

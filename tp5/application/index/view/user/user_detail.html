@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+	<style>
+		.btn{
+			margin-left: 50px;
+			margin-right: 50px;
+		}
+		.btn-control{
+			margin-top: 30px;
+			margin-bottom: 20px;
+		}
+		.input-group{
+			margin-top: 30px;
+		}
+		.input-group-addon{
+			background-color: #D9EDF6; 
+		}	
+	</style>
+</head>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container text-center">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+			<h4>
+				{$title}用户详细内容
+			</h4>
+			</div>
+			<div class="panel panel-body">
+				<form action="{$url}" method="post" id="useradd">
+					<input type="hidden" name="id" value="{$userinfo['id']}">
+					<div class="input-group">
+						<span class="input-group-addon">用户名　</span>
+						<input type="text" class="form-control" name="username" id="user" value="{$userinfo['username']}" readonly>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">昵称</span>
+						<input type="text" class="form-control" name="nickname" id="" value="<?php echo $nickname=empty($info['nickname'])?'':$info['nickname']; ?>">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">所属店铺</br>(填1-3个)</span>
+						 <select name="shop_id1" class="form-control" id="shop">
+						  	<option value="">-请选择-</option>
+						  	<?php foreach ($shop as $val):?>
+					  			<option value="{$val['id']}" <?php if(!empty($shop_num['0'])&&$shop_num['0']==$val['id']){  echo 'selected="selected"';} ?> >
+					  				{$val['shopname']}
+					  			</option>
+						  	<?php endforeach; ?>
+						  </select>
+						  <select name="shop_id2" class="form-control" id="shop">
+						  	<option value="">-请选择-</option>
+						  	<?php foreach ($shop as $val):?>
+					  			<option value="{$val['id']}" <?php if(!empty($shop_num['1'])&&$shop_num['1']==$val['id']){  echo 'selected="selected"';} ?> >
+					  				{$val['shopname']}
+					  			</option>
+						  	<?php endforeach; ?>
+						  </select>
+						  <select name="shop_id3" class="form-control" id="shop">
+						  	<option value="">-请选择-</option>
+						  	<?php foreach ($shop as $val):?>
+					  			<option value="{$val['id']}" <?php if(!empty($shop_num['2'])&&$shop_num['2']==$val['id']){  echo 'selected="selected"';} ?> >
+					  				{$val['shopname']}
+					  			</option>
+						  	<?php endforeach; ?>
+						  </select>
+					</div>
+
+					<div class="btn-control">
+						<button class="btn btn-primary" type="submit" id="submit">提交</button>
+						<button class="btn btn-default" type="reset">重填</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+	<style>
+	h2{
+		margin: 30px;
+	}
+
+		
+	</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			
+		<div class="panel panel-default text-center">
+			<div class="panel-heading">
+				<h4>用户id={$_GET['id']}</h4>
+			</div>
+			<div class="panel-body">
+			<h2>
+				推广码:{$spread_code}
+			</h2>
+				
+			</div>
+		</div>
+				
+</body>
+</html>
+

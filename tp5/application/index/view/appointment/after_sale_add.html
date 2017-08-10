@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+
+	<link href="/public/css/Index.index.index.css" rel="stylesheet"></link>
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+	<style>
+		font{
+			color:red;
+			font-size: 15px;
+		}
+
+		
+		@media screen and (max-width: 500px){
+			.sex{
+				margin: 0;
+				padding: 0;
+			}
+			.empty-one{
+				display: none;
+			}
+		}
+	</style>
+</head>
+<body>
+	{include file="public/sorand/header.html"}
+<div class="container text-center">
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+	</div><!-- col-md-3 -->
+
+	<div class="col-md-9">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				客户信息
+			</div>	
+			
+		
+				<table class="table table-bordered table-striped">
+					<tr>
+						<th class="left-th">id</th><td>{$info[0]['id']}</td>
+					</tr>
+					<tr>
+						<th>姓名</th><td>{$info[0]['name']}</td>
+					</tr>
+					<tr>
+						<th>性别</th><td>{$info[0]['sex']}</td>
+					</tr>
+					<tr>
+						<th>预约时间</th>
+						<td>
+						<?php 
+							if($info[0]['appointment_time']=="0000-00-00 00:00:00"){
+								echo "未确定时间";
+							}
+						 ?>
+						</td>
+					</tr>
+					<tr>
+						<th>预约项目</th><td>{$info[0]['item']}</td>
+					</tr>
+					<tr>
+						<th>售后次数</th><td>{$info[0]['after_sale']}</td>
+					</tr>
+					<tr>
+						<th>位置</th><td>{$info[0]['position']}</td>
+					</tr>
+					<tr>
+						<th>店铺</th><td>{$info[0]['shop']}</td>
+					</tr>
+				</table>
+			
+			
+			<div class="panel-heading">
+				{$form_title}
+			</div>	
+			    <form action="{$form_url}" method="post" id="add_new_form">
+			    <input type="hidden" name="pid" value="{$info[0]['id']}">
+			    <input type="hidden" name="after_sale" value="{$info[0]['after_sale']}"><!-- 售后次数 -->
+
+
+			    <input type="hidden" name="before_price" value="<?php if (isset($after_info['after_price'])){ echo $after_info['after_price']; } ?>"><!-- 更改前价格 -->
+
+			    <?php if (!empty($after_info['id'])): ?>
+			    	<input type="hidden" name="after_id" value="{$after_info['id']}">
+			    <?php endif ?>
+			    
+			      	<div class="modal-body">
+						<div class="input-group">
+						  <span class="input-group-addon"><font>*</font> 预约时间： <input type="checkbox" id="noappotime">未确定	</span>
+
+						  <style>
+							.picker__nav--next,.picker__nav--prev{
+							height: 40px;
+							}
+						  </style>
+						  <input class="form-control js__datepicker" type="text" placeholder="请输入日期：" name="time_date" id="time_date">
+						  <span class="input-group-addon empty-one"></span>
+						 	<select class="form-control" name="time_time" id="time_time">
+						 	<?php if (!empty($after_info['appo_af_time'])){
+						 		$date_time=explode(" ",$after_info['appo_af_time']);
+						 		$time=explode(":",$date_time[1]);
+						 		$time[0]=intval($time[0]);
+
+						 		}else{
+						 			$time[0]="";
+						 			$time[1]="";
+						 		} ?>
+						 	
+						 		
+
+						  	<option value="">-请选择-</option>
+						  	<?php for($i=8;$i<17;$i++):?>
+
+							<?php if($time[0]==$i&&$time[1]=='00'):?>
+								<option value="{$i}:30" selected="selected">{$i}:00</option>
+							<?php else:?>
+								<option value="{$i}:00">{$i}:00</option>
+							<?php endif;?>
+							<?php if($time[0]==$i&&$time[1]=='30'):?>
+								<option value="{$i}:30" selected="selected">{$i}:30</option>
+							<?php else:?>
+								<option value="{$i}:30">{$i}:30</option>
+							<?php endif;?>
+					  	<?php endfor;?>
+					  	<?php for($i=0;$i<5;$i++):?>
+							<?php if($time[0]==$i&&$time[1]=='00'):?>
+								<option value="{$i}:30" selected="selected">{$i}:00</option>
+							<?php else:?>
+								<option value="{$i}:00">{$i}:00</option>
+							<?php endif;?>
+							<?php if($time[0]==$i&&$time[1]=='30'):?>
+								<option value="{$i}:30" selected="selected">{$i}:30</option>
+							<?php else:?>
+								<option value="{$i}:30">{$i}:30</option>
+							<?php endif;?>
+						<?php endfor;?>
+						  </select>
+				
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><font>*</font> 项目类型：</span>
+							<select class="form-control" name="type" id="item1">
+								<option value="">-请选择-</option>
+								<?php if (!empty($after_info['type'])): ?>
+									<option value="{$after_info['type']}" selected="true">{$after_info['type']}</option>
+								<?php endif ?>
+								<option value="半永久预约">半永久预约</option>
+								<option value="脱毛预约">脱毛预约</option>
+								<option value="半永久+脱毛预约">半永久+脱毛预约</option>
+							</select>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><font>*</font> 售后价格：</span>
+						  <input type="text" class="form-control" placeholder="填入整数（免费填0）" name="after_price" id="after_price" value="<?php if (isset($after_info['after_price'])){ echo $after_info['after_price']; } ?>">
+						</div>
+						<div class="input-group">
+						<span class="input-group-addon"><font>*</font> 售后描述：</span>
+							
+						  <textarea name="info" cols="30" rows="10" placeholder="请说明售后项目，如有多项请在项目间空格" id="info"><?php if(!empty($after_info['info'])){ echo $after_info['info']; } ?></textarea>
+						</div>
+						</div>
+
+
+
+			      	</div><!-- modal-body -->
+			      <div class="modal-footer">
+			      	<button type="button" class="btn btn-primary" id="add_new_submit">确认</button>
+			        <a href="{:url('Index/appointment/appointment_info')}" class="btn btn-default" >取消</a>
+			      </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 日期传递隐藏 -->
+<?php if (!empty($date_time[0])): ?>
+	<input type="hidden" value='{$date_time[0]}' id="date_time">
+<?php else: ?>
+	<input type="hidden" value='' id="date_time">
+<?php endif; ?>
+
+
+<script>
+	$(".js__datepicker").val($("#date_time").val());
+
+	$("#noappotime").click(function(){
+		nontime=$('#noappotime').prop("checked");
+		if(nontime==true){
+			$('#time_date').attr("disabled", true); 
+			$('.empty-one').attr("disabled", true);  
+			$('#time_time').attr("disabled", true);
+			$('#time_date').val("")
+			$('#time_time').val("")
+		}else{
+			$('#time_date').attr("disabled", false); 
+			$('.empty-one').attr("disabled", false);  
+			$('#time_time').attr("disabled", false); 
+		}
+		
+	});
+
+	$("#add_new_submit").click(function(){
+		var arr1=new Array();//表单id信息
+		arr1=['item1','info','time_date','time_time','after_price'];
+
+		var arr2=new Array();//表单ID内容
+		arr2=['输入项目类型','输入售后描述',"填入预约日期",'填入预约时间',"输入售后价格"];
+
+		flag=0;
+		for (var i =  0; i < arr1.length; i++) {
+			id_info="#"+arr1[i];
+			// alert(id_info);
+			if(i==2||i==3){
+				if($('#noappotime').prop("checked")==true){
+				}else if(!$(id_info).val()){
+					alert('请'+arr2[i]);
+					flag++;
+					return false;
+				}
+			}else if(!$(id_info).val()){
+				alert('请'+arr2[i]);
+				flag++;
+				return false;
+			}
+		}
+
+		if (!flag) {
+			$("#add_new_form").submit();
+		}
+	});
+
+
+
+</script>
+
+
+	<!-- date专用 -->
+	<script src="/public/date/lib/picker.js"></script>
+    <script src="/public/date/lib/picker.date.js"></script>
+    <script src="/public/date/lib/picker.time.js"></script>
+    <script src="/public/date/demo/scripts/main.js"></script>
+	<!-- date专用 -->
+</body>
+</html>

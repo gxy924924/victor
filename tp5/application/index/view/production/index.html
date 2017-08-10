@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+           	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+             
+		<div class="col-md-9">
+             <table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>产品名称</th>
+                                        <th>所属分类</th>
+					<th>价格</th>
+					<th>优惠价</th>
+                                        <th>特价</th>
+                                        <th>活动价</th>
+					<th>订金</th>
+                                        <th>图片</th>
+                                        <th>操作功能</th>
+					
+				</tr>
+				{volist name="list" id='v'}
+				<tr>
+                                        <td>{$v['id']}</td>
+					<td>{$v['production']}</td>
+                                        <td>{$v['classify']}</td>
+					<td>{$v['money']}</td>
+					<td>{$v['discount']}</td>
+                                        <td>{$v['special']}</td>
+					<td>{$v['activePrice']}</td>
+					<td>{$v['price']}</td>
+					<td>
+                                            <img src="/public/{$v['f_img']}" style='width:100px;' alt="" />
+                                          
+					<td>
+                                       	
+				        <span class="text-explode"></span>
+                                        <a href="{:url('index/production/productionEdit')}?id={$v['id']}" >编辑</a>
+                                         <span class="text-explode">|</span>
+                                        <a  href="{:url('index/production/producitonDelete')}?id={$v['id']}"  class="del">删除</a>
+					</td>
+				</tr>
+				{/volist}
+			</table>
+            </div>
+                </div>
+                <div style="text-align:center;">  {$list->render()}</div>
+               
+        <script>
+            $(".del").click(function(){ 
+               return  confirm('确定删除');
+               }) 
+
+        </script>
+    </body>
+</html>

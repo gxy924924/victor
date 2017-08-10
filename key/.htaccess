@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>  
+RewriteEngine ON  
+
+#RewriteBase  /key
+#可用的，去掉php符号
+#RewriteRule ^image_show2/(.*)$ image_show2.php?keyword=$1
+#RewriteRule ^shoes-(.*?)$ image_show2.php?keyword=$1
+#RewriteRule ^image\/k-(.*?)\/n-(.*?)\/r-(.*?)$ get_url.php?keyword=$1&num=$2&rand=$3
+#RewriteRule ^(.*?)-(.*?)-(.*?)$ get_url.php?keyword=$1&num=$2&rand=$3
+#RewriteRule ^(.*?)-(.*?)$ get_url.php?keyword=$1&num=$2
+RewriteRule ^(.*?)-(.*?)-(.*?)$ index.php?keyword=$1&num=$2&rand=$3
+RewriteRule ^(.*?)\+(.*?)$ index.php?keyword=$1+$2&num=10&rand=1
+
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond $1 !^(index\.php)
+#RewriteRule ^(.*)$ /index.php/$1 [L]
+
+
+#RewriteRule  (.*)$ /image_show2.php?keyword=$1
+
+#RewriteRule  ^testkey.com$    testkey.com/image_show2.php
+#RewriteRule  ^((\w*\.)+\w*)\/          $2/imageshow2.php?keyword=
+
+</IfModule>
+

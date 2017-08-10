@@ -1,0 +1,113 @@
+<style>
+	.navbar-header .navbar-brand{
+		font-size: 28px;
+		color: #666;
+	}
+	.no-margin{
+		margin:0;
+	}
+	.btn-1{
+		display: none;
+	}
+@media screen and (max-width: 550px){
+	.navbar-header .navbar-brand{
+		font-size: 20px;
+		color: #888;
+		padding-right: 0px;
+	}
+	.btn-1{
+		display: block;
+		margin-right: 10px;
+		position: relative;
+		top:8px;
+		padding: 6px 10px;
+		padding-top:7px;
+		padding-bottom:5px;
+	}
+
+}
+</style>
+		
+
+<div class="container">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		    	<a class="navbar-brand" href="{$Think.const.URL_PATH}index/index/index">玛瑞娅半永久预约系统</a>
+		    	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bscollapse1">
+		    		<span class="sr-only">Toggle navigation</span>
+		    		<span class="icon-bar"></span>
+		    		<span class="icon-bar"></span>
+		    		<span class="icon-bar"></span>
+		    	</button>
+		    	<button type="button" class="btn pull-right btn-1 " id="accordionControl">
+		    		<span class="glyphicon glyphicon-chevron-down"></span>
+		    	</button>
+
+		    </div>
+
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    
+		    
+		    <div class="navbar-collapse collapse " id="bscollapse1">
+		    	<div>
+		    		<form class="navbar-form navbar-right" role="search" action="{:url('index/appointment/appointment_info')}" method="post">
+		    			<div class="input-group no-margin">
+		    				<span class="input-group-btn">
+		    					<button type="submit" class="btn btn-default">go!</button>
+		    				</span>
+		    				<input type="text" class="form-control" placeholder="Search" name="search_info" value="<?php if(!empty($_POST['search_info'])){ echo $_POST['search_info'];}?>">
+		    			</div>
+		    		</form>
+		    	</div>
+		    	<ul class="nav navbar-nav navbar-right">
+		    		<li class="dropdown">
+		    			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">管理员功能 <span class="caret"></span></a>
+		    			<ul class="dropdown-menu" role="menu">
+		    				<li><a href="{$Think.const.URL_PATH}Index/user/select_user">查询用户</a></li>
+		    				<li><a href="{:url('index/user/add_user')}">添加用户</a></li>
+		    				<li class="divider"></li>
+		    				<li><a href="{:url('index/auth/auth_level')}">权限管理</a></li>
+		    				<li><a href="{:url('index/auth/user_auth_level')}">创建修改级别</a></li>
+
+		    				<li class="divider"></li>
+		    				<li><a href="{$Think.const.URL_PATH}Index/login/login_out">退出登录</a></li>
+		    				<li><a href="{$Think.const.URL_PATH}Index/login/login">登录界面</a></li>
+		    				<li><a href="{$Think.const.URL_PATH}Index/index/test">test</a></li>
+		    				<?php if(!empty($_SESSION['auth_level'])&&$_SESSION['auth_level']==1): ?>
+		    					<li class="divider"></li>
+		    					<li><a href="{:url('index/auth/auth_url')}">权限目录</a></li>
+		    					<li><a href="{:url('index/auth/auth_group')}">权限组</a></li>
+		    					<li><a href="{:url('index/auth/auth_sort')}">分类权限</a></li>
+		    					
+		    					<li class="divider"></li>
+		    					<li><a href="{:url('index/auth/show_log')}">日志</a></li>
+		    				<?php endif; ?>
+		    			</ul>
+		    		</li>
+		    		<li class="dropdown">
+		    			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">app相关<span class="caret"></span></a>
+		    			<ul class="dropdown-menu" role="menu">
+		    				<li><a href="{:url('index/coupons/show_discount')}">折扣券</a></li>
+		    				<li><a href="{:url('index/article/show_article')}">app文章</a></li>
+		    				<li><a href="{:url('index/article/show_notification')}">app通知</a></li>
+		    				<li><a href="{:url('index/article/show_hot_production')}">app热点项目</a></li>
+		    			</ul>
+		    		</li>
+		    	</ul>
+		    </div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+</div>
+
+<script type="text/javascript">
+	$('#accordionControl').click(function(){
+		$('#accordion').toggle('normal');
+	});
+
+	// $('.collapse').collapse('toggle');
+		
+
+		</script>

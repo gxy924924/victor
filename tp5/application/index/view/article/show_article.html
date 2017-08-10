@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+		border:1px solid #ccc;
+		height: 200px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	.img-size{
+		max-width: 200px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					<h4>文章 :<a href="{:url('index/article/show_article')}">全部</a>
+					<?php foreach ($sort as $key => $val): ?>
+						<a href="{:url('index/article/show_article')}?sort_id={$val['id']}">{$val['id']}-{$val['sort_name']}</a>
+					<?php endforeach ?>
+					</h4>
+				</div>
+				<div class="panel-body">
+				<?php foreach ($at_title as $key => $val): ?>
+					<div class="col-sm-4" id="arti">
+					sort_id:{$val['sort_id']}<br/>
+						{$val['title']}
+						<?php if (empty($val['img_url'])): ?>
+							<h3>无此图片</h3>
+						<?php else: ?>
+							<img src="/public/uploads/{$val['img_url']}" class="img-size">
+						<?php endif ?>
+						
+						<br/>
+						<a href="{:url('index/article/del_artical')}?p_id={$val['id']}" class="btn" onclick="return my_confirm(1);" >删除文章</a>
+						<a href="{:url('index/article/show_update_title')}?p_id={$val['id']}" class="btn">修改标题</a>
+						<a href="{:url('index/article/show_content')}?p_id={$val['id']}" class="btn">文章内容</a>
+					</div>
+				<?php endforeach ?>	
+
+				</div>
+
+				<div class="panel-heading">
+					<h4>添加文章</h4>
+				</div>
+				<div class="panel-body">
+					<form action="{:url('index/article/add_article')}" enctype="multipart/form-data" method="post">
+						文章标题 <input type="text" name="title">	<br/>
+						sort:
+						<select name="sort_id">
+							<?php foreach ($sort as $key => $val): ?>
+								<option value="{$val['id']}">{$val['id']}-{$val['sort_name']}</option>
+							<?php endforeach ?>
+						</select>
+						选择标题图片：<input type="file" name="img">
+
+						<input type="submit" name="提交">
+					</form>
+				</div>
+				
+			
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+		function my_confirm(num){
+			if(num==1){
+				return confirm("确定删除？");
+			}
+
+		}
+	</script>
+
+</body>
+</html>
+

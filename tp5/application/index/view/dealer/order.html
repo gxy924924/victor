@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+ <head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+        {include file="public/sorand/header.html"}
+<div class="container text-center">
+
+	<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+	</div><!-- col-md-3 -->
+        <div class="col-md-9">
+              <div><a href="{:url('index/dealer/addorder')}">添加订单</a></div>
+          <table class="table table-bordered table-striped">
+				<tr>
+					<th>id</th>
+					<th>订单号</th>
+                                        <th>金额</th>
+					<th>用户</th>
+					<th>产品</th>
+					<th>地址</th>
+                                        <th>创建时间</th>
+                                        <th>操作功能</th>
+					
+				</tr>
+		              		{volist name="list" id='v'}
+				<tr>
+                                        <td>{$v['id']}</td>
+					<td>{$v['ordernumber']}</td>
+                                        <td>{$v['money']}</td>
+					<td>{$v['uid']}</td>
+					<td>{$v['pid']}</td>
+					<td></td>
+                                       	<td>{$v['creattime']}</td>
+                                        <td>
+				        <span class="text-explode"></span>
+                                        <a href="{:url('index/dealer/orderEdit')}?id={$v['id']}" >编辑</a>
+                                         <span class="text-explode">|</span>
+                                        <a  href="{:url('index/dealer/orderdel')}?id={$v['id']}"  class="del">删除</a>
+					</td>
+				</tr>
+				{/volist}
+			</table>
+        
+        	
+        </div>
+      	</div>
+    </body>
+</html>

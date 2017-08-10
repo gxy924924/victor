@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+
+
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			
+			<div class="panel panel-default text-center">
+				<div class="panel-heading">
+					<h4>生成折扣券包</h4>
+				</div>
+				<div class="panel-body">
+					<form action="{:url('index/coupons/add_coupons')}" method="post">
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">有效期(起)</span>
+								<input type="text" name="time_start"  class="form-control form-control js__datepicker" value="" placeholder="起始时间(当日0点)" value="" id="add_time_start">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">有效期(止)</span>
+								<input type="text" name="time_stop"  class="form-control form-control js__datepicker" value="" placeholder="截止时间(当日0点)" id="add_time_stop">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">金额要求</span>
+								<input type="text" name="price_premise"  class="form-control " value="" placeholder="折扣券最低消费要求">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">店铺选择</span>
+								<select name="shop" id=""  class="form-control" >
+									<option value="0">全部</option>
+									<?php foreach ($shop as $v) :?>
+										<option value="{$v['id']}">{$v['shopname']}</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">产品选择</span>
+								<select name="item" id=""  class="form-control" >
+									<option value="0">全部</option>
+									<?php foreach ($production as $v) :?>
+										<option value="{$v['id']}">{$v['production']}</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">折扣额度</span>
+								<input type="text" name="discount"  class="form-control " value="" placeholder="折扣的金额">
+							</div>
+						</div>
+						
+						<div class="col-sm-8 pull-right text-right">
+							<button class="btn btn-primary search_btn" type="submit">生成</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="panel panel-default text-center">
+
+				<div class="panel-heading">
+					<h4>查看折扣券包</h4>
+				</div>
+				<div class="panel-body">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<th>id</th>
+							<th>时间限制</th>
+							<th>金额要求</th>
+							<th>折扣额度</th>
+							<th>店铺选择</th>
+							<th>产品选择</th>
+							<th>折扣券数量</th>
+							<th>已使用数量</th>
+							<th>查看</th>
+						</tr>
+						<?php foreach ($discount as $v): ?>
+							<tr>
+								<td>{$v['id']}</td>
+								<td class="time">
+									<?php
+									$time_start=strtotime($v['time_start']);
+									$time_stop=strtotime($v['time_stop']);
+									
+									if($v['time_start']=="0000-00-00 00:00:00"&&$v['time_stop']=="0000-00-00 00:00:00"){
+										$info="无期限限制";
+									}else if($v['time_start']=="0000-00-00 00:00:00"&&$v['time_stop']!="0000-00-00 00:00:00"){
+										$info=date('Y-m-d',$time_start)." 之后";
+									}else if($v['time_start']!="0000-00-00 00:00:00"&&$v['time_stop']=="0000-00-00 00:00:00"){
+										$info=date('Y-m-d',$time_stop)." 之前";
+									}else{
+										$info=date('Y-m-d',$time_start)." ~ ".date('Y-m-d',$time_stop);
+									}
+									echo $info;
+									?>
+								</td>
+								<td>{$v['price_premise']}</td>
+								<td>{$v['discount']}</td>
+								<td>
+									<?php
+									if($v['shopname']){
+										$info=$v['shopname'];
+									}else{
+										$info="无限制";
+									}
+									echo $info;
+									?>
+								</td>
+								<td>
+									<?php
+									if($v['production']){
+										$info=$v['production'];
+									}else{
+										$info="无限制";
+									}
+									echo $info;
+									?>
+
+								</td>
+								<td>{$v['generate_number']}/{$v['total_num']}</td>
+								<td>{$v['used_num']}</td>
+								<td>
+									<a href="{:url('index/coupons/show_pool')}?id={$v['id']}">券码池</a>|
+									<a href="{:url('index/coupons/get_one_coupon')}?id={$v['id']}&user_id=1">抽一条</a>|
+									<a href="{:url('index/coupons/delete_coupons')}?id={$v['id']}" id="del">删</a>
+
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<!-- date专用 -->
+		<script src="/public/date/lib/picker.js"></script>
+		<script src="/public/date/lib/picker.date.js"></script>
+		<script src="/public/date/lib/picker.time.js"></script>
+		<script src="/public/date/demo/scripts/main.js"></script>
+		<!-- date专用 -->
+
+		<script>
+
+		</script>
+
+</body>
+</html>
+

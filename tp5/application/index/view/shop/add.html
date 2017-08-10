@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+                	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+          <form action=""  method="post" id="add_new_form">
+       
+      	<div class="modal-body">
+    		<div class="input-group">
+			  <span class="input-group-addon">店铺名称：</span>
+			  <input type="text" class="form-control" placeholder="请填写店铺名称" value=""  id="shopname" name="shopname">
+			</div>
+		<div class="input-group">
+		       <span class="input-group-addon">地址：</span>
+                       <select name="city_provice" class="form-control" id="province">
+			  	<option value="">-请选择(省)-</option>
+			  	<?php foreach ($addr as $v) :?>
+			  		<option value="{$v['id']}-{$v['name']}">{$v['name']}</option>
+			  	<?php endforeach; ?>
+			  </select>
+			  <select name="city_city" class="form-control" id="city">
+			  	<option value="">-请先选择省-</option>
+			  </select>
+			  <select name="city_county" class="form-control" id="county">
+			  	<option value="">-请先选择省-</option>
+			  </select>
+                       <input type="text" class="form-control" placeholder="请填写详细地址" value="" name="addr" id="addr">
+		</div>
+		<div class="input-group">
+		       <span class="input-group-addon">电话：</span>
+		       <input type="text" class="form-control" placeholder="请填写电话" value=""  name="tel">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">QQ：</span>
+		       <input type="text" class="form-control" placeholder="请填写QQ"  value="" name="qq">
+		</div>
+                <div class="input-group">
+		       <span class="input-group-addon">微信：</span>
+		       <input type="text" class="form-control" placeholder="请填写微信"  value="" name="weixin">
+		</div>
+            <div class="input-group">
+		       <span class="input-group-addon">项目：
+                           <input type="button" id="btn1" value="全选"> 
+                           
+                       </span>
+                {volist name="list" id="v"} 
+                       <span> 
+                       <input class="list-check-box"  name="checkbox[]"  value='{$v.id}-{$v.production}' type='checkbox'/>{$v.production}
+                        </span>
+                 {/volist}
+	    </div>
+            
+      	</div>
+       <div class="modal-footer">
+      	<button type="submit" class="btn btn-primary" id="add_new_submit">确认</button>
+      </div>
+	  <input type="hidden" value='{$city_get_url}' id="city_get_url">
+       
+    </form>
+                </div> 
+                 </div>
+    </body>
+    <script>
+	$("#province").change(function(){
+		$("#city").empty();
+		$("#city").append("<option value=''>-请选择(市)-</option>");
+		$("#county").empty();
+		$("#county").append("<option value=''>请再选择市</option>");
+		var id=$("#province").val();
+		var url=$("#city_get_url").val();
+		 
+		$.get(url,{"id":id},function(data){
+		
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#city").append(append_val);
+			};
+		},"json");
+	});
+	$("#city").change(function(){
+		$("#county").empty();
+		$("#county").append("<option value=''>-请选择(县)-</option>");
+		var id=$("#city").val();
+		var url=$("#city_get_url").val();
+		$.get(url,{"id":id},function(data){
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#county").append(append_val);
+			};
+		},"json");
+	});
+        
+    jQuery(function($){ 
+           //全选 
+           $("#btn1").click(function(){ 
+          $("input[name='checkbox[]']").attr("checked","true"); 
+             })
+         })
+   	$("#add_new_submit").click(function(){
+		var arr1=new Array();//表单id信息
+		arr1=['shopname','province','city',"addr"];
+
+		var arr2=new Array();//表单ID内容
+		arr2=['输入店铺名','选择省','选择市','输入详细地址'];
+
+		flag=0;
+		for (var i =  0; i < arr1.length; i++) {
+			id_info="#"+arr1[i];
+			// alert(id_info);
+			if($(id_info).val()){}else{
+				alert('请'+arr2[i]);
+				flag++;
+				return false;
+			}
+		}
+
+		if (!flag) {
+			$("#add_new_form").submit();
+		}
+	});      
+         
+
+ </script>
+</html>

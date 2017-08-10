@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	#arti{
+		border:1px solid #ccc;
+		background-color: #ccc;
+	}
+
+	h3{
+		margin:0;
+		padding:10px;
+	}
+	textarea{
+		height:200px;
+	}
+	.img-size{
+		max-width: 300px;
+	}
+	.phone-supposed{
+		width:320px;
+		height:500px;
+		padding: 0px;
+		border:0;
+		background-color: #eee;
+		border: 1px solid #ccc;
+	}
+	.col-xs-6{
+		margin: 0px;
+	}
+	.pro{
+		border: 1px solid #ccc;
+		/*height: 100px;*/
+	}
+	.max-width{
+		max-width:120px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					<h4>热点项目</h4> 
+
+				</div>
+				<div class="panel-body text-left ">
+					<div class="col-xs-6">
+
+						<div class="phone-supposed" width=320px >
+							<?php foreach ($hot as $key => $val): ?>
+								<div class="col-sm-6 text-center">
+									<div class="pro">
+									<?php if (empty($val['img_url'])): ?>
+
+									<?php else: ?>
+										<img src="/public/uploads/{$val['img_url']}" class="max-width">
+									<?php endif ?>
+										
+										<!-- <a href="{:url('index/article/show_update_hot_production')}?id={$val['id']}&act=add" class="pull-right ">添加</a><br/> -->
+										<a href="{:url('index/article/show_update_hot_production')}?id={$val['id']}&act=update" class="pull-right">编辑</a>
+									</div>
+									<font class="">{$val['title']}</font>
+								</div>
+							<?php endforeach ?>
+						</div>
+					</div>
+					
+				</div>
+			</div><!-- panel -->
+		</div><!-- col-md-9 -->
+	</div><!-- container -->
+
+
+	<script>
+		function my_confirm(num){
+			if(num==1){
+				return confirm("确定删除？");
+			}
+			
+		}
+
+	</script>
+
+</body>
+</html>
+
