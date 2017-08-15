@@ -19,44 +19,22 @@ and open the template in the editor.
 
 		<div class="col-md-9">
 			<div class="panel panel-default">
-			<div class="panel-heading">
-					<h4>查看分类</h4>
-				</div>
-				<div class="panel-body">
-					<table class="table table-bordered table-striped">
-						<tr>
-							<th>id</th>
-							
-							<th>分类名</th>
-							<th>操作</th>
-						</tr>
-						<?php foreach ($classify as $v):?>
-							<tr>
-								<td>{$v['id']}</td>
-							
-								<td>{$v['classify']}</td>
-								<td><a href="{:url('delete_classify')}?id={$v['id']}" onclick="return my_confirm(1);">删除</a>|<a href="{:url('show_update_classify')}?id={$v['id']}">修改</a></td>
-							</tr>
-
-						<?php endforeach; ?>
-					</table>
-				</div>
 				<div class="panel-heading">
-					<strong>添加项目</strong>
+					<strong>修改项目</strong>
 				</div>
 				<div class="panel-body">
-					<form class="form-horizontal sms-form" method="post" action="{:url('add_classify')}">
+					<form class="form-horizontal sms-form" method="post" action="{:url('update_classify')}?id={$_GET['id']}">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">项目</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="classify" value="">
+								<input type="text" class="form-control" name="classify" value="{$classify['classify']}">
 
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-success">添加</button>
+								<button type="submit" class="btn btn-success">修改</button>
 							</div>
 						</div>
 					</form>

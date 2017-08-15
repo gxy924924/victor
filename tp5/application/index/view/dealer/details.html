@@ -17,13 +17,12 @@
 					<th>id</th>
 					<th>用户</th>
 					<th>电话</th>
-					<th>qq</th>
-					<th>微信</th>
+					
                                         <th>累积销售（元）</th>
                                         
                                         <th>累积会员</th>
                                         <th>累积订单数</th>
-				
+				        <th>累积佣金</th>
 				</tr>
                               {volist  name="list"  id="v"}
 		
@@ -31,13 +30,12 @@
 					<td>{$v['id']}</td>
                                         <td>{$v['username']}</td>
                                         <td>{$v['tel']}</td>
-                                        <td>{$v['qq']}</td>
-                                        <td>{$v['weixin']}</td>
-                                        <td>{$sum}</td>
-                                        <td>{$count}</td>
-                                        
+                                         <td>{$money}</td>
+                                         <td>{$shuliang}</td>
+                                        <td>{$order}</td>
+                                          <td>{$ticheng}</td>
                                   
-                                        <td>{$a}</td>
+                                 
 	
 				</tr>
 				{/volist}

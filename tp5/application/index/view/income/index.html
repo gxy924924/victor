@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+	{include file="public/sorand/title.html"}
+</head>
+    <body>
+                   	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+        <table class="table table-bordered table-striped">
+				<tr>
+					
+					<th>用户名</th>
+					<th>电话</th>
+					
+                                        <th>提现金额</th>
+					<th>已提现总额</th>
+                                        <th>总收入</th>
+                                        <th>可提现金额</th>
+					<th>操作功能</th>
+				</tr>
+				<?php foreach ($income as $v) :?>
+                                 
+				<tr>
+					<td>{$v['username']}</td>
+                                         <td>{$v['tel']}</td>
+                                         <td>{$v['income']}</td>
+                                         
+				       <td>{$v['yongjin']}</td>
+					<td>{$v['money']}</td>
+					<td>{$v['money']-$v['yongjin']}</td>
+                                        
+                                       <td>
+                                       	
+				        <span class="text-explode"></span>
+                                        <a href="{:url('index/income/agree')}?id={$v['id']}"  class='agree' >同意</a>
+                                         <span class="text-explode">|</span>
+                                        <a  href="{:url('index/income/disagree')}?id={$v['id']}"  class="del">拒绝</a>
+					</td>	
+                                 <?php endforeach; ?>
+				
+                                      
+					
+                         
+                                        
+				
+				</tr>
+                             
+				
+			</table>
+                      </div> 
+                 </div>
+         <script>
+            $(".del").click(function(){ 
+               return  confirm('确定');
+               }) 
+             $(".agree").click(function(){ 
+               return  confirm('已转款');
+               }) 
+        </script>
+    </body>
+</html>

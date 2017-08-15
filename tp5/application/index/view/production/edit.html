@@ -29,8 +29,9 @@ and open the template in the editor.
                <span class="input-group-addon">所属分类：</span>
                           <select name="classify"  class="form-control">
                           <option value="{$v['classify']}">{$v['classify']}</option>
-                          <option value="纹眉">纹眉</option>
-                          <option value="脱毛">脱毛</option>
+                 {volist name="lists"  id="v"} 
+                        <option value="{$v['classify']}">{$v['classify']}</option>  
+                 {/volist}
                           </select>
                </div>
 		<div class="input-group">

@@ -118,8 +118,9 @@
 						  <span class="input-group-addon"><font>*</font> 预约项目：</span>
 						  <select class="form-control" name="item1" id="item1">
 						  	<option value="">-请选择-</option>
-						  	<option value="半永久">半永久预约</option>
-						  	<option value="脱毛">脱毛预约</option>
+						  	<?php foreach ($classify as $key => $val): ?>
+						  		<option value="{$val['classify']}">{$val['classify']}</option>
+						  	<?php endforeach ?>
 						  </select>
 						  <span class="input-group-addon empty-one"></span>
 						  <select class="form-control" name="item2"  id="item2">

@@ -84,29 +84,7 @@ class  Comment  extends  controller{
         }
  
     }
-     function    image(){
-        if(request()->isPost()){
-            $file = request()->file('image');;
-                
-		   if (isset($file)) {
-		    // dump($file);exit;
-		   // 获取表单上传文件 例如上传了001.jpg
-		   // 移动到框架应用根目录/public/uploads/ 目录下
-		        $info = $file->move(ROOT_PATH . '/public/comment');
-			if ($info) {
-			// 成功上传后 获取上传信息
-			    $a = $info->getSaveName();
-			    $imgp = str_replace("\\", "/", $a);
-			    $imgpath = 'comment/' . $imgp;
-			    $data['image'] = $imgpath;
-			} else {
-					// 上传失败获取错误信息
-			    echo $file->getError();
-			}
-                        echo json_encode($data);
-             }
-         }
-     } 
+
     function   comment(){
         if(request()->isPost()){
             $info = Db::table('mariah_comment')->where('body',$_POST['body'])->select();

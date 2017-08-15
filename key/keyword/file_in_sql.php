@@ -1,4 +1,5 @@
 <?php 
+set_time_limit (0); //不限时 24 * 60 * 60
 require_once "sqlHelper.class.php";
 //获取文件信息，文件内容换行符要注意是否正确。 \r  \n  \r\n
 function key_file($filename,$file=""){
@@ -40,7 +41,7 @@ function show_sql_info(){
 }
 
 //------------------------------------将文件信息存入数据库-------------------------------------------------
-$filename="1.txt";
+$filename="my_ok1.txt";
 put_key_file($filename);
 //-----------------------------------查看数据库---------------------------------------
 // $info=show_sql_info();

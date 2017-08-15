@@ -7,14 +7,21 @@ use think\View;
 class  Collect  extends  controller{
   //收藏  
     function    index(){
-        if(request()->isPost()){
+            if(request()->isPost()){
             $data['success']='收藏成功';
+            $key['erro']='已收藏';
             $arr['uid']=$_POST['uid'];
             $arr['pid']=$_POST['pid'];
-            $info=DB::table('mariah_collect')->insert($arr);
+            $list=DB::table('mariah_collect')->where(array('uid'=>$arr['uid'],'pid'=>$arr['pid']))->select();
+            if($list){
+                echo json_encode($key);
+            }else{
+                  $info=DB::table('mariah_collect')->insert($arr);
             if($info){
                 echo json_encode($data);
             }
+            }
+          
         }
     }
  //我的收藏，收藏查询   

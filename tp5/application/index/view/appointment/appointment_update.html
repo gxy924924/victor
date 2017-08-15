@@ -165,13 +165,9 @@
 						  <span class="input-group-addon">预约项目： </span>
 						  <select class="form-control" name="item1" id="item1">
 						  	<option value="0">-请选择-</option>
-						  	<?php $arr_item=['半永久','脱毛'];foreach ($arr_item as $val):?>
-						  		<?php if($app_item[0]==$val): ?>
-								  	<option value="{$val}" selected='selected'>{$val}预约</option>
-								<?php else: ?>
-								  	<option value="{$val}">{$val}预约</option>
-								<?php endif; ?>
-						  	<?php endforeach; ?>
+						  	<?php foreach ($classify as $key => $val): ?>
+						  		<option value="{$val['classify']}" <?php if($app_item[0]==$val) echo "selected"; ?> >{$val['classify']}</option>
+						  	<?php endforeach ?>
 						  </select>
 						  <span class="input-group-addon empty-one"></span>
 						  <select class="form-control" name="item2"  id="item2">

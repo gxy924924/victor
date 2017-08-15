@@ -166,7 +166,7 @@
 								<td>
 									<a href="{:url('index/coupons/show_pool')}?id={$v['id']}">券码池</a>|
 									<a href="{:url('index/coupons/get_one_coupon')}?id={$v['id']}&user_id=1">抽一条</a>|
-									<a href="{:url('index/coupons/delete_coupons')}?id={$v['id']}" id="del">删</a>
+									<a href="{:url('index/coupons/delete_coupons')}?id={$v['id']}" id="del" onclick="return my_confirm(1);">删</a>
 
 								</td>
 							</tr>
@@ -186,7 +186,14 @@
 		<!-- date专用 -->
 
 		<script>
-
+			function my_confirm(num){
+	if(num==1){
+		return confirm("确定删除？");
+	}
+	if(num==2){
+		return confirm("确定到达？");
+	}
+}
 		</script>
 
 </body>

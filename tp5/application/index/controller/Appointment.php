@@ -40,7 +40,7 @@ class Appointment extends Base
             $shop_obj=$shop_obj->where('id','in',$shop_num['shop_id']);
         }
         $view->shop=$shop_obj->select();
-
+        $view->classify=Db::table('mariah_classify')->select();
         $view->appointment_type=Db::table('mariah_appointment_type')->select();
         $view->appointment_style=Db::table('mariah_appointment_style')->select();
         //隐藏地址获取
@@ -209,6 +209,7 @@ class Appointment extends Base
             $shop_obj=$shop_obj->where('id','in',$shop_num['shop_id']);
         }
         $view->shop=$shop_obj->select();
+        $view->classify=Db::table('mariah_classify')->select();
         $view->province=$this->city_get();
         $view->info_access=$this->info_access(["tel_info"]);
         $view->item_get_url=URL_PATH."Index/appointment/item_get";

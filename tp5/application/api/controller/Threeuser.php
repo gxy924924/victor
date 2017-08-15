@@ -9,11 +9,12 @@ class Threeuser extends controller {
            if(request()->isPost()){
                $str=array();
                $str['success']='第三方写入成功';
-               $arr['username']=$_POST['nickname'];
+               $arr['username']=json_encode($_POST['nickname']);
                $arr['headimgurl']=$_POST['headimgurl'];
                $arr['openid']=$_POST['openid'];
                $arr['sex']=$_POST['sex'];
-              $info=Db::table('mariah_user')->where('openid',$arr['openid'])->select();
+               $arr['type']=$_POST['type'];
+               $info=Db::table('mariah_user')->where('openid',$arr['openid'])->select();
               if($info){
                  echo json_encode($info);
               }else{
@@ -24,6 +25,7 @@ class Threeuser extends controller {
               }
            }           
 	}
+       
         //获取用户id
         public function  open(){
             if(request()->isPost()){
@@ -31,18 +33,21 @@ class Threeuser extends controller {
               $arr['tel']=$_POST['phone'];
               if($arr['tel']==''){
               $info=Db::table('mariah_user')->where('openid',$arr['openid'])->find();
+              
               if($info){
                  echo json_encode($info);
               }
             }else{
                   $list=Db::table('mariah_user')->where('tel',$arr['tel'])->find();
               if($list){
+                  
                   $list['id']=string($list['id']);
                  echo json_encode($list);
               }  
             }
            }      
         }
+        
         //第三方登入
         public function    user(){
             if(request()->isPost()){
@@ -50,9 +55,11 @@ class Threeuser extends controller {
                 $arr['openid']=$_POST['openid'];
                 if($arr['openid']==''){
                   $appo_info=Db::table('mariah_user')->where('tel',$arr['tel'])->find();
+                  $appo_info['username']=json_decode($appo_info['username']);
                    echo json_encode($appo_info);   
                 }else{
                    $list=Db::table('mariah_user')->where('openid',$arr['openid'])->find();
+                   $list['username']=json_decode($list['username']);
                    echo json_encode($list);
                 }
             }
@@ -66,7 +73,7 @@ class Threeuser extends controller {
                 $arr['sex']=$_POST['sex'];
                 $arr['position']=$_POST['position'];
                 $arr['birthday']=$_POST['birthday'];
-                $arr['username']=$_POST['username'];
+                $arr['username']=  json_encode($_POST['username']);
                 $arr['tel']=$_POST['phone'];
                 $arr['openid']=$_POST['openid'];
                 if($arr['openid']==''){

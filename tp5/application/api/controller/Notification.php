@@ -20,9 +20,14 @@ class Notification{
             $arr=Db::table('mariah_production')->where('id',$p_id)->find();
             $hot[$key]["p_info"]=$arr;
         }
-        echo "<pre>";
-        var_dump($hot);
-        echo "<pre>";
+        $input_info=["empty"];
+        $api_info=$hot;
+        $this->log_helper($input_info,$api_info);
+        $api_info=json_encode($api_info);
+        return $api_info;
+        // echo "<pre>";
+        // var_dump($hot);
+        // echo "<pre>";
     }
 
     //显示文章

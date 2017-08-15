@@ -29,19 +29,20 @@ and open the template in the editor.
                                         <th>操作功能</th>
 					
 				</tr>
-		              		{volist name="list" id='v'}
+		              		 {volist name="list" id='v'}
 				<tr>
+                                  
+                                   
                                         <td>{$v['id']}</td>
-					<td>{$v['ordernumber']}</td>
+					<td>{$v['out_trade_no']}</td>
                                         <td>{$v['money']}</td>
-					<td>{$v['uid']}</td>
-					<td>{$v['pid']}</td>
-					<td></td>
-                                       	<td>{$v['creattime']}</td>
+					<td>{$v['username']}</td>
+					<td>{$v['body']}</td>
+					<td>{$v['shopname']}</td>
+                                       	<td>{$v['creatime']}</td>
                                         <td>
-				        <span class="text-explode"></span>
-                                        <a href="{:url('index/dealer/orderEdit')}?id={$v['id']}" >编辑</a>
-                                         <span class="text-explode">|</span>
+				      
+                                     
                                         <a  href="{:url('index/dealer/orderdel')}?id={$v['id']}"  class="del">删除</a>
 					</td>
 				</tr>

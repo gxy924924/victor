@@ -12,6 +12,10 @@ class Dealer extends Base {
 	//用户管理
 	public function one() {
 		$appo_info = Db::table('mariah_user')->select();
+                for($i=0;$i<count($appo_info);$i++){
+                    $appo_info[$i]['username']= json_decode($appo_info[$i]['username']);
+                    
+                }
 		$this->assign('appo_info', $appo_info);
 		return view('one');
 	}
@@ -20,23 +24,74 @@ class Dealer extends Base {
 		$frist = Db::table('mariah_user')->where('parentid1', $_GET['id'])->select();
 		$second = Db::table('mariah_user')->where('parentid2', $_GET['id'])->select();
 		$three = Db::table('mariah_user')->where('parentid3', $_GET['id'])->select();
-		$money = Db::table('mariah_orderlog')->where('uid', $_GET['id'])->field('money')->select();
-		$a = count($money);
-		$sum = 0;
-		for ($i = 0;$i < count($money);$i++) {
-			$sum = $sum + $money[$i]['money'];
-		}
 		$count = count($frist) + count($second) + count($three);
-		$this->assign('sum', $sum);
-		$this->assign('a', $a);
-		$this->assign('count', $count);
-		$this->assign('list', $list);
-		return view('details');
+                  for($i=0;$i<count($list);$i++){
+                    $list[$i]['username']= json_decode($list[$i]['username']);
+                    
+                }
+            $list1=0;
+            $list2=0;
+            $list3=0;
+            $info1=0;
+            $info2=0;
+            $info3=0;
+           $yongjin = Db::table('mariah_commision')->field('commision1,commision2,commision3')->select();
+	  $one = $yongjin[0]['commision1'];
+	  $second = $yongjin[0]['commision2'];
+	  $three = $yongjin[0]['commision3']; 
+            
+        $first=  Db::table('mariah_user')->where('parentid1',$_GET['id'])->field('id')->select();
+        for($i=0;$i<count($first);$i++){
+            
+            $aa=$first[$i]['id'];
+            $ary[]=Db::table('mariah_balance_money')->where('uid',$aa)->field('money')->select();
+            if($ary[$i]){   
+            $list1=$list1+$ary[$i][0]['money'];
+           
+            $info1=$info1+count($ary[$i]);
+            }
+        }
+        
+      
+        $two=  Db::table('mariah_user')->where('parentid2',$_GET['id'])->field('id')->select();
+        for($i=0;$i<count($two);$i++){
+            $bb=$two[$i]['id'];
+           // dump($bb);exit;
+            $bry[]=Db::table('mariah_balance_money')->where('uid',$bb)->field('money')->select();
+            if($bry[$i]){
+          //  dump($bry);exit;    
+            $list2=$list2+$bry[$i][0]['money'];
+             $info2=$info2+count($bry[$i]);
+            }
+        }
+        $third=  Db::table('mariah_user')->where('parentid3',$_GET['id'])->field('id')->select();
+        for($i=0;$i<count($third);$i++){
+            $cc=$third[$i]['id'];
+            $cry[]=Db::table('mariah_balance_money')->where('uid',$cc)->field('money')->select();
+           if($cry[$i]){
+            $list3=$list3+$cry[$i][0]['money'];
+              $info3=$info3+count($cry[$i]);
+           }
+        }
+          $ticheng=$list1 * $one / 100+$list2 * $second / 100+$list3 * $three / 100;
+          $money=$list1+$list2+$list3;  
+
+          $order=$info1+$info2+$info3;  
+          $shuliang=count($first)+count($two)+count($third);
+	  $this->assign('ticheng', $ticheng);
+          $this->assign('money', $money);
+	  $this->assign('order', $order); 
+          $this->assign('shuliang', $shuliang); 
+           $this->assign('list', $list); 
+	   return view('details');
 	}
 	//订单管理
 	public function order() {
-		$list = DB::table("mariah_order")->select();
-		$this->assign('list', $list);
+		$list = DB::table("mariah_balance_money a")->join('mariah_user b on  a','a.uid=b.id','left')->field('a.*,b.username,b.tel')->select();
+                for($i=0;$i<count($list);$i++){
+                    $list[$i]['username']=json_decode($list[$i]['username']);
+                }
+                $this->assign('list', $list);
 		return view('order');
 	}
 	//佣金管理
@@ -48,51 +103,6 @@ class Dealer extends Base {
 		$list = Db::table('mariah_commision')->select();
 		$this->assign('list', $list);
 		return view('commision');
-	}
-	//添加用户
-	public function adduser() {
-		if (request()->isPost()) {
-			$arr = $this->sql_arr_search("mariah_user", $_POST);
-			//判断是否有上级
-			$_POST['parentid']=$this->get_spread_pid($_POST['spread_code']);
-			if (empty($_POST['parentid'])) {
-				$arr['parentid1'] = 0;
-				$arr['parentid2'] = 0;
-				$arr['parentid3'] = 0;
-			} else {
-				//有上级的情况下，parentid1字段加入一级经销商的ID
-				$arr['parentid1'] = $_POST['parentid'];
-				//一级经销商有上级的情况
-				$list = Db::table('mariah_user')->where('id', $arr['parentid1'])->select();
-				if ($list) {
-					foreach ($list as $v) {
-						$father['parentid1'] = $v['parentid1'];
-					}
-					//parentid2字段加入二级经销商的ID
-					$arr['parentid2'] = $father['parentid1'];
-				} else {
-					$arr['parentid2'] = 0;
-				}
-				//二级经销商有上级的情况
-				$info = Db::table('mariah_user')->where('id', $arr['parentid2'])->select();
-				if ($info) {
-					foreach ($info as $v) {
-						$granddd['parentid1'] = $v['parentid1'];
-					}
-					//parentid2字段加入三级经销商的ID
-					$arr['parentid3'] = $granddd['parentid1'];
-				} else {
-					$arr['parentid3'] = 0;
-				}
-			}
-			$info = Db::table("mariah_user")->insert($arr);
-			if ($info) {
-				$this->redirect("index/dealer/one");
-			} else {
-				return "添加失败";
-			}
-		}
-		return view('adduser');
 	}
 
 	function get_spread_pid($code){
@@ -162,6 +172,10 @@ class Dealer extends Base {
 			}
 		}
 		$list = Db::table('mariah_user')->where('id', $_GET['id'])->select();
+                 for($i=0;$i<count($list);$i++){
+                    $list[$i]['username']= json_decode($list[$i]['username']);
+                    
+                }
 		$this->assign('list', $list);
 		return view('edit');
 	}
@@ -174,7 +188,7 @@ class Dealer extends Base {
 	}
 	//订单管理编辑
 	public function orderEdit() {
-		$list = Db::table('mariah_order')->where('id', $_GET['id'])->select();
+		$list = Db::table('mariah_balance_money')->where('id', $_GET['id'])->select();
 		$this->assign('list', $list);
 		return view('orderEdit');
 	}
