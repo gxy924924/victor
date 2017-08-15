@@ -50,6 +50,7 @@ http://106.14.163.159/ppmad/
 
 
 总 2017/7/24 13:53:35
+//keyword服务器
 http://50.93.198.34:8888/index.php          admin           poKdwnqj99
 
 总 2017/7/24 14:33:08
@@ -72,4 +73,14 @@ https://ubersuggest.io/
 李总 2017/7/25 14:00:05
 192.0.19.58             qiyue               a123654
 
+//外链服务器
+http://173.254.197.201:8888/index.php       admin           xVTPBWWn0ZeY
+
 https://member.expireddomains.net/domains/expiredcom/?start=400&o=abirth&r=d
+
+
+https://sso.godaddy.com
+邮箱：gxy924924@gmail.com
+账号:mariah-sorand
+密码:Jishubu123654
+pin:1708

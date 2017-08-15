@@ -33,3 +33,6 @@ mysql> show variables where variable_name like 'character\_set\_%' or variable_n
 Notice: Uninitialized string offset: 0 in D:\phpStudy\WWW\moban2219\base_fun.php on line 65
 
 PATH_INFO
+
+
+1493 ÐÐ
