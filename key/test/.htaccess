@@ -5,7 +5,10 @@ RewriteEngine ON
 #RewriteRule ^(.*?)$ make_url.php?site=$1
 
 
-#RewriteRule test1.php test8.php
-#RewriteRule test8.php test9.php
+RewriteRule (.*?)\.html $1\.php
 
+RewriteRule ^(.*)\+(.*)$  test9.php?aa=$1+$2
+RewriteRule ^(.*?)[\s](.*)$ test9.php?aa=$1+$2
+#RewriteRule ^(.*?)\s(.*)$ test9.php?aa=$1+$2
+RewriteRule sitemap.xml check_site_map.php
 </IfModule>

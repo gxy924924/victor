@@ -34,15 +34,15 @@ $sp=urlencode($sp);
 $a="http://testkey.com/test/test10.php?test=".$sp;
 
 
-$b=curl_get($a);
-$b=urldecode($b);
+// $b=curl_get($a);
+// $b=urldecode($b);
 echo "<pre>";
 // var_dump($_SERVER);
 // var_dump($a);
 // $a=urlencode($a);
 // var_dump($a);
 // $a=urldecode($a);
-
-var_dump($b);
+var_dump($_GET);
+// var_dump($b);
 echo "</pre>";
 ?>
