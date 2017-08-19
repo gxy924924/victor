@@ -11,7 +11,69 @@ use think\paginator;
 // use Think;
 //  extends controller
 //通知和行业知识等等
-class Notification{
+class Notification extends Controller{
+
+    //ajax传递获取城市信息
+    function city_get() {
+        header('content-type:application:json;charset=utf8');  
+        header('Access-Control-Allow-Origin:*');  
+        header('Access-Control-Allow-Methods:POST');  
+        header('Access-Control-Allow-Headers:x-requested-with,content-type');  
+        $id = empty($_GET['id']) ? 0 : $_GET['id'];
+        // return $_POST['id'];
+        $city = Db::table('mariah_city')->where('parentid', $id)->select();
+        if (empty($_GET['id'])) {
+            return $city;
+        } else {
+            return json_encode($city, JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    function activity_guest_info_adder(){
+        $vi=new View();
+        $vi->base_url="http://".$_SERVER['HTTP_HOST'];
+        $vi->addr = Db::table('mariah_city')->where('parentid', 0)->select();
+        $vi->city_get_url=URL_PATH . "api/notification/city_get";
+        return $vi->fetch();
+        // echo "<pre>";
+        // var_dump($_SERVER);
+    }
+
+
+
+    function activity_guest_info_add(){
+        $arr['name']=$_POST['name'];
+        $arr['phone']=$_POST['phone'];
+        $arr['weixin']=$_POST['weixin'];
+        $arr['remark']=$_POST['remark'];
+        if(!empty($_POST['city_provice'])){
+            $prov=explode('-', $_POST['city_provice']);
+            $arr['city_num']=$prov['0'];
+            $arr['position']=$prov['1'];
+        }
+        if(!empty($_POST['city_city'])){
+            $prov=explode('-', $_POST['city_city']);
+            $arr['city_num'].="-".$prov['0'];
+            $arr['position'].="-".$prov['1'];
+        }
+        if(!empty($_POST['city_county'])){
+            $prov=explode('-', $_POST['city_county']);
+            $arr['city_num'].="-".$prov['0'];
+            $arr['position'].="-".$prov['1'];
+        }
+        $res=Db::table('activity_guest_info')->insert($arr);
+        if($res==1){
+            echo "提交成功";
+        }
+
+        $url=$_POST['url'];
+
+        // echo "<pre>";
+        // var_dump($url);
+        // echo "</pre>";
+
+        $this->redirect($url);
+    }
     //显示热门产品
     function show_hot_production(){
         $hot=Db::table('mariah_hot_production')->order('id')->select();
@@ -44,13 +106,30 @@ class Notification{
         
     }
 
+    //添加文章内容
+    function show_app_content(){
+        $vi=new View();
+        $vi->at_title=Db::table('mariah_article_title')->where('id',$_GET['p_id'])->find();
+        $vi->at_content=Db::table('mariah_article_content')->order('add_time')->where('p_id',$_GET['p_id'])->select();
+        return $vi->fetch();
+    }
+
     //显示文章标题
     function show_title(){
         // $_POST['sort_id']=1;
         $sort_id=$_POST['sort_id'];
         $at_title=Db::table('mariah_article_title')->where('sort_id',$sort_id)->select();
+        foreach ($at_title as $key => $val) {
+            $at_title[$key]['at_url']="http://www.sorand.cn/index.php/api/notification/show_app_content.html?p_id=".$val['id'];
+        }
+        if(empty($at_title[0])){
+            $api_info['exist']="false";
+        }else{
+            $api_info['exist']="true";
+        }
+        
 
-        $api_info=$at_title;
+        $api_info['info']=$at_title;
         $this->log_helper(["sort_id"=>$sort_id],$api_info);
         $api_info=json_encode($api_info);
         return $api_info;

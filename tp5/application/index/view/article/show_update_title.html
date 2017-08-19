@@ -47,6 +47,7 @@
 				<div class="panel-body">
 					<form action="{:url('index/article/update_title')}?p_id={$_GET['p_id']}" enctype="multipart/form-data" method="post">
 						文章标题 <input type="text" name="title" value="{$at_title['title']}">	<br/>
+						文章描述 <textarea name="title_describe">{$at_title['title_describe']}</textarea>	<br/>
 						sort:
 						<select name="sort_id">
 							<?php foreach ($sort as $key => $val): ?>

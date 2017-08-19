@@ -77,6 +77,21 @@ class Article extends Base{
         $this->redirect(url('index/article/show_notification'));
     }
 
+    //编辑修改文章分类
+    function show_update_sort(){
+        $vi=new View();
+        $vi->sort=Db::table('mariah_article_sort')->where('id',$_GET['id'])->find();
+        return $vi->fetch();
+        
+    }
+
+    //修改文章分类
+    function update_sort(){
+        // var_dump($_POST);
+        $res=Db::table('mariah_article_sort')->where('id',$_GET['id'])->update($_POST);
+        $this->redirect(url('index/article/show_article'));
+    }
+
     //显示文章
     function show_article(){
         $vi=new View();
@@ -101,7 +116,7 @@ class Article extends Base{
     function add_article(){
  
         $imgp=$this->img_upload();
-        $sql_info=Db::table('mariah_article_title')->insert(['img_url'=>$imgp,'title'=>$_POST['title'],'sort_id'=>$_POST['sort_id']]);
+        $sql_info=Db::table('mariah_article_title')->insert(['img_url'=>$imgp,'title'=>$_POST['title'],'sort_id'=>$_POST['sort_id'],'title_describe'=>$_POST['title_describe']]);
         $this->redirect(url('index/article/show_article'));
     }
 
@@ -198,6 +213,7 @@ class Article extends Base{
         }
         $up_arr['title']=$_POST['title'];
         $up_arr['sort_id']=$_POST['sort_id'];
+        $up_arr['title_describe']=$_POST['title_describe'];
         $res=Db::table('mariah_article_title')->where('id',$_GET['p_id'])->update($up_arr);
         $this->redirect(url('index/article/show_article'));
     }

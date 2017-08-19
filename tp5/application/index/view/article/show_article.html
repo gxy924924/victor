@@ -14,7 +14,7 @@
 	.col-sm-4{
 		margin-bottom: 20px;
 		border:1px solid #ccc;
-		height: 200px;
+		height: 280px;
 	}
 	.search_btn{
 		width: 100px;
@@ -49,7 +49,8 @@
 				<?php foreach ($at_title as $key => $val): ?>
 					<div class="col-sm-4" id="arti">
 					sort_id:{$val['sort_id']}<br/>
-						{$val['title']}
+						{$val['title']}	<br/>
+						{$val['title_describe']}<br/>
 						<?php if (empty($val['img_url'])): ?>
 							<h3>无此图片</h3>
 						<?php else: ?>
@@ -59,7 +60,8 @@
 						<br/>
 						<a href="{:url('index/article/del_artical')}?p_id={$val['id']}" class="btn" onclick="return my_confirm(1);" >删除文章</a>
 						<a href="{:url('index/article/show_update_title')}?p_id={$val['id']}" class="btn">修改标题</a>
-						<a href="{:url('index/article/show_content')}?p_id={$val['id']}" class="btn">文章内容</a>
+						<a href="{:url('index/article/show_content')}?p_id={$val['id']}" class="btn">编辑内容</a>
+						<a href="{:url('api/notification/show_app_content')}?p_id={$val['id']}" class="btn">查看内容</a>
 					</div>
 				<?php endforeach ?>	
 
@@ -71,6 +73,7 @@
 				<div class="panel-body">
 					<form action="{:url('index/article/add_article')}" enctype="multipart/form-data" method="post">
 						文章标题 <input type="text" name="title">	<br/>
+						文章描述 <textarea name="title_describe"></textarea>	<br/>	<br/>
 						sort:
 						<select name="sort_id">
 							<?php foreach ($sort as $key => $val): ?>
@@ -82,7 +85,27 @@
 						<input type="submit" name="提交">
 					</form>
 				</div>
-				
+				<div class="panel-heading">
+					<h4>修改分类名</h4>
+				</div>
+				<div class="panel-body">
+					<table class="table table-bordered table-striped">
+					<tr>
+
+					<th>分类名</th>
+					<th>修改</th>
+					</tr>
+				<?php foreach ($sort as $key => $val): ?>
+					<tr>
+
+						<td>{$val['sort_name']}</td>
+						<td><a href="{:url('index/article/show_update_sort')}?id={$val['id']}">修改</a></td>
+					</tr>
+				<?php endforeach ?>	
+					
+
+					</table>
+				</div>
 			
 			</div>
 

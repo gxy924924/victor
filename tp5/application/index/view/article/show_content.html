@@ -27,6 +27,15 @@
 	pre{
 		width:320px;
 		height:568px;
+		overflow: auto;
+		
+	}
+	pre{
+		white-space:pre-wrap;
+		white-space:-moz-pre-wrap;
+		white-space:-pre-wrap;
+		white-space:-o-pre-wrap;
+		word-wrap:break-word;
 	}
 	h3{
 		margin:0;
@@ -36,7 +45,10 @@
 		height:200px;
 	}
 	.img-size{
-		max-width: 300px;
+		max-width: 280px;
+	}
+	.phone-supposed{
+
 	}
 
 </style>
@@ -59,6 +71,7 @@
 				</div>
 				<div class="panel-body text-left ">
 <pre class="phone-supposed" width=320px >
+<div width=318px>
 <h3>{$at_title['title']}</h3>
 <font class="pull-right">{$at_title['add_time']}</font>
 <?php foreach ($at_content as $key => $val): ?>
@@ -70,7 +83,7 @@
 <a href="{:url('index/article/del_content')}?add_time={$val['add_time']}&p_id={$val['p_id']}" class="pull-right"  onclick="return my_confirm(1);" >删除本段</a>
 <?php endforeach; ?>
 </pre>
-				
+</div>				
 				
 
 				</div>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+	<style>
+		.mar{
+			color: #ccc;
+		}
+		.navbar-header .navbar-brand{
+			font-size: 28px;
+		}
+		.col-md-3{
+			padding-left: 0;
+			padding-right: 5px;
+		}
+		.col-md-9{
+			padding-left: 5px;
+			padding-right: 0;
+		}
+		.row{
+			margin-bottom: 5px;
+			text-align: center;
+		}
+		.font-gray{
+			color: #666;
+		}
+		h4{
+			margin: 5px;
+			font-weight: bold;
+			color: #444;
+		}
+		.posit{
+			/*width:70px;*/
+		}
+		.appo_time{
+			/*width:90px;*/
+		}
+		.reg_time{
+			/*width:90px;*/
+		}
+		.table>tbody>tr>td{
+			padding: 5px;
+		}
+		.table{
+			width: 1500px;
+			margin:0px;
+		}
+		.col-sm-4{
+			margin-bottom: 10px;
+		}
+
+		.search_btn{
+			width:100px;
+			margin-right: 20px;
+		}
+		.page-box{
+			margin-top: 10px;
+
+		}
+		.panel{
+			margin-bottom:0;
+		}
+		.pagination{
+			margin:10px;
+		}
+		tr{
+			height: 31px;
+		}
+		.over-flow{
+			
+			overflow-x: auto;
+			overflow-y: auto;
+		}
+		.height-400{
+			height: 400px;
+		}
+		.font-sm{
+			font-size: 12px;
+		}
+
+	</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+		{include file="public/sorand/left.html"}
+		
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			
+		<div class="panel panel-default text-center">
+			
+			<div class="panel-heading">
+				<h4>活动顾客信息 <a href="{:url('api/notification/activity_guest_info_adder')}" class="font-sm pull-right">添加链接</a></h4>
+			</div>
+			<div class="panel-body over-flow height-400">
+				<table class="table table-bordered table-striped">
+					<tr>
+						<th>id</th>
+						<th>姓名</th>
+						<th>电话</th>
+						<th>微信</th>
+						<th>地址</th>
+						<th>备注</th>
+						<th>删除</th>
+					</tr>
+					<?php foreach ($activity_info as $v) :?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['name']}</td>
+						<td>{$v['phone']}</td>
+						<td>{$v['weixin']}</td>
+						<td>{$v['position']}</td>
+						<td>{$v['remark']}</td>
+						<td>
+							<?php if(!empty($_SESSION['auth_level'])&&$_SESSION['auth_level']==1): ?>
+							<a href='{:url("activity_delete")}?id={$v["id"]}' class="delete" onclick="return my_confirm(1);">删除</a>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
+			</div>
+				
+			<div class="over-flow width-500">
+				{$activity_info->render()}
+			</div>
+			
+		</div>
+			
+
+		</div><!-- col-md-9 -->
+	</div><!-- container	 -->
+
+
+<script>
+
+function my_confirm(num){
+	if(num==1){
+		return confirm("确定删除？");
+	}
+	if(num==2){
+		return confirm("确定到达？");
+	}
+}
+
+</script>
+
+</body>
+</html>
+

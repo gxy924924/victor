@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+		border:1px solid #ccc;
+		height: 280px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	.img-size{
+		max-width: 200px;
+	}
+
+</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+		<div class="col-md-3">
+			{include file="public/sorand/left.html"}
+		</div><!-- col-md-3 -->
+
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					<h4>修改标题</h4>
+				</div>
+				<div class="panel-body">
+					<form action="{:url('index/article/update_sort')}?id={$_GET['id']}"  method="post">
+						标题 <input type="text" name="sort_name" value="{$sort['sort_name']}">
+
+						<input type="submit" value="提交">
+					</form>
+				</div>
+				
+			
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+		function my_confirm(num){
+			if(num==1){
+				return confirm("确定删除？");
+			}
+
+		}
+	</script>
+
+</body>
+</html>
+

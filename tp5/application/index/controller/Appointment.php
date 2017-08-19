@@ -23,9 +23,31 @@ class Appointment extends Base
     //     var_dump($_GET);
     //     echo "</pre>";
     //     echo "<a href='".$url."'>aa</a>";
-        
+    // } 
 
-    // }    
+    function activity_guest_info_show(){
+        $vi=new View();
+        $total_page=10;
+        $vi->activity_info = Db::table('activity_guest_info')->order('time desc')->paginate($total_page);
+        return $vi->fetch();
+    }
+
+    function activity_delete(){
+        $res = Db::table('activity_guest_info')->where('id',$_GET['id'])->delete();
+        $this->redirect('activity_guest_info_show');
+    }
+
+    function show_appo_type(){
+        $view=new View();
+        $view->type=Db::table('mariah_appointment_type')->select();
+        return $view->fetch();
+    }   
+
+    function show_update_appo_type(){
+        $view=new View();
+        $view->type=Db::table('mariah_appointment_type')->where('id',$_GET['id'])->find();
+        return $view->fetch();
+    } 
 
     //新增登记
     function appointment_add(){
@@ -317,6 +339,24 @@ class Appointment extends Base
     }
 
 //功能部分----------------------------------------------------
+    //添加预约类型（如qq）
+    function add_appo_type(){
+
+        $res=Db::table('mariah_appointment_type')->insert($_POST);
+        $this->redirect(url('show_appo_type'));
+    }
+
+    //修改预约类型
+    function update_appo_type(){
+        $res=Db::table('mariah_appointment_type')->where('id',$_GET['id'])->update($_POST);
+        $this->redirect(url('show_appo_type'));
+    }
+
+    //删除预约类型
+    function delete_appo_type(){
+        $res=Db::table('mariah_appointment_type')->where('id',$_GET['id'])->delete();
+        $this->redirect(url('show_appo_type'));
+    }
 
     function after_sale_delete(){
         echo "<pre>";

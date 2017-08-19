@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	#arti{
+		border:1px solid #ccc;
+		background-color: #ccc;
+	}
+	pre{
+		max-width:780px;
+		min-height:568px;
+		font-size: 15px;
+	}
+	pre{
+		white-space:pre-wrap;
+		white-space:-moz-pre-wrap;
+		white-space:-pre-wrap;
+		white-space:-o-pre-wrap;
+		word-wrap:break-word;
+	}
+	h3{
+		margin:0;
+		padding:10px;
+	}
+	textarea{
+		rows:10;
+	}
+	.img-size{
+		width:100% !important;
+		height: auto !important;
+	}
+	body{
+		line-height: 40px;
+		max-width: 800px;
+	}
+	.btn-full{
+		width: 100%;
+		margin-top: 20px;
+	}
+	.red{
+		color: red;
+		font-size: 18px;
+		position: relative;
+		top:5px;
+	}
+
+
+body{min-height:100%;background:#FFF;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+
+
+</style>
+<body>
+	<div class="container">
+		<form action="activity_guest_info_add" method="post" >
+			姓名<font class="red">*</font>	<br/>
+
+			<input type="text" class="form-control" placeholder="请填写姓名" name="name" id="guest_name">
+
+			联系电话<font class="red">*</font><br/>
+			<input type="text" class="form-control" placeholder="请填写联系电话" name="phone" id="phone">
+			微信号<font class="red">*</font><br/>
+			<input type="text" class="form-control" placeholder="请填写微信号" name="weixin" id="weixin">
+			地址<br/>
+			 <select name="city_provice" class="form-control" id="province">
+			  	<option value="">-省/自治区/直辖市-</option>
+			  	<?php foreach ($addr as $v) :?>
+			  		<option value="{$v['id']}-{$v['name']}">{$v['name']}</option>
+			  	<?php endforeach; ?>
+			  </select>
+			  <select name="city_city" class="form-control" id="city">
+			  	<option value="">-市-</option>
+			  </select>
+			  <select name="city_county" class="form-control" id="county">
+			  	<option value="">-区/县-</option>
+			  </select>
+			备注<br/>
+			<textarea  class="form-control" name="remark"  placeholder="请填写备注" rows=4></textarea>
+			
+			<button type="submit" class="btn btn-primary text-center btn-full btn-lg" id='add_new_submit'>提交</button>
+			
+			
+		</form>
+	</div>
+
+
+
+<input type="hidden" value='{$city_get_url}' id="city_get_url">
+<script>
+	$("#province").change(function(){
+		$("#city").empty();
+		$("#city").append("<option value=''>-请选择(市)-</option>");
+		$("#county").empty();
+		$("#county").append("<option value=''>请再选择市</option>");
+		var id=$("#province").val();
+		var url=$("#city_get_url").val();
+		 
+		$.get(url,{"id":id},function(data){
+		
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#city").append(append_val);
+			};
+		},"json");
+	});
+	$("#city").change(function(){
+		$("#county").empty();
+		$("#county").append("<option value=''>-请选择(县)-</option>");
+		var id=$("#city").val();
+		var url=$("#city_get_url").val();
+		$.get(url,{"id":id},function(data){
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#county").append(append_val);
+			};
+		},"json");
+	});
+
+	$("#add_new_submit").click(function(){
+		var arr1=new Array();//表单id信息
+		arr1=['guest_name','phone','weixin'];
+		var arr2=new Array();//表单ID内容
+		arr2=['输入姓名','输入电话',"微信号"];
+		for (var i =  0; i < arr1.length; i++) {
+			id_info="#"+arr1[i];
+				
+			if(!$(id_info).val()){
+
+				alert('请'+arr2[i]);
+
+				return false;
+			}
+		}
+	});
+	</script>
+	
+</body>
+</html>
+

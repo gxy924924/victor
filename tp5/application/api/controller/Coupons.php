@@ -86,7 +86,7 @@ class Coupons{
     function get_coupons(){
         $id=$_POST['id'];
         $res=Db::table('mariah_discount_pool a')->join('mariah_discount_table b on a','a.pid=b.id','left')->field('a.id,a.pid,b.time_start,b.time_stop,b.price_premise,b.discount,b.shop,b.item')->where('a.got_user_id',$id)->select();
-        $api_info[0]="";
+        $api_info="";
         foreach ($res as $key => $val) {
             $arr['id']=$val['id'];
             $arr['pid']=$val['pid'];
@@ -124,14 +124,16 @@ class Coupons{
                 $item_info=Db::table('mariah_production')->field('production')->where('id',$val['item'])->find();
                 $arr['item']=$item_info['production'];
             }
-            $api_info[$key]=$arr;
+            $api_info['info'][$key]=$arr;
+        }
+        if(empty($api_info)){
+            $api_info['exist']="false";
+        }else{
+            $api_info['exist']="true";
         }
         $this->log_helper(['id'=>$id],$api_info);
         $api_info=json_encode($api_info);
-        // return $api_info;
-        // var_dump($res) ;
-        $str="aaa";
-        return $str;
+        return $api_info;
     }
 
     //添加一条券码
