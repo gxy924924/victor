@@ -9,6 +9,10 @@
 
 4.root@ubuntu://etc/phpredis# phpize
 
+没有安装的情况下试了 apt-get install php-dev
+				 						-》因为没有php7-dev
+				 						->root@ubuntu:/usr/bin# 此时这里已经有了phpize
+				 						
 5.root@ubuntu://etc/phpredis# ./configure
 
 6. root@ubuntu://etc/phpredis#make && make install

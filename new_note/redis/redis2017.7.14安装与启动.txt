@@ -9,12 +9,12 @@
 4.make PREFiX=/usr/local/redis install  //之后可以去此目录下查看文件
 
 配置使用：：
-直接.bin//bin/redis-server 这样虽然运行了，但是一按ctrl+c 会退出
+直接.bin/ /bin/redis-server 这样虽然运行了，但是一按ctrl+c 会退出
 1. cp /home/test/redis-3.2.9/redis.conf .    (将此目录下的文件导入当前目录，，注意后面有个 -> . <-)
 
 更改redis.conf 文件中的 daemonize no->yes  //将其改为以守护进程启动
 
-启动 ：----------->
+启动 ：----------->test@ubuntu:/usr/local/redis$
  ./bin/redis-server ./redis.conf 	
 查看进程：
  ps aux|grep redis
