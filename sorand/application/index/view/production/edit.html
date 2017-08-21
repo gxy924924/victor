@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        {include file="public/sorand/title.html"}
+    </head>
+    <body>
+        {include file="public/sorand/header.html"}
+
+        <div class="container">
+            <div class="col-md-3">
+                {include file="public/sorand/left.html"}
+
+            </div><!-- col-md-3 -->
+
+            <div class="col-md-9">
+                <form action=""  method="post"  enctype="multipart/form-data" id="add_new_form">
+                    {volist name='list' id='v'}
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="input-group-addon">项目产品名称：</span>
+                            <input type="text" class="form-control" value="{$v['production']}" name="production">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">所属分类：</span>
+                            <select name="classify"  class="form-control">
+                                <option value="{$v['classify']}">{$v['classify']}</option>
+                                {volist name="lists"  id="k"} 
+                                <option value="{$k['classify']}">{$k['classify']}</option>  
+                                {/volist}
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">价格：</span>
+                            <input type="text" class="form-control"   value="{$v['money']}" name="money">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">优惠价：</span>
+                            <input type="text" class="form-control"  value="{$v['discount']}"  name="discount">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">特价：</span>
+                            <input type="text" class="form-control"   value="{$v['special']}" name="special">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">活动价：</span>
+                            <input type="text" class="form-control"  value="{$v['activePrice']}"  name="activePrice">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">预约金：</span>
+                            <input type="text" class="form-control"   value="{$v['price']}" name="price">
+                        </div>
+                        <div class="input-group"  >
+                            <span class="input-group-addon">项目介绍：</span>
+                            <input style="height:100px" type="text" class="form-control" placeholder="项目介绍"  value="{$v['content']}" name="content">
+                        </div>
+
+
+                        
+                </form>
+                <form action="{:url('index/production/f_img')}?id={$v['id']}"  method="post"  enctype="multipart/form-data" id="add_new_form">
+                    <div class="input-group">  
+                        <span class="input-group-addon">图片：</span>
+                        <input type="file" id="form-field-2" placeholder="图片" class="col-xs-10 col-sm-5" name="img" value="{$v['f_img']}"/> 
+                        <button type="submit"style="margin-left: 57px">保存</button>
+                    </div>
+                </form>
+                <form action="{:url('index/production/imged')}?id={$v['id']}"  method="post"  enctype="multipart/form-data" id="add_new_form">
+                    <div class="input-group">  
+                        <span class="input-group-addon">效果图：</span>
+                        <input type="file" id="form-field-2" multiple='multiple'  class="col-xs-10 col-sm-5" name="image[]" value="{$v['img']}"/> 
+                        <span style=" color: red;">最多4张</span>
+                        <button type="submit">保存</button>
+                    </div> 
+                </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="add_new_submit">保存</button>
+
+                </div>
+            </div>
+            {/volist}   
+        </div>
+    </body>
+</html>
