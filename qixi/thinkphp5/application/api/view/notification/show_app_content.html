@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+</head>
+<style>
+	h2{
+		margin: 30px;
+	}
+	option{
+		height: 50px;
+		overflow-y: true;
+	}
+	.col-sm-4{
+		margin-bottom: 20px;
+	}
+	.search_btn{
+		width: 100px;
+	}
+	.time{
+		width: 110px;
+	}
+	#arti{
+		border:1px solid #ccc;
+		background-color: #ccc;
+	}
+	pre{
+		max-width:780px;
+		min-height:568px;
+		font-size: 15px;
+	}
+	pre{
+		white-space:pre-wrap;
+		white-space:-moz-pre-wrap;
+		white-space:-pre-wrap;
+		white-space:-o-pre-wrap;
+		word-wrap:break-word;
+	}
+	h3{
+		margin:0;
+		padding:10px;
+	}
+	textarea{
+		height:200px;
+	}
+	.img-size{
+		width:100% !important;
+		height: auto !important;
+	}
+
+
+body{min-height:100%;background:#FFF;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+
+
+</style>
+<body>
+	
+
+
+
+<pre class="phone-supposed" width=320px >
+<h3 class="text-center">{$at_title['title']}</h3>
+<font class="pull-right">{$at_title['add_time']}</font>
+<?php foreach ($at_content as $key => $val): ?>
+{$val['content']}<br/>
+<?php if (!empty($val['img_url'])): ?>
+<img src="/public/uploads/{$val['img_url']}" class="img-size">
+<?php endif; ?>
+
+<?php endforeach; ?>
+</pre>
+	
+</body>
+</html>
+

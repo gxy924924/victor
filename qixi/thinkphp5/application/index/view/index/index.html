@@ -1,0 +1,55 @@
+<?php 
+$serv_arr=explode('/', $_SERVER['REQUEST_URI']);
+$add_url="/";
+foreach ($serv_arr as $key => $val) {
+	if(!empty($val)){
+		if($val=="tp5.php"){
+			break;
+		}else{
+			$add_url.=$val."/";
+		}
+	}
+}
+
+ ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+	<title>tp5</title>
+	<meta http-equiv="charset" charset="utf-8">
+	<!-- <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"> -->
+	<link href="<?=$add_url?>thinkphp5/public/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="<?=$add_url?>thinkphp5/public/bootstrap/js/jquery.min.js">	</script>
+	<script src="<?=$add_url?>thinkphp5/public/bootstrap/js/bootstrap.min.js">	</script>
+	<script src="<?=$add_url?>thinkphp5/public/bootstrap/js/holder.js">	</script>
+</head>
+	<style>
+	</style>
+<body>
+	
+
+	<div class="container">
+			
+			<a href="{:url('index/activity/activity_guest_info_show')}">活动客户信息</a>
+
+	</div><!-- container	 -->
+
+
+<script>
+
+function my_confirm(num){
+	if(num==1){
+		return confirm("确定删除？");
+	}
+	if(num==2){
+		return confirm("确定到达？");
+	}
+}
+
+</script>
+
+</body>
+</html>
+
