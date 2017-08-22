@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>  
+RewriteEngine ON  
+
+#模板测试
+#RewriteRule ^(.*?)$ make_url.php?site=$1
+
+
+RewriteRule ^(.*?)\.html$ make_url.php?site=$1
+RewriteRule ^(.*?)\+(.*?)$ make_url.php?keyword=$1+$2
+RewriteRule ^(.*?)\s(.*)$ make_url.php?keyword=$1+$2
+RewriteRule sitemap.xml check_site_map.php
+</IfModule>
