@@ -1,8 +1,0 @@
-2017.7.10
-修改数据库keyword_page 
-写文件image_show2.php帮助获取请求信息的图片
-调试服务器rewrite
-
-http.*?.(jpg| |img)
-http.*?(\.png|\.jpg|\.jpeg)
-

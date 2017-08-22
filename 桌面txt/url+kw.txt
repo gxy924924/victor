@@ -67,8 +67,8 @@ https://www.expireddomains.net/login/
 gxy924924
 
 
-
 https://ubersuggest.io/
+
 2017/7/25 14:00:05
 李总 2017/7/25 14:00:05
 192.0.19.58             qiyue               a123654
@@ -76,7 +76,7 @@ https://ubersuggest.io/
 //外链服务器
 http://173.254.197.201:8888/index.php       admin           xVTPBWWn0ZeY
 
-https://member.expireddomains.net/domains/expiredcom/?start=400&o=abirth&r=d
+
 
 
 https://sso.godaddy.com
