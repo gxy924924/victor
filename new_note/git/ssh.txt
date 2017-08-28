@@ -29,3 +29,8 @@ ssh连接The authenticity of host can't be established
 StrictHostKeyChecking no
 
 UserKnownHostsFile /dev/null
+
+=》github 中ssh免密登陆
+只需将C:\Users\Administrator\.ssh中的字符串复制粘贴到github中的ssh配置中即可
+
+

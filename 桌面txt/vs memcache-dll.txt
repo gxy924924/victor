@@ -1,0 +1,201 @@
+项目里需要PHP支持memcache扩展，首先来介绍一下memcache是啥吧
+
+介绍
+
+memcache是一套分布式的高速缓存系统，由LiveJournal的Brad Fitzpatrick开发，但目前被许多网站使用以提升网站的访问速度，尤其对于一些大型的、需要频繁访问数据库的网站访问速度提升效果十分显著。
+memcache经常和memcached混淆，其实memcache只是一个扩展工具，使得php可以连接到memcached服务器，高速缓存服务由memcached服务器来提供，在Windows下，要使用memcached高速缓存，必须同时安装PHP下的memcache扩展和memcached服务器。
+
+php_memcache.dll编译和安装
+
+添加Windows下PHP的memcache扩展，首先应该了解到的一点是：
+
+Windows下PHP的扩展工具都是*.dll文件，存储在PHP安装目录下的ext文件夹中，想要开启扩展，必须在ext文件夹中有相应的dll文件，并且在php.ini文件里面加入相应的配置，格式举例如下：
+    extension=php_memcache.dll
+由于php_memcache.dll的官方编译出来的版本支持到PHP 5.6就断了，幸运的是，虽然放出的已编译版本停了，但是源码还在更新，并且支持了7.1，所以，之前配置了PHP 7.1.4的博主我就只好操起不熟练的VS 2015命令行进行编译适合自己的php_memcache.dll了。
+
+编译前的下载
+
+想要编译最新的php_memcache.dll，必不可少的当然是它的源码啦，下载地址如下： 
+https://github.com/websupport-sk/pecl-memcache
+
+还需要编译环境，博主之前装的VS 2015这时候就起作用了，没有装VS 2015的朋友可以去官网下一个，反正community版本不需要付费，常用功能一个也没少，下载地址如下：
+
+ed2k://|file|cn_visual_studio_community_2015_with_update_3_x86_x64_dvd_8923246.iso|7633565696|605D19028916D09E1BFA2DABBD266FE9|/
+编译环境有了，还需要有PHP的sdk，不然还是编译不了，下载地址如下： 
+http://windows.php.net/downloads/php-sdk/ 
+下载图中所示的两个文件 
+这里写图片描述
+
+最后一个需要下载的是你所使用的PHP的源码，下载地址如下： 
+http://windows.php.net/downloads/releases/ 
+在这里找到你当前版本对应的src文件，例如我所需要的是php-7.1.4-src.zip
+
+编译前的目录准备
+
+1. 创建一个用于编译的目录，例如 E:\PHPCompile
+
+2. 解压php-sdk-binary-tools-20110915.zip里面的文件到PHPCompile目录下；
+
+3. 编辑 E:\PHPCompile\bin\phpsdk_buildtree.bat，在 GOTO EXIT 前增加代码：
+MD %_%\vc14\x86\deps\bin
+MD %_%\vc14\x86\deps\lib
+MD %_%\vc14\x86\deps\include
+MD %_%\vc14\x64\deps\bin
+MD %_%\vc14\x64\deps\lib
+MD %_%\vc14\x64\deps\include
+
+注：这是因为phpsdk_buildtree.bat比较旧（毕竟2011年的古董），还不支持VC14，因此需要添加代码让其支持 VC14
+
+4. 在开始菜单找到并打开 VS2015 x64 本机工具命令提示符（注：如果要编译32位的，则需进入VS2015 x86 本机工具命令提示符），用cd 命令进入 E:\PHPCompile，执行如下两条命令：
+bin\phpsdk_setvars.bat 
+bin\phpsdk_buildtree.bat phpdev 
+
+5. 执行后，目录下会生成phpdev文件夹；
+
+6. 进入D:\PHPCompile\phpdev\vc14\x64\，把deps-7.1-vc14-x64.7z解压到该目录下，覆盖deps文件夹
+
+7. 把php源代码也解压到x64目录下，将解压后的目录名改为PHP7
+
+8. 在x64目录下创建pecl文件夹，在该文件夹下再建立memcache文件夹，将下载的memcache代码解压到这个目录下，再在x64目录下创建obj文件，用来存放编译后的文件
+编译
+
+ 在刚才的 VS2015 x64 本机工具命令提示符执行以下命令，用于创建php编译配置：
+cd phpdev\vc14\x64\php7 
+buildconf 
+configure --help >..\configure_help.txt 
+configure --disable-all --enable-cli --enable-zlib --enable-hash --enable-session --without-gd --with-bz2 --enable-memcache=shared --enable-object-out-dir=..\obj
+
+如果提示bison.exe不存在，执行如下命令，再重新执行上面的命令：
+
+set path=%path%;E:\php_sdk\compile\bin
+
+cl.exe 在这里
+set path=%path%;E:\Program Files\Microsoft Visual Studio 14.0\VC\bin
+
+注意：如果是win32 需要用32位的编译窗口
+//set path=%path%;E:\Program Files\Microsoft Visual Studio 14.0\Common7\IDE
+
+如果不出意外，此时就可以使用如下命令来进行编译工作了：
+nmake
+
+这里经常会出问题，具体问题需要大家根据错误原因自行百度解决方法，当问题都解决了之后，就可以在E:\PHPCompile\phpdev\vc14\x64\obj\Release_TS\下找到php_memcache.dll了。
+安装
+
+复制php_memcache.dll到PHP\ext下，然后在php.ini里面找到一堆extension，在后面添加如下配置：
+extension=php_memcache.dll
+
+之后可以重启Apache服务器，然后访问http://localhost/phpinfo.php，如果里面已经有memcache扩展信息的话就安装成功了，如果没有信息，那就检查一下是位置没放对或者php.ini没有编辑好还是其他原因。
+memcached服务器的安装
+
+下载 
+下载地址：http://pan.baidu.com/s/1gdKbp8R
+
+安装
+
+1. 解压下载后的文件，把它放到一个目录中，如D:\memcached。
+
+2. 打开cmd，进入memcached解压后存放的目录，运行命令：
+
+       memcached.exe -d install
+
+       如果没有意外的话已经安装成功了。
+
+3. 测试是否安装成功：输入memcached –h
+
+    如果出现如下图所示即为安装成功（版本号可能不同）
+这里写图片描述
+
+4. 启动memcached：在 memcached 的目录下输入 memcached.exe -d start
+测试
+
+1. 此时在任务管理器中应该可以看到memcached.exe这个进程在运行
+2. 在服务中，应该可以看到多了个memcached服务，并且已经启用
+3. 打开cmd，运行命令：
+  telnet 127.0.0.1 11211
+
+  即可连接memcached。输入Version和Status可以查看版本号和状态
+至此，php的memcache扩展工具以及memcached高速缓存服务器已经安装完成，项目可以正常运行了
+
+
+
+
+----------------------memcache windows 安装----------------------
+
+
+ Memcached之——Windows下安装Memcached
+标签： memcachedwindows
+2017-03-11 15:01 5423人阅读 评论(3) 收藏 举报
+ 分类： Memcached（8）  
+版权声明：本文为博主原创文章，未经博主允许不得转载。
+
+目录(?)[+]
+转载请注明出处：http://blog.csdn.net/l1028386804/article/details/61417166
+一、下载并安装memcached服务器端软件
+1、下载服务端memcached软件
+32bit：下载 memcached-win32-1.4.4-14.zip（直接下）里面包含6个文件，将解压后的文件夹随便放在什么位置（例如：D:\memcached）。
+memcached-win32-1.4.4-14.zip下载页面：http://blog.couchbase.com/memcached-144-windows-32-bit-binary-now-available  
+ 
+64bit：如果需要win64版，下载 memcached-win64-1.4.4-14.zip（直接下），里面有个三个文件，用这三个文件覆盖win32下同名文件。
+memcached-win64-1.4.4-14.zip下载页面：http://blog.couchbase.com/memcached-windows-64-bit-pre-release-available   
+
+
+
+2、以管理员身份运行 cmd.exe，并转至memcached所在文件夹
+比如：
+cd D:\memcached
+注意：如果不以管理员身份运行，将得到报错“failed to install service or service already installed”
+
+3、安装memcached
+d:\memcached memcached.exe -d install
+（之后屏幕无任何提示，可以再[控制面板]->[管理工具]->[服务]中查看到memcached）   
+
+4、启动memcached
+（1）启动方法1：
+
+d:\memcached> memcached.exe -d start
+之后屏幕无任何提示，但是在“任务管理器”中勾选“显示所有用户进程”，此时可以看到memcached.exe进程正在运行
+默认端口11211，外部访问需要开放该端口，否则无法成功连接。
+（2）启动方法2：
+
+[控制面板]->[管理工具]->[服务] 找到 memcached 服务，双击它打开如下图
+
+
+启动类型：选择【自动】
+服务状态：点击下面的【启动】
+备注：可执行文件的路径和我上面所说的路径有些区别可以忽略 
+
+5、memcached基本参数设置
+-p 监听的端口
+-l 连接的IP地址, 默认是本机
+-d start 启动memcached服务
+-d restart 重起memcached服务
+-d stop|shutdown 关闭正在运行的memcached服务
+-d install 安装memcached服务
+-d uninstall 卸载memcached服务
+-u 以的身份运行 (仅在以root运行的时候有效)
+-m 最大内存使用，单位MB。默认64MB
+-M 内存耗尽时返回错误，而不是删除项
+-c 最大同时连接数，默认是1024
+-f 块大小增长因子，默认是1.25
+-n 最小分配空间，key+value+flags默认是48
+-h 显示帮助
+设置参数时需要先停止memcached，然后用命令行设置，比如：
+D:\memcached> memcached.exe -m 1 -d start
+6、停止memcached
+D:\memcached> memcached.exe -d stop
+7、卸载memcached
+D:\memcached> memcached.exe -d uninstall
+
+8、修改参数
+windows下需要通过修改注册表信息进行设置，打开注册表，找 
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\memcached 
+在其中有一个“ImagePath”项，值为： 
+"D:\memcached\memcached.exe" -d runservice 
+在后面加上“-m 1024 -c 2048 -p 11210”。等即可。重启服务后生效
+
+
+
+二、温馨提示
+大家可到链接http://download.csdn.net/detail/l1028386804/9777810下载Memcached安装包
+
+
