@@ -16,7 +16,7 @@ class Production extends Base {
 
     //上传图片
     public function img() {
-        $file = request()->file('image');
+        $file = request()->file();
         import('upload.UploadFile', EXTEND_PATH);
         $upload = new \UploadFile(); // 实例化上传类
         $upload->maxSize = 3145728; // 设置附件上传大小
@@ -31,6 +31,17 @@ class Production extends Base {
             $this->aliyun($info);
             return $info;
         }
+    }
+
+    function f_img() {
+        // $f_img= "a";
+            $d = $this->img();
+            
+            $f_img['img_url']= 'upload' . '/' . $d[0]['savename'];
+
+            $f_img=json_encode($f_img);
+            return $f_img;
+            // var_dump($f_img);exit;
     }
 
     public function aliyun($info) {
@@ -75,6 +86,7 @@ class Production extends Base {
         if (request()->isPost()) {
 
             $d = $this->img();
+           
             $arr['f_img'] = 'upload' . '/' . $d[0]['savename'];
             if (count($d) == 2) {
                 $arr['img'] = 'upload' . '/' . $d[1]['savename'];
@@ -137,16 +149,7 @@ class Production extends Base {
         return view('edit');
     }
 
-    function f_img() {
-        if (request()->isPost()) {
-            $d = $this->img();
-            $arr['f_img'] = 'upload' . '/' . $d[0]['savename'];
-            $info = Db::table("mariah_production")->where('id', $_GET['id'])->update($arr);
-            if ($info) {
-                $this->redirect("index/production/index");
-            }
-        }
-    }
+
 
     function imged() {
         if (request()->isPost()) {
@@ -189,8 +192,18 @@ class Production extends Base {
     function update_classify() {
         var_dump($_GET);
         var_dump($_POST);
+        $classify =Db::table('mariah_classify')->where('id',$_GET['id'])->find();
         $res = Db::table('mariah_classify')->where('id', $_GET['id'])->update($_POST);
+        //更改产品的分类名
+        $this->production_replace($classify['classify'],$_POST['classify']);
         $this->redirect(url('classify'));
+    }
+
+    //替换掉产品类名
+    function production_replace($old_name,$new_name){
+        $info=Db::table('mariah_production')->where('classify',$old_name)->update(['classify'=>$new_name]);
+        // var_dump($info);
+        return $info;
     }
 
     function add_classify() {

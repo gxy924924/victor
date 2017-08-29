@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{include file="public/sorand/title.html"}
+
+	<!-- date专用 -->
+	<link rel="stylesheet" href="/public/date/lib/themes/default.css" id="theme_base">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.date.css" id="theme_date">
+	<link rel="stylesheet" href="/public/date/lib/themes/default.time.css" id="theme_time">
+	<!-- date专用 -->
+
+</head>
+	<style>
+		.mar{
+			color: #ccc;
+		}
+		.navbar-header .navbar-brand{
+			font-size: 28px;
+		}
+		.col-md-3{
+			padding-left: 0;
+			padding-right: 5px;
+		}
+		.col-md-9{
+			padding-left: 5px;
+			padding-right: 0;
+		}
+		.row{
+			margin-bottom: 5px;
+			text-align: center;
+		}
+		.font-gray{
+			color: #666;
+		}
+		h4{
+			margin: 5px;
+			font-weight: bold;
+			color: #444;
+		}
+		.posit{
+			/*width:70px;*/
+		}
+		.appo_time{
+			/*width:90px;*/
+		}
+		.reg_time{
+			/*width:90px;*/
+		}
+		.table>tbody>tr>td{
+			padding: 5px;
+		}
+		.table{
+			width: 100%;
+			margin:0px;
+		}
+		.col-sm-4{
+			margin-bottom: 10px;
+		}
+
+		.search_btn{
+			width:100px;
+			margin-right: 20px;
+		}
+		.page-box{
+			margin-top: 10px;
+
+		}
+		.panel{
+			margin-bottom:0;
+		}
+		.pagination{
+			margin:10px;
+		}
+		tr{
+			height: 55px;
+		}
+		h3{
+			margin-top: 0px;
+		}
+		
+
+	</style>
+<body>
+	
+	{include file="public/sorand/header.html"}
+
+	<div class="container">
+			
+		<div class="panel panel-default text-center">
+			<div class="panel-heading">
+			<?php 
+				$begin_date=explode(' ', $_GET['begin_date']);
+				$ymd=explode('-', $begin_date[0]);
+				$year=$ymd[0];
+				$timestamp=strtotime($_GET['end_date'])-1;
+				$date=date("Y-m-d H:i:s",$timestamp);
+				$end_date=explode(' ', $date); 
+				// var_dump($year);
+			?>
+				<h4>{$begin_date[0]}~{$end_date[0]} 定金详情</h4>
+			</div>
+			<div class="panel-body">
+			<div class="text-center"><h3>{$shop['shopname']}({$_GET['money']}元)</h3></div>
+				<table class="table table-bordered table-striped">
+					<tr>
+						<th>id</th>
+						<th>客户姓名</th>
+						<th class="">售后消费</th>
+						<th class="">售后时间</th>
+						<th class="">详细信息</th>
+					</tr>
+					<?php foreach ($info as $v) :?>
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['name']}</td>
+						<td>{$v['after_price']}</td>
+						<td>{$v['add_af_time']}</td>
+						<td><a href="{:url('index/appointment/show_detail')}?ap_id={$v['id']}">查看</a></td>
+
+					</tr>
+					<?php endforeach; ?>
+				</table>
+			</div>
+			
+		</div>
+	</div><!-- container	 -->
+
+
+
+
+
+<input type="hidden" value='<?php if(!empty($_POST['add_time_start'])){ echo $_POST['add_time_start'];} ?>' id="add_time_start_hid">
+<input type="hidden" value='<?php if(!empty($_POST['add_time_stop'])){ echo $_POST['add_time_stop'];} ?>' id="add_time_stop_hid">
+<script>
+
+	//添加开始时间
+	add_start_time=$('#add_time_start_hid').val();
+	$('#add_time_start').val(add_start_time);
+	add_time_stop=$('#add_time_stop_hid').val();
+	$('#add_time_stop').val(add_time_stop);
+	$('#appointment_time_start').val($('#appointment_time_start_hid').val());
+	$('#appointment_time_stop').val($('#appointment_time_stop_hid').val());
+
+
+	$('#collapseSearch').collapse('hode');
+
+	$('.panel-title').click(function(){
+		val=$(this).attr('href');
+		// alert(val);
+		$('.collapse').collapse('hide');
+		$('#accordionControl').collapse('hide');
+		$(val).collapse();
+	});
+		// $('.collapse').collapse('toggle');
+
+
+
+	$("#province").change(function changeCity(){
+		$("#city").empty();
+		$("#city").append("<option value=''>-请选择(市)-</option>");
+		
+		var id=$("#province").val();
+		var url=$("#city_get_url").val();
+		// alert(url);
+		$.get(url,{"id":id},function(data){
+			// alert(data);
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#city").append(append_val);
+			};
+		},"json");
+	});
+
+	$("#city").change(function(){
+		$("#county").empty();
+		$("#county").append("<option value=''>-请选择(县)-</option>");
+		var id=$("#city").val();
+
+		var url=$("#city_get_url").val();
+		$.get(url,{"id":id},function(data){
+			// alert(data);
+			var obj = eval('(' + data + ')');
+			for (var i = 0; i < obj.length; i++) {
+				var append_val="<option value="+obj[i]['id']+'-'+obj[i]['name']+">"+obj[i]['name']+"</option>";
+				$("#county").append(append_val);
+			};
+		},"json");
+	});
+
+
+	// $(".delete").click(function(){
+	// 	return confirm("确认删除");
+	// });
+
+function my_confirm(num){
+	if(num==1){
+		return confirm("确定删除？");
+	}
+	if(num==2){
+		return confirm("确定到达？");
+	}
+}
+
+</script>
+
+	<!-- date专用 -->
+	<script src="/public/date/lib/picker.js"></script>
+    <script src="/public/date/lib/picker.date.js"></script>
+    <script src="/public/date/lib/picker.time.js"></script>
+    <script src="/public/date/demo/scripts/main.js"></script>
+	<!-- date专用 -->
+
+</body>
+</html>
+

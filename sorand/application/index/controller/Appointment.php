@@ -4,6 +4,10 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\View;
+use think\loader;
+use PHPExcel;
+use PHPExcel_IOFactory;
+
 
 // use Think;
 //  extends controller
@@ -25,6 +29,7 @@ class Appointment extends Base
     //     echo "<a href='".$url."'>aa</a>";
     // } 
 
+    //七夕活动联系我们接口（废弃）
     function activity_guest_info_show(){
         $vi=new View();
         $total_page=10;
@@ -32,17 +37,271 @@ class Appointment extends Base
         return $vi->fetch();
     }
 
+    //同上（废弃）
     function activity_delete(){
         $res = Db::table('activity_guest_info')->where('id',$_GET['id'])->delete();
         $this->redirect('activity_guest_info_show');
     }
 
+    //获取当前月份从月初到月末的时间戳
+    function time_helper($date=""){
+        if(empty($date)) $date=date('Y-m');
+        $date=explode('-',$date);
+        $year=$date[0];
+        $month=$date[1];
+        if($month=="all"){
+            $month=1;
+            $flag=1;
+        }
+        $time['begin_date']="{$year}-{$month}-1 00:00:00";
+        $time['begin_time']=strtotime($time['begin_date']);
+        if($month==12){
+            $year++;
+        }else{
+            if(empty($flag)){
+               $month++;
+           }else{
+               $year++; 
+           } 
+        }
+        $time['end_date']="{$year}-{$month}-1 00:00:00";
+        $time['end_time']=strtotime($time['end_date']);
+        return $time;
+    }
+
+    //输出结果为Excel
+    function excel_output($name,$data,$title){
+        // 数据信息
+        $kw=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+        // $data[0]=['uid'=>'aa','email'=>'bb','password'=>'cc'];
+        Loader::import('PHPExcel',EXTEND_PATH.'/Excel');
+        // require_once ""
+        error_reporting(E_ALL);
+        $excel = new PHPExcel();
+        $excel  ->getProperties()->setCreator("mariah-sorand")
+                ->setLastModifiedBy("mariah-sorand")
+                ->setTitle("数据EXCEL导出")
+                ->setSubject("数据EXCEL导出")
+                ->setDescription("备份数据")
+                ->setKeywords("excel")
+                ->setCategory("result file");
+
+            $obj=$excel->setActiveSheetIndex(0);
+            $i=0;
+            foreach ($title as $key => $val) {
+                $obj->setCellValue($kw[$i].'1', $val);
+                $i++;
+                $title_key[]=$key;
+            }
+                
+            foreach($data as $k => $v){
+            $i=0;
+            $num=$k+2;
+                foreach ($title_key as $key => $val) {
+                    $obj->setCellValue($kw[$i].$num, $v[$val]);
+                    $i++;
+                }    
+            $i=0;
+            }
+             $excel->getActiveSheet()->setTitle('User');
+            $excel->setActiveSheetIndex(0);
+             header('Content-Type: application/vnd.ms-excel');
+             header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+             header('Cache-Control: max-age=0');
+            Loader::import('PHPExcel_IOFactory',EXTEND_PATH.'/Excel/PHPExcel');
+             $excel = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+             $excel->save('php://output');
+             // exit;
+    }
+
+
+
+    //商店收入   ["begin_date"]   ["begin_time"]   ["end_date"]   ["end_time"]
+    function shop_income_show(){
+        //当时间未设定时取当年当月
+        $ymd=explode('-', date('Y-m'));
+        if(empty($_GET['Y'])){
+            $_GET['Y']=$ymd[0];
+            $_GET['m']=$ymd[1];
+        }
+
+        $shop=Db::table("mariah_shopstore")->select();
+        $date="{$_GET['Y']}-{$_GET['m']}";
+        
+        $time=$this->time_helper($date);
+        // var_dump($time);
+        if(!empty($_GET['get_new'])){
+            $this->shop_income_helper($shop,$time);
+            $this->redirect(url('')."?Y={$_GET['Y']}&m={$_GET['m']}");
+        }
+
+        if(!empty($_GET['add_time_start'])||!empty($_GET['add_time_stop'])){
+            $flag_det=1;
+            if(!empty($_GET['add_time_start'])){
+                $time["begin_date"]=$_GET['add_time_start'];
+            }else{
+                $time["begin_date"]="2017-01-01 00:00:00";
+            }
+
+            if(!empty($_GET['add_time_stop'])){
+                $time["end_date"]=$_GET['add_time_stop']." 23:59:59";
+            }else{
+                $time["end_date"]=date('Y-m-d 23:59:59');
+            }
+            // 说明这里使用了post的时间但是原本的时间戳还是按get走，如果要使用则要将post的时间转换赋给$time
+            $this->shop_income_helper($shop,$time);
+        }
+
+        $vi=new View();
+        $vi->time=$time;
+        $obj=Db::table('mariah_shop_income a')->join('mariah_shopstore b on a','a.id=b.id','left')->field('a.*,b.shopname')->where('time_begin',$time['begin_date'])->where('time_end',$time['end_date']);
+        if(!empty($_GET['order'])){
+            $obj=$obj->order($_GET['order']);
+        }
+
+        $vi->income=$obj->select();
+
+        if(empty($vi->income)){
+            $this->redirect(url('')."?Y={$_GET['Y']}&m={$_GET['m']}&get_new=new");
+        }
+        if(!empty($_GET['excel_get'])){
+            $this->excel_output_helper($vi->income,$time);
+        }
+        return $vi->fetch();
+    }
+
+    function excel_output_helper($arr,$time){
+        $date_begin=explode(" ", $time['begin_date']);
+        $date_end=explode(" ", $time['end_date']);
+        $file_name=$date_begin[0]."~".$date_end[0]."各店销售情况";
+            
+        $title=['id'=>'店铺id','shopname'=>'店铺名称','guest_num'=>'预约人数','bargin_income'=>'定金总额','guest_pay'=>'顾客支付','after_sale_income'=>'售后总额','total'=>'总额','ave'=>"平均值(总额/预约人数)",'time'=>'更新时间'];
+        $arr_adder=['guest_num'=>0,'bargin_income'=>0,'guest_pay'=>0,'after_sale_income'=>0,'total'=>0];
+        foreach ($arr as $key => $val) {
+            $arr_adder['guest_num']+=$val['guest_num'];
+            $arr_adder['bargin_income']+=$val['bargin_income'];
+            $arr_adder['guest_pay']+=$val['guest_pay'];
+            $arr_adder['after_sale_income']+=$val['after_sale_income'];
+            $arr_adder['total']+=$val['total'];
+            if(empty($val['guest_num'])){
+                $ave=0;
+            }else{
+                $ave=$val['total']/$val['guest_num'];
+            }
+            $arr[$key]['ave']=round($ave,2);
+        }
+        $arr[$key+1]=['id'=>'','shopname'=>'所有店总额','guest_num'=>$arr_adder['guest_num'],'bargin_income'=>$arr_adder['bargin_income'],'guest_pay'=>$arr_adder['guest_pay'],'after_sale_income'=>$arr_adder['after_sale_income'],'total'=>$arr_adder['total'],'ave'=>"",'time'=>''];
+        $this->excel_output($file_name,$arr,$title);
+        // echo "<pre>";
+        // var_dump($arr);
+        // var_dump($file_name);
+        // echo "</pre>";
+        // exit;
+    }
+
+    //商店收入刷新工具
+    function shop_income_helper($shop,$time){
+        foreach ($shop as $key => $val) {
+            $arr_income['id']=$val['id'];
+            //获取用户支付额
+            $arrive=$this->guest_pay($time,$val['id']);
+            $arr_income['guest_pay']=$this->total_add($arrive,"ture_cost");
+            // 定金
+            $bargin=$this->bargin_income($time,$val['id']);
+            $arr_income['bargin_income']=$this->total_add($bargin,"bargain_money");
+            //售后金额
+            $after_sale=$this->after_sale_income($time,$val['id']);
+            $arr_income['after_sale_income']=$this->total_add($after_sale,"after_price");
+            $arr_income['time_begin']=$time['begin_date'];
+            $arr_income['time_end']=$time['end_date'];
+            $arr_income['time']=date('Y-m-d H:i:s');
+            $arr_income['total']=$arr_income['bargin_income']+$arr_income['guest_pay']+$arr_income['after_sale_income'];
+            $arr_income['guest_num']=$this->shop_guest_num($time,$val['id']);
+            $res=$this->shop_income_sql($arr_income);
+        }
+    }
+
+    //统计相加结果
+    function total_add($arr,$keyword){
+        $total=0;
+        foreach ($arr as $key => $val) {
+            $total+=$arr[$key][$keyword];
+        }
+        return $total;
+    }
+
+    function shop_guest_num($time,$id){
+        $obj=Db::table("mariah_appointment_info");
+        $obj=$obj->where('add_time','between time',[$time['begin_date'],$time['end_date']])->where('shop_id',$id);
+        return  $num=$obj->count();
+    }
+
+    //自动根据数据是否存在判断是进行insert还是update
+    function shop_income_sql($arr){
+        $res=Db::table('mariah_shop_income')->where('time_begin',$arr['time_begin'])->where('time_end',$arr['time_end'])->where('id',$arr['id'])->find();
+        if(empty($res['id'])){
+            $res=Db::table('mariah_shop_income')->insert($arr);
+        }else{
+            $res=Db::table('mariah_shop_income')->where('time_begin',$arr['time_begin'])->where('time_end',$arr['time_end'])->where('id',$arr['id'])->update($arr);
+        }
+        return $res;
+    }
+
+    function bargin_income_show(){
+        $vi=new View();
+        $vi->info=$this->bargin_income(['begin_date'=>$_GET['begin_date'],'end_date'=>$_GET['end_date']],$_GET['id']);
+        $vi->shop=Db::table('mariah_shopstore')->where('id',$_GET['id'])->find();
+        return $vi->fetch();
+    }
+
+    //定金查询
+    function bargin_income($time,$id){
+        $obj=Db::table("mariah_appointment_info");
+        $obj=$obj->where('add_time','between time',[$time['begin_date'],$time['end_date']])->where('appointment_go',0)->where('shop_id',$id);
+        $obj=$obj->field("id,name,bargain_money,shop_id,add_time");
+        return $arrive=$obj->select();
+    }
+
+    function guest_pay_show(){
+        $vi=new View();
+        $vi->info=$this->guest_pay(['begin_date'=>$_GET['begin_date'],'end_date'=>$_GET['end_date']],$_GET['id']);
+        $vi->shop=Db::table('mariah_shopstore')->where('id',$_GET['id'])->find();
+        // var_dump($vi->info);
+        return $vi->fetch();
+    }
+
+    //顾客支付金额查询
+    function guest_pay($time,$id){
+        $obj=Db::table("mariah_guest_detail a")->join('mariah_appointment_info b on a','a.appo_id=b.id','left')->join('mariah_guest_arrive c','a.appo_id=c.appo_id','left');
+        $obj=$obj->where('arrive_time','between time',[$time['begin_date'],$time['end_date']])->where('appointment_go',1)->where('shop_id',$id)->where('ture_cost','>',0);
+        $obj=$obj->field("b.id,b.name,a.ture_cost,b.shop_id,arrive_time");
+        return $arrive=$obj->select();
+    }
+
+    function after_sale_income_show(){
+        $vi=new View();
+        $vi->info=$this->after_sale_income(['begin_date'=>$_GET['begin_date'],'end_date'=>$_GET['end_date']],$_GET['id']);
+        $vi->shop=Db::table('mariah_shopstore')->where('id',$_GET['id'])->find();
+        // var_dump($vi->info);
+        return $vi->fetch();
+    }
+
+    //售后金额查询
+    function after_sale_income($time,$id){
+        $obj=Db::table("mariah_appointment_aftersale a")->join('mariah_appointment_info b on a','a.pid=b.id','left');
+        $obj=$obj->where('add_af_time','between time',[$time['begin_date'],$time['end_date']])->where('after_price','>',0)->where('shop_id',$id);
+        $obj=$obj->field("b.id,name,after_price,shop_id,add_af_time");
+        return $arrive=$obj->select();
+    }
+
+    // 管理预约方式（qq 微信。。。）
     function show_appo_type(){
         $view=new View();
         $view->type=Db::table('mariah_appointment_type')->select();
         return $view->fetch();
     }   
 
+    // 更新预约方式界面
     function show_update_appo_type(){
         $view=new View();
         $view->type=Db::table('mariah_appointment_type')->where('id',$_GET['id'])->find();
@@ -308,6 +567,7 @@ class Appointment extends Base
 
     //到达信息
     function show_arrive(){
+        $total_page=10;
         $vi=new View();
         //查看权限
         $info_access=$this->info_access(['appo_info']);
@@ -315,7 +575,7 @@ class Appointment extends Base
 
         $obj=Db::table('mariah_guest_arrive a')->join('mariah_appointment_info b on a','a.appo_id=b.id')->join('mariah_admin_detail c on a','c.id=a.confirm_user_id','left')->field('a.*,b.adder_user_id,c.username');
         $obj=$this->check_appo_info($show_all,$obj);
-        $vi->arrive=$obj->select();
+        $vi->arrive=$obj->order('arrive_time desc')->paginate($total_page);
         return $vi->fetch();
     }
 
@@ -491,6 +751,20 @@ class Appointment extends Base
 
     }
 
+    //更改数据库结构后，更新数据工具
+    function update_helper(){
+        $shop=Db::table("mariah_shopstore")->select();
+        
+        foreach ($shop as $key => $val) {
+            $res=Db::table('mariah_appointment_info')->where('shop',$val['shopname'])->update(['shop_id'=>$val['id']]);
+            echo "<pre>";
+            var_dump($val['id']);
+            var_dump($res);
+            var_dump($val['shopname']);
+            echo "</pre>";
+        }
+    }
+
     //添加顾客预约信息
     function add_new(){
 
@@ -511,6 +785,7 @@ class Appointment extends Base
         $arr['item']=$_POST['item1']."-".$_POST['item2'];
         $arr_exp2=explode("+",$_POST['shop_info']);
         $id=$arr_exp2[0];
+        $arr['shop_id']=$id;
         $arr['shop']=$arr_exp2[1];
         $position=Db::table("mariah_shopstore")->where("id",$id)->find();
 

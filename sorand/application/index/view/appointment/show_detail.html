@@ -158,6 +158,12 @@
 				<tr>
 					<th class="adder">补充信息</th><td>{$info[0]['adder_info']}</td>
 				</tr>
+			<?php if (!empty($detail[0]['arrive_remark'])): ?>
+				<tr>
+					<th class="adder">到店补充信息</th><td>{$detail[0]['arrive_remark']}</td>
+				</tr>
+			<?php endif ?>
+				
 			</table>	
 		
 		</div><!-- panel -->

@@ -6,80 +6,130 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	{include file="public/sorand/title.html"}
-</head>
+    <head>
+        {include file="public/sorand/title.html"}
+    </head>
     <body>
        	{include file="public/sorand/header.html"}
 
-	<div class="container">
-		<div class="col-md-3">
-		{include file="public/sorand/left.html"}
-		
-		</div><!-- col-md-3 -->
+        <div class="container">
+            <div class="col-md-3">
+                {include file="public/sorand/left.html"}
 
-		<div class="col-md-9">
-        <form action=""  method="post"  enctype="multipart/form-data" id="add_new_form">
-      	<div class="modal-body">
-    		<div class="input-group">
-			  <span class="input-group-addon">项目产品名称：</span>
-			  <input type="text" class="form-control" placeholder="请填写产品名称" value="" name="production">
-			</div>
-            <div class="input-group">
-               <span class="input-group-addon">所属分类：</span>
-                          <select name="classify"  class="form-control">
-                          <option value="">请选择</option>  
-                              {volist name="list"  id="v"} 
-                        <option value="{$v['classify']}">{$v['classify']}</option>  
-                 {/volist}
-                          </select>
-               </div>
-		<div class="input-group">
-		       <span class="input-group-addon">价格：</span>
-		       <input type="text" class="form-control" placeholder="请填写价格"  value="" name="money">
-		</div>
-		<div class="input-group">
-		       <span class="input-group-addon">优惠价：</span>
-		       <input type="text" class="form-control" placeholder="请填写优惠" value=""  name="discount">
-		</div>
-                <div class="input-group">
-		       <span class="input-group-addon">特价：</span>
-		       <input type="text" class="form-control" placeholder="请填写特价"  value="" name="special">
-		</div>
-              <div class="input-group">
-		       <span class="input-group-addon">活动价：</span>
-		       <input type="text" class="form-control" placeholder="请填写活动价"  value="" name="activePrice">
-		</div>
-              <div class="input-group">
-		       <span class="input-group-addon">预约金：</span>
-		       <input type="text" class="form-control" placeholder="请填写预约金"  value="" name="price">
-		</div>
-              <div class="input-group"  >
-		       <span class="input-group-addon">项目介绍：</span>
-		       <input style="height:100px" type="text" class="form-control" placeholder="项目介绍"  value="" name="content">
-		</div>
-            <div class="input-group">  
-                 <span class="input-group-addon">图片：</span>
-                 <input type="file" id="form-field-2"  placeholder="图片" class="col-xs-10 col-sm-5" name="img" value=""/>
-                 
-      	</div>
+            </div><!-- col-md-3 -->
+
+            <div class="col-md-9">
+                <form action=""  method="post"  enctype="multipart/form-data" id="add_new_form">
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="input-group-addon">项目产品名称：</span>
+                            <input type="text" class="form-control" placeholder="请填写产品名称" value="" name="production">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">所属分类：</span>
+                            <select name="classify"  class="form-control">
+                                <option value="">请选择</option>  
+                                {volist name="list"  id="v"} 
+                                <option value="{$v['classify']}">{$v['classify']}</option>  
+                                {/volist}
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">价格：</span>
+                            <input type="text" class="form-control" placeholder="请填写价格"  value="" name="money">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">优惠价：</span>
+                            <input type="text" class="form-control" placeholder="请填写优惠" value=""  name="discount">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">特价：</span>
+                            <input type="text" class="form-control" placeholder="请填写特价"  value="" name="special">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">活动价：</span>
+                            <input type="text" class="form-control" placeholder="请填写活动价"  value="" name="activePrice">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">预约金：</span>
+                            <input type="text" class="form-control" placeholder="请填写预约金"  value="" name="price">
+                        </div>
+                        <div class="input-group"  >
+                            <span class="input-group-addon">项目介绍：</span>
+                            <input style="height:100px" type="text" class="form-control" placeholder="项目介绍"  value="" name="content">
+                        </div>
+                        <div class="input-group">
+
+                            <input style="height:100px" type="hidden" id="inputimg"   value="" name="inputimg">
+                        </div>
+                        <div class="input-group">
+
+                            <input style="height:100px" type="hidden" id="xiangqing"   value="" name="xiangqing">
+                        </div>
+                        <div class="input-group">
+
+                            <input style="height:100px" type="hidden" id="xiaoguo"   value="" name="xiaoguo">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="add_new_submit">保存</button>
+
+                        </div>
+                          </div>
+                </form>    
+
+
+                <div class="input-group">  
+                    <span class="input-group-addon">图片：</span>
+                    <input type="file" id="img" placeholder="图片" class="col-xs-10 col-sm-5" name="img" value=""/> 
+                    <button type="button" style="margin-left: 57px" onclick="submit()">保存</button>
+                </div>
+
+
+                <div class="input-group">  
+                    <span class="input-group-addon">效果图：</span>
+                    <input type="file" id="image" multiple='multiple'  class="col-xs-10 col-sm-5" name="image[]" value=""/> 
+                    <span style=" color: red;">最多4张</span>
+                    <button type="submit"  onclick="submitimg()"  >保存</button>
+                </div> 
+
           
-              <div class="input-group">  
-                 <span class="input-group-addon">效果图：</span>
-                 <input type="file" id="form-field-2" multiple='multiple'  class="col-xs-10 col-sm-5" name="image[]" value=""/> 
-                 <span style=" color: red; margin: -106px;">最多4张</span>
-      	</div>
-       <div class="modal-footer">
-      	<button type="submit" class="btn btn-primary" id="add_new_submit">保存</button>
-       
-      </div>
-    </form>
-          </div>
-          </div>           
-          <script>
-            $("#add_new_submit").click(function(){ 
-               return  confirm('添加成功');
-               }) 
+        </div>           
+        <script>
+            $("#add_new_submit").click(function () {
+                return  confirm('添加成功');
+            });
+
+            function test(){
+                var fileObj = document.getElementById("img").files[0]; // 获取文件对象
+                alert(fileObj);
+            }
+            // alert('asdf');
+
+            function   submit() {
+                var formData = new FormData();
+                var fileObj = document.getElementById("img").files[0];
+                var id=$('#img').val();
+                formData.append('file', fileObj);
+                formData.append('img', id);
+                
+                $.ajax({
+                    type: 'post',
+                    url: 'f_img',
+                    dataType: 'json',
+                    data:formData ,
+                    processData : false, 
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType : false,
+                    success: function (data) {
+                        obj=eval("("+data+")")
+                        alert(obj['img_url']);
+                       // $('#inputimg').val(data);
+                    },
+                    error: function (data) {
+                        alert('0');
+                    }
+                });
+            }
         </script> 
     </body>
 </html>

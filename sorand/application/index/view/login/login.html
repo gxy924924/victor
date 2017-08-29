@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	{include file="public/sorand/title.html"}
+	<script src="/public/md5/md5.js"></script>
 </head>
 
 <body>
@@ -55,10 +56,10 @@
 			</div>
 			<div class="input-group">
 				<span class="input-group-addon">密　码</span>
-				<input type="password" class="form-control" placeholder="请输入密码" name="password">
+				<input type="password" class="form-control" placeholder="请输入密码" name="password" id="pass">
 			</div>
 			<div class="btn-control">
-				<button class="btn btn-info" type="submit">登录</button>
+				<button class="btn btn-info" type="submit" onclick="get_pass()">登录</button>
 				<button class="btn btn-warning" type="reset">重填</button>
 			</div>
 			
@@ -66,4 +67,11 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+function get_pass() {
+	// alert($("#pass").val());
+	$("#pass").val(hex_md5($("#pass").val()));
+}
+
+</script>
 </html>

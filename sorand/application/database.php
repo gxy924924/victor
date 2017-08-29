@@ -18,9 +18,9 @@ return [
     // 数据库名
     'database'        => 'sorand',
     // 用户名
-    'username'        => 'sorand',
+    'username'        => 'root',
     // 密码
-    'password'        => 'aTAruVbQEqWdGsVW',
+    'password'        => 'root',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

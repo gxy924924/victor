@@ -56,6 +56,7 @@ class Shop extends Base {
                     $c[$k] = $arr2[1];
                 }
                 $pname = implode('-', $c);
+                
                 $data['pid'] = serialize($b);
             } else {
                 echo('请选择项目');
@@ -71,6 +72,7 @@ class Shop extends Base {
             if ($info) {
                 $sid = Db::table("mariah_shopstore")->where('shopname', $_POST['shopname'])->find();
                 $data['shopid'] = $sid['id'];
+               // dump($data);exit;
                 $ainfo = Db::table("mariah_shopping")->insert($data);
                 $this->redirect("index/shop/add");
             } else {
@@ -156,9 +158,12 @@ class Shop extends Base {
             if ($info) {
                 //dump($info);exit;
                 $sid = Db::table("mariah_shopstore")->where('id', $_GET['id'])->find();
-
-                $ainfo = Db::table("mariah_shopping")->where('id', $sid['id'])->update($data);
+              // dump($sid);exit; 
+             // dump($data);exit;
+                $ainfo = Db::table("mariah_shopping")->where('shopid', $sid['id'])->update($data);
+                if($ainfo){
                 $this->redirect("index/shop/index");
+                }
             } else {
                 return "添加失败";
             }

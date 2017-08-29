@@ -17,6 +17,7 @@ class Shop extends controller {
     //显示单个店铺的所有项目
     public function index() {
         if (request()->isPost()) {
+            $arr['code'] = 1;
             $appo_info = Db::table('mariah_shopstore')->order("id asc")->select();
             $pid = Db::table('mariah_shopping')->where('shopid', $_POST['id'])->field("pid")->select();
             // dump($pid);exit;
@@ -26,63 +27,69 @@ class Shop extends controller {
 
                     for ($j = 0; $j < count($p[$i]); $j++) {
                         $cc[$j] = $p[$i][$j];
-                        $production[] = Db::table('mariah_production')->where('id', $cc[$j])->select();
+                        $production[] = Db::table('mariah_production')->where('id', $cc[$j])->find();
                     }
                 }
-                echo json_encode($production);
+                $arr['production'] = $production;
+                echo json_encode($arr);
             } else {
                 for ($i = 0; $i < count($pid); $i++) {
                     $p[$i] = unserialize($pid[$i]['pid']);
 
                     for ($j = 0; $j < count($p[$i]); $j++) {
                         $cc[$j] = $p[$i][$j];
-                        $production[] = Db::table('mariah_production')->where(array('id' => $cc[$j], 'classify' => $_POST['classify']))->select();
+                        $list = Db::table('mariah_production')->where(array('id' => $cc[$j], 'classify' => $_POST['classify']))->find();
+                        if (!empty($list)) {
+                            $production[] = $list;
+                        }
                     }
                 }
-                  for ($c = 0; $c < count($production); $c++) {
-                    if (!empty($production[$c])) {
-                        $v[]=$production[$c];
-                    }
+                if (!isset($production)) {
+                    $arr['code'] = 0;
+                } else {
+                    $arr['production'] = $production;
                 }
-            echo json_encode($v);
+                echo json_encode($arr);
             }
         }
     }
 
     public function ceshi() {
+       $arr['code']=1;
         $_POST['id'] = '70';
-        $_POST['classify'] = '半永久';
+        $_POST['classify'] = '冰垫';
         $appo_info = Db::table('mariah_shopstore')->order("id asc")->select();
         $pid = Db::table('mariah_shopping')->where('shopid', $_POST['id'])->field("pid")->select();
         // dump($pid);exit;
-        if ($_POST['classify'] == "") {
+        if (empty($_POST['classify'])) {
             for ($i = 0; $i < count($pid); $i++) {
                 $p[$i] = unserialize($pid[$i]['pid']);
 
                 for ($j = 0; $j < count($p[$i]); $j++) {
                     $cc[$j] = $p[$i][$j];
-                    $production[] = Db::table('mariah_production')->where('id', $cc[$j])->select();
+                    $production[] = Db::table('mariah_production')->where('id', $cc[$j])->find();
                 }
             }
             echo json_encode($production);
+          
         } else {
-            for ($i = 0; $i < count($pid); $i++) {
-                $p[$i] = unserialize($pid[$i]['pid']);
+          for ($i = 0; $i < count($pid); $i++) {
+                    $p[$i] = unserialize($pid[$i]['pid']);
 
-                for ($j = 0; $j < count($p[$i]); $j++) {
-                    $cc[$j] = $p[$i][$j];
-                   
-                    $production[] = Db::table('mariah_production')->where(array('id' => $cc[$j], 'classify' => $_POST['classify']))->order("id asc")->select();
-                   
-                }
-                
-            }
-             for ($c = 0; $c < count($production); $c++) {
-                    if (!empty($production[$c])) {
-                        $v[]=$production[$c];
+                    for ($j = 0; $j < count($p[$i]); $j++) {
+                        $cc[$j] = $p[$i][$j];
+                        $list = Db::table('mariah_production')->where(array('id' => $cc[$j], 'classify' => $_POST['classify']))->find();
+                        if(!empty($list)){
+                            $production[]=$list;
+                        } 
                     }
-                }
-            echo json_encode($v);
+          }
+          if(!isset($production)){
+              $arr['code']=0;
+          }  else {
+              $arr['production']=$production;
+          }
+          echo json_encode($arr);
         }
     }
 

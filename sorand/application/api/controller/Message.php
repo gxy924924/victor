@@ -84,9 +84,7 @@ class Message extends controller {
                 try {
                     $res = $topic->publishMessage($request);
                     echo $res->isSucceed();
-                    echo "\n" . '88888888';
-                    echo $res->getMessageId();
-                    echo "\n" . '666666';
+                    echo $res->getMessageId();    
                 } catch (MnsException $e) {
                     echo $e;
                     echo "\n";

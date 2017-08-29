@@ -27,7 +27,7 @@ class Login extends Controller
     function login_do(){
         $userinfo=Db::table('mariah_admin_user')->where('username',$_POST['username'])->find();
         //登录成功
-        if(md5($_POST['password'])==$userinfo['password']){
+        if($_POST['password']==$userinfo['password']){
             $arr=['user_id'=>$userinfo['id'],'username'=>$userinfo['username'],'login_time'=>date('Y-m-d H:i:s')];
             $info=Db::table('mariah_admin_login')->insert($arr);
             $_SESSION['userid']=$userinfo['id'];

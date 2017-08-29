@@ -275,15 +275,20 @@
 							  </button>
 							  <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
 							    <li><a href='{:url("index/appointment/show_detail")}?ap_id={$v["id"]}'>详细内容</a></li>
+
+
 							    <li><a href='{:url("index/appointment/appoint_detail")}?ap_id={$v["id"]}'>添加/修改详细</a></li>
 
 							    <li role="separator" class="divider"></li>
 
+							<?php if($_SESSION['auth_level']!=6): ?>
 							    <li><a href='{:url("index/appointment/appointment_update")}?appo_id={$v["id"]}'>修改预约</a></li>
 							    <li><a href='{:url("index/appointment/appoint_delete")}?id={$v["id"]}' class="delete" onclick="return my_confirm(1);">删除预约</a></li>
 
 							    <li role="separator" class="divider"></li>
 							    <li><a href='{:url("index/appointment/after_sale_add")}?id={$v["id"]}' class="after_sale">添加售后</a></li>
+							<?php endif; ?>
+
 							<?php if($_SESSION['auth_level']==1||$_SESSION['auth_level']==6): ?>
 							    <li><a href='{:url("index/appointment/appoint_arrive")}?id={$v["id"]}'>客户到达</a></li>
 							<?php endif; ?>
