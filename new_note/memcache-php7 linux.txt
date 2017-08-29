@@ -1,0 +1,51 @@
+ 跟着SY速学Ubuntu系列四：编译安装PHP7下面的memcached扩展
+2016-06-21 22:02 1110人阅读 评论(0) 收藏 举报
+ 分类： 速学Ubuntu系列（6）  
+版权声明：本文为博主原创文章，未经博主允许不得转载。
+web程序员角度ubuntu自修速学课程:编译安装PHP7下面的memcached扩展
+
+安装一些基本依赖
+1、autoconf   : 生成配置脚本的工具 （譬如我们使用的./configure文件就需要它来生成)
+$sudo apt-get install autoconf -y
+2、phpize :我们安装好PHP后，在安装目录的bin文件夹下有个脚本，用于方便的添加各种扩展。
+本课程就在/usr/local/sxin/php7/bin/phpize
+3、Zlib:压缩函数调用库
+$sudo apt-get install zlib1g-dev
+
+
+
+libmemcached下载地址 （这个一定要先下载安装，不然之后的东西会出错）
+(https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz)
+
+$./configure --prefix=/usr/local/sxin/tools/libmemcached && make && make install
+
+首先来到扩展安装的GIT项目地址
+https://github.com/php-memcached-dev/php-memcached
+点PHP7的分支(默认为master)
+$git clone https://github.com/php-memcached-dev/php-memcached.git
+(Git工具如果没安装，可以 sudo apt-get install git -y 来进行)
+$cd php-memcached
+$git checkout php7 
+执行phpize生成configure
+$/usr/local/sxin/php7/bin/phpize 
+$./configure  --disable-memcached-sasl --with-libmemcached-dir=/usr/local/sxin/tools/libmemcached
+$make && make install 
+安装好后：Installing shared extensions:     /usr/local/sxin/php7/lib/php/extensions/no-debug-zts-20151012/??????不知道是啥
+root@ubuntu:/usr/lib/php/20151012/memcached.so 文件在这里
+
+查看PHP.ini文件位置 
+php --ini
+/etc/apache2 //php.ini 在这里，往下找就好
+extension=/usr/lib/php/20151012/memcached.so
+
+查看memcached扩展有没有加载成功 
+php -m | grep memcached
+
+——————————————————————————————————————————————————————————
+
+报错：AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message]
+-》
+root@ubuntu:/etc/apache2/sites-available# vi 000-default.conf
+在这里加一句ServerName 127.0.0.1
+就ok
+root@ubuntu:/etc/apache2/sites-available# apachectl restart

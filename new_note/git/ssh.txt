@@ -33,4 +33,19 @@ UserKnownHostsFile /dev/null
 =》github 中ssh免密登陆
 只需将C:\Users\Administrator\.ssh中的字符串复制粘贴到github中的ssh配置中即可
 
+sudo apt-get install libxml2-dev openssl libssl-dev curl libcurl4-gnutls-dev libjpeg-dev libpng12-dev libfreetype6 libfreetype6-dev libmcrypt4 libmcrypt-dev
 
+
+root@ubuntu:/home/test/memcache/php-memcached#
+
+./configure  --disable-memcached-sasl --with-libmemcached-dir=/usr/local/include/libmemcached
+
+
+Installing shared extensions:     /usr/lib/php/20151012/
+root@ubuntu:/home/test/memcache/php-memcached# make test
+/bin/bash /home/test/memcache/php-memcached/libtool --mode=install cp ./memcached.la /home/test/memcache/php-memcached/modules
+
+libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/sbin" ldconfig -n /home/test/memcache/php-memcached/modules
+
+
+root@ubuntu:/usr/lib/php/20151012# ls
