@@ -1,0 +1,13 @@
+parprog.net parprog.net 	32 	60 	1997 	135 	0
+Adelaide-Zoo.com.au 	99 	18 	1998 	78 	0
+gjhba.org 	26 	5 	1998 	149 	0
+wollumbinpalms.com.au 	188 	25 	1999 	268 	14.0 M 	AU 100%
+
+Aurora-Hall.ru 	30.6 K 	75 	2014 	100 	801.1 K 	RU   93%			com
+skan.ru 	5.8 K 	120 	2001 	351 	1.8 M
+azramayya.com.au 	16 	5 	2015 	14 	1.7 M 	AU   91% 	
+MayoHealthcare.com.au 	410 	8 	2003 	170 	1.9 M
+Shop-Hasan.ru 	2.6 M 	6 	- 	0 	2.2 M
+derogueadeathknight.eu 	779 	18 	2012 	55 	2.2 M
+kidsmoy.su 	149 	6 	- 	0 	3.0 M
+site:Comics-Toons.com   {yellow}
